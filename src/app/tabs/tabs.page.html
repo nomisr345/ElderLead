@@ -1,23 +1,22 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="dashboard" href="/tabs/dashboard">
-      <ion-icon name="grid-outline"></ion-icon>
+    <ion-tab-button tab="dashboard">
+      <ion-icon name="grid"></ion-icon>
       <ion-label>Dashboard</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="activities" href="/tabs/activities">
-      <ion-icon name="calendar-outline"></ion-icon>
+    <ion-tab-button tab="activities">
+      <ion-icon name="calendar"></ion-icon>
       <ion-label>Activities</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="messages" href="/tabs/messages">
-      <ion-icon name="chatbubbles-outline"></ion-icon>
-      <ion-label>Messages</ion-label>
+    <ion-tab-button tab="community">
+      <ion-icon name="people"></ion-icon>
+      <ion-label>Community</ion-label>
     </ion-tab-button>
 
-    <!-- Updated More button to open menu -->
     <ion-tab-button (click)="openMenu()">
-      <ion-icon name="ellipsis-horizontal"></ion-icon>
+      <ion-icon name="menu"></ion-icon>
       <ion-label>More</ion-label>
     </ion-tab-button>
   </ion-tab-bar>

@@ -1,118 +1,120 @@
 .modern-menu {
-    --width: 300px;
-    --background: #ffffff;
+  --width: 280px;
+  --background: var(--ion-background-color);
   
-    ion-content {
-      --background: #ffffff;
-      --padding-top: 16px;
-      --padding-bottom: 16px;
-    }
+  ion-content {
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    --padding-bottom: 0;
+  }
   
-    .menu-header {
-      padding: 16px;
+  .menu-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1976d2;
+    color: white;
+    height: 80px;
+    
+    .logo-section {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-  
-      .logo-section {
+      
+      ion-avatar {
+        width: 30px;
+        height: 30px;
+        margin-right: 12px;
+        background: white;
         display: flex;
         align-items: center;
-        gap: 12px;
-  
-        ion-avatar {
-          width: 40px;
-          height: 40px;
-        }
-  
-        .title-section {
-          h1 {
-            margin: 0;
-            font-size: 18px;
-            font-weight: 600;
-            color: #000000;
-          }
-  
-          p {
-            margin: 4px 0 0 0;
-            font-size: 12px;
-            color: rgba(0, 0, 0, 0.6);
-          }
+        justify-content: center;
+        border-radius: 50%;
+
+        img {
+          width: 20px;
+          height: 20px;
         }
       }
-  
-      .close-button {
-        --padding-start: 8px;
-        --padding-end: 8px;
-        height: 36px;
+      
+      .title-section {
+        h1 {
+          margin: 0;
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 1.2;
+        }
         
-        ion-icon {
-          color: rgba(0, 0, 0, 0.6);
-          font-size: 20px;
+        p {
+          margin: 0;
+          font-size: 12px;
+          opacity: 0.8;
         }
       }
     }
+    
+    .close-button {
+      --color: white;
+      margin: 0;
+      --padding-start: 4px;
+      --padding-end: 4px;
+    }
+  }
   
-    .menu-content {
-      padding: 0 16px;
-  
-      .menu-section {
-        margin-bottom: 24px;
-  
-        h2 {
-          color: rgba(0, 0, 0, 0.6);
-          font-size: 14px;
-          font-weight: 500;
-          margin: 0 0 12px 8px;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-  
-        ion-list {
-          background: transparent;
-          padding: 0;
-  
-          ion-item {
-            --background: transparent;
-            --background-hover: rgba(0, 0, 0, 0.05);
-            --padding-start: 16px;
-            --padding-end: 16px;
-            --border-radius: 8px;
-            margin-bottom: 4px;
-  
-            ion-icon {
-              color: rgba(0, 0, 0, 0.6);
-              font-size: 20px;
-            }
-  
-            ion-label {
-              color: #000000;
-              font-size: 14px;
-              font-weight: 400;
-            }
-  
-            &.selected {
-              --background: var(--ion-color-primary);
-              ion-icon, ion-label {
-                color: white;
-              }
-            }
-  
-            &[color="danger"] {
-              --background: #dc3545;
-              --color: white;
-              
-              ion-icon {
-                color: white;
-              }
-              
-              ion-label {
-                color: white;
-              }
+  .menu-content {
+    padding: 0;
+    
+    .menu-section {
+      margin-top: 16px;
+      margin-bottom: 16px;
+      
+      h2 {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 8px 0;
+        color: #666;
+        font-weight: 500;
+        padding-left: 20px;
+      }
+      
+      ion-list {
+        background: transparent;
+        padding: 0;
+        
+        ion-item {
+          --min-height: 44px;
+          --padding-start: 20px;
+          --inner-padding-end: 20px;
+          margin-bottom: 2px;
+          --background: transparent;
+          --background-hover: rgba(0, 0, 0, 0.04);
+          
+          ion-icon {
+            color: #666;
+            font-size: 20px;
+            margin-right: 16px;
+          }
+          
+          ion-label {
+            font-size: 14px;
+            font-weight: 400;
+            color: #000;
+          }
+          
+          &[color="danger"] {
+            background-color: #dc3545;
+            --background: #dc3545;
+            --border-radius: 4px;
+            margin: 8px 16px;
+            
+            ion-icon, ion-label {
+              color: white;
             }
           }
         }
       }
     }
   }
+}

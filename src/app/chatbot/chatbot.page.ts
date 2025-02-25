@@ -3,12 +3,12 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-activities',
-  templateUrl: './activities.page.html',
-  styleUrls: ['./activities.page.scss'],
+  selector: 'app-chatbot',
+  templateUrl: './chatbot.page.html',
+  styleUrls: ['./chatbot.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule]
 })
-export class ActivitiesPage {
+export class ChatbotPage {
   constructor() {}
 }

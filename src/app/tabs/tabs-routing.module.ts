@@ -4,7 +4,7 @@ import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: '',
     component: TabsPage,
     children: [
       {
@@ -16,24 +16,24 @@ const routes: Routes = [
         loadChildren: () => import('../activities/activities.module').then(m => m.ActivitiesPageModule)
       },
       {
-        path: 'messages',
-        loadChildren: () => import('../messages/messages.module').then(m => m.MessagesPageModule)
+        path: 'community',
+        loadChildren: () => import('../community/community.module').then(m => m.CommunityPageModule)
+      },
+      {
+        path: 'chatbot',
+        loadChildren: () => import('../chatbot/chatbot.module').then(m => m.ChatbotPageModule)
       },
       {
         path: '',
-        redirectTo: '/tabs/dashboard',
+        redirectTo: '/dashboard',
         pathMatch: 'full'
       }
     ]
-  },
-  {
-    path: '',
-    redirectTo: '/tabs/dashboard',
-    pathMatch: 'full'
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
 export class TabsPageRoutingModule {}
