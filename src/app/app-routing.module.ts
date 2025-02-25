@@ -1,16 +1,35 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { redirectUnauthorizedTo, redirectLoggedInTo, canActivate } from '@angular/fire/compat/auth-guard';
+
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
+const redirectLoggedInToDashboard = () => redirectLoggedInTo(['tabs/dashboard']);
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    redirectTo: 'login',
+    pathMatch: 'full'
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
+    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule),
+    ...canActivate(redirectLoggedInToDashboard)
   },
-  // Remove duplicate community routes, they should be handled by the tabs routing
+  {
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule),
+    ...canActivate(redirectLoggedInToDashboard)
+  },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+  },
+  {
+    path: '**',
+    redirectTo: 'login'
+  }
 ];
 
 @NgModule({
@@ -19,4 +38,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

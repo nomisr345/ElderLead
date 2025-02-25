@@ -1,11 +1,17 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Dashboard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon slot="icon-only" name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h2>What do you want to do today?</h2>
+  <h2>Hello, {{ user?.displayName || 'User' }}!</h2>
+  <p>What do you want to do today?</p>
 
   <ion-grid>
     <ion-row>
