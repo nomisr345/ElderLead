@@ -1,0 +1,54 @@
+.register-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.register-form {
+  width: 100%;
+}
+
+.error-message {
+  color: var(--ion-color-danger);
+  font-size: 12px;
+  margin-left: 16px;
+  margin-top: 4px;
+  margin-bottom: 16px;
+}
+
+.user-type-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  
+  .user-type-button {
+    flex: 1;
+    margin: 0;
+    --border-color: var(--ion-color-medium);
+    
+    &.active {
+      --background: var(--ion-color-primary);
+      --color: white;
+      --border-color: var(--ion-color-primary);
+    }
+  }
+}
+
+.login-prompt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
+
+  span {
+    color: var(--ion-color-medium);
+  }
+
+  ion-button {
+    --color: var(--ion-color-primary);
+    font-weight: 500;
+    margin: 0;
+  }
+}
