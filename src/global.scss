@@ -1,3 +1,40 @@
+/* Add these to your global.scss file */
+
+// Theme classes
+.light-theme {
+  --ion-background-color: #ffffff;
+  --ion-text-color: #000000;
+}
+
+.dark-theme {
+  --ion-background-color: #121212;
+  --ion-text-color: #ffffff;
+  --ion-item-background: #1e1e1e;
+}
+
+.custom-theme {
+  --ion-background-color: #f0f8ff;
+  --ion-text-color: #333333;
+  --ion-color-primary: #8a2be2;
+}
+
+// Custom font for menu items
+ion-menu ion-label {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+// Override default Ionic menu styling
+ion-menu.modern-menu {
+  --ion-item-border-color: transparent;
+}
+
+// Make exit button look more like the design in your screenshot
+ion-item[color="danger"] {
+  --border-radius: 4px !important;
+  --background: #dc3545 !important;
+  margin: 0 16px !important;
+}
+
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------

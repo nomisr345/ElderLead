@@ -19,17 +19,17 @@
       <div class="menu-content">
         <!-- Settings Section -->
         <div class="menu-section">
-          <h2>Settings</h2>
+          <h2>SETTINGS</h2>
           <ion-list lines="none">
-            <ion-item button detail="false">
+            <ion-item button detail="false" (click)="navigateToPage('profile')">
               <ion-icon slot="start" name="person-outline"></ion-icon>
               <ion-label>Profile Settings</ion-label>
             </ion-item>
-            <ion-item button detail="false">
+            <ion-item button detail="false" (click)="navigateToPage('account')">
               <ion-icon slot="start" name="settings-outline"></ion-icon>
               <ion-label>Account Settings</ion-label>
             </ion-item>
-            <ion-item button detail="false">
+            <ion-item button detail="false" (click)="navigateToPage('privacy')">
               <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
               <ion-label>Privacy Settings</ion-label>
             </ion-item>
@@ -38,17 +38,17 @@
 
         <!-- Theme Section -->
         <div class="menu-section">
-          <h2>Theme</h2>
+          <h2>THEME</h2>
           <ion-list lines="none">
-            <ion-item button detail="false">
+            <ion-item button detail="false" (click)="setTheme('light')">
               <ion-icon slot="start" name="sunny-outline"></ion-icon>
               <ion-label>Light Mode</ion-label>
             </ion-item>
-            <ion-item button detail="false">
+            <ion-item button detail="false" (click)="setTheme('dark')">
               <ion-icon slot="start" name="moon-outline"></ion-icon>
               <ion-label>Dark Mode</ion-label>
             </ion-item>
-            <ion-item button detail="false">
+            <ion-item button detail="false" (click)="setTheme('custom')">
               <ion-icon slot="start" name="color-palette-outline"></ion-icon>
               <ion-label>Custom Mode</ion-label>
             </ion-item>
@@ -57,17 +57,17 @@
 
         <!-- Help Section -->
         <div class="menu-section">
-          <h2>Help</h2>
+          <h2>HELP</h2>
           <ion-list lines="none">
-            <ion-item button detail="false">
+            <ion-item button detail="false" (click)="navigateToPage('help')">
               <ion-icon slot="start" name="help-circle-outline"></ion-icon>
               <ion-label>Help Center</ion-label>
             </ion-item>
-            <ion-item button detail="false">
+            <ion-item button detail="false" (click)="navigateToPage('report')">
               <ion-icon slot="start" name="warning-outline"></ion-icon>
               <ion-label>Report a Problem</ion-label>
             </ion-item>
-            <ion-item button detail="false">
+            <ion-item button detail="false" (click)="navigateToPage('terms')">
               <ion-icon slot="start" name="document-text-outline"></ion-icon>
               <ion-label>Terms & Policies</ion-label>
             </ion-item>
@@ -76,13 +76,13 @@
 
         <!-- Log Out Section -->
         <div class="menu-section">
-          <h2>Log Out</h2>
+          <h2>LOG OUT</h2>
           <ion-list lines="none">
-            <ion-item button detail="false">
+            <ion-item button detail="false" (click)="lockApp()">
               <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
               <ion-label>Lock App</ion-label>
             </ion-item>
-            <ion-item button detail="false" color="danger">
+            <ion-item button detail="false" color="danger" (click)="logout()">
               <ion-icon slot="start" name="log-out-outline"></ion-icon>
               <ion-label>Exit</ion-label>
             </ion-item>
@@ -91,30 +91,6 @@
       </div>
     </ion-content>
   </ion-menu>
-
-  <div class="ion-page" id="main-content">
-    <ion-tabs>
-      <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="dashboard">
-          <ion-icon name="grid-outline"></ion-icon>
-          <ion-label>Dashboard</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button tab="activities">
-          <ion-icon name="calendar-outline"></ion-icon>
-          <ion-label>Activities</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button tab="messages">
-          <ion-icon name="chatbubbles-outline"></ion-icon>
-          <ion-label>Messages</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button (click)="openMore()">
-          <ion-icon name="ellipsis-horizontal"></ion-icon>
-          <ion-label>More</ion-label>
-        </ion-tab-button>
-      </ion-tab-bar>
-    </ion-tabs>
-  </div>
+  
+  <ion-router-outlet id="main-content"></ion-router-outlet>
 </ion-app>

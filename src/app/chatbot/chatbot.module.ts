@@ -2,17 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { DashboardPage } from './dashboard.page';
-import { DashboardPageRoutingModule } from './dashboard-routing.module';
+import { ChatbotPage } from './chatbot.page';
+import { ChatbotPageRoutingModule } from './chatbot-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DashboardPageRoutingModule,
-    DashboardPage
+    ChatbotPageRoutingModule,
+    ChatbotPage
   ],
   declarations: []
 })
-export class DashboardPageModule {}
+export class ChatbotPageModule {}
