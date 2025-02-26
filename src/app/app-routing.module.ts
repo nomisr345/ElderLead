@@ -27,6 +27,16 @@ const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin)
   },
   {
+    path: 'profile-setup',
+    loadChildren: () => import('./profile-setup/profile-setup.module').then(m => m.ProfileSetupPageModule),
+    ...canActivate(redirectUnauthorizedToLogin) // Add auth guard to protect this route
+  },
+  {
+    path: 'chatbot',
+    loadChildren: () => import('./chatbot/chatbot.module').then(m => m.ChatbotPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+  },
+  {
     path: '**',
     redirectTo: 'login'
   }

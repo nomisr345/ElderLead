@@ -14,7 +14,19 @@ export class AppComponent {
     private menuCtrl: MenuController,
     private router: Router,
     private authService: AuthService
-  ) {}
+  ) {
+    this.initializeApp();
+  }
+
+  async initializeApp() {
+    try {
+      // Initialize Firestore collections
+      await this.authService.initializeFirestoreCollections();
+      console.log('Firestore collections initialized');
+    } catch (error) {
+      console.error('Error during app initialization:', error);
+    }
+  }
 
   async openMore() {
     await this.menuCtrl.open('start');
@@ -45,6 +57,9 @@ export class AppComponent {
         break;
       case 'terms':
         this.router.navigate(['/terms']);
+        break;
+      case 'ai-companion':  // Keep this case but change the route
+        this.router.navigate(['/chatbot']);
         break;
       default:
         this.router.navigate(['/dashboard']);

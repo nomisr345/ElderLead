@@ -63,63 +63,78 @@ export class AuthService {
     }
   }
 
-  // Register with email/password
-  async register(email: string, password: string, name: string, userType: string) {
-    try {
-      console.log('Starting registration process for:', email);
+  // Register with email/password - updated to include more user data
+  async register(userData: any) {
+  try {
+    console.log('Starting registration process for:', userData.email);
+    
+    // First create the user authentication
+    const credential = await this.afAuth.createUserWithEmailAndPassword(userData.email, userData.password);
+    console.log('Firebase authentication successful:', credential);
+    
+    if (credential.user) {
+      const userId = credential.user.uid;
+      console.log('Storing user data in Firestore for user:', userId);
       
-      // First create the user
-      const credential = await this.afAuth.createUserWithEmailAndPassword(email, password);
-      console.log('Firebase authentication successful:', credential);
+      // Prepare user document data
+      const userDoc = {
+        uid: userId,
+        email: userData.email,
+        name: userData.name,
+        dob: userData.dob || null,
+        phone: userData.phone || null,
+        emergencyContact: userData.emergencyContact || null,
+        emergencyPhone: userData.emergencyPhone || null,
+        role: 'unassigned',
+        profileCompleted: false,
+        createdAt: new Date() // Use regular Date instead of Firebase timestamp
+      };
       
-      if (credential.user) {
-        console.log('Storing user data in Firestore for user:', credential.user.uid);
-        
-        try {
-          // Store additional user info in Firestore - SEPARATED TRY/CATCH BLOCK
-          await this.firestore.collection('users').doc(credential.user.uid).set({
-            uid: credential.user.uid,
-            email: email,
-            name: name,
-            userType: userType,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-          
-          console.log('User data stored successfully in Firestore');
-          return credential;
-        } catch (firestoreError) {
-          console.error('Error storing user data in Firestore:', firestoreError);
-          
-          // The user was created in Authentication but Firestore failed
-          // Consider whether to delete the auth user or not
-          // For now, let's continue with the registration as the auth part succeeded
-          
-          // We could delete the auth user like this if desired:
-          // await credential.user.delete();
-          
-          return credential; // Return success anyway if you want to allow login
-          
-          // Or throw an error if you want to consider this a failed registration:
-          // throw new Error('Failed to store user data. Please try again.');
-        }
-      } else {
-        console.error('User creation succeeded but no user object returned');
-        await this.afAuth.signOut();
-        throw new Error('User creation failed: No user object returned');
-      }
-    } catch (error) {
-      console.error('Error during registration:', error);
-      
-      // If there was an error during registration, make sure to sign out
+      // Use simpler approach to create document
       try {
-        console.log('Attempting to sign out after registration error');
-        await this.afAuth.signOut();
-        console.log('Sign out successful after registration error');
-      } catch (signOutError) {
-        console.error('Error signing out after failed registration:', signOutError);
+        // Try using Web Modular API (this avoids some Angular injection issues)
+        const firebase = await import('firebase/app');
+        const firestore = await import('firebase/firestore');
+        const { getFirestore, doc, setDoc } = firestore;
+        
+        const db = getFirestore();
+        await setDoc(doc(db, 'users', userId), userDoc);
+        console.log('User document created successfully using modular API');
+      } catch (firestoreError) {
+        console.error('Error creating user document with modular API:', firestoreError);
+        
+        // Fallback to traditional approach
+        try {
+          await this.firestore.collection('users').doc(userId).set(userDoc);
+          console.log('User document created with traditional API');
+        } catch (fallbackError) {
+          console.error('All document creation attempts failed:', fallbackError);
+        }
       }
       
-      throw error; // re-throw the original error for handling in the component
+      return credential;
+    } else {
+      console.error('User creation succeeded but no user object returned');
+      await this.afAuth.signOut();
+      throw new Error('User creation failed: No user object returned');
+    }
+  } catch (error) {
+    console.error('Error during registration:', error);
+    throw error;
+  }
+}
+
+  // Update user profile
+  async updateUserProfile(userId: string, profileData: any) {
+    try {
+      await this.firestore.collection('users').doc(userId).update({
+        ...profileData,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      return true;
+    } catch (error) {
+      console.error('Error updating user profile:', error);
+      throw error;
     }
   }
 
@@ -135,5 +150,29 @@ export class AuthService {
   // Alias for signOut for compatibility
   async logout() {
     return this.signOut();
+  }
+
+  // In auth.service.ts
+  // Add this method to initialize the users collection
+  async initializeFirestoreCollections() {
+    try {
+      // Check if 'users' collection exists by trying to get its metadata
+      const usersRef = this.firestore.collection('users');
+      const snapshot = await usersRef.get().toPromise();
+      
+      // If collection doesn't exist or is empty, create a placeholder document
+      if (!snapshot || snapshot.empty) {
+        console.log('Initializing users collection with placeholder');
+        await this.firestore.collection('users').doc('placeholder').set({
+          info: 'This is a placeholder document. It can be safely deleted.',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('Error initializing Firestore collections:', error);
+      return false;
+    }
   }
 }

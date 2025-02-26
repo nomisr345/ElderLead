@@ -15,6 +15,7 @@ import { AuthService } from '../services/auth.service';
 export class RegisterPage implements OnInit {
   registerForm!: FormGroup;
   userType: string = 'elderly'; // Default to elderly
+  maxDate: string = new Date().toISOString();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,7 +30,11 @@ export class RegisterPage implements OnInit {
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]]
+      confirmPassword: ['', [Validators.required]],
+      dob: ['', [Validators.required]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{8,12}$')]],
+      emergencyContact: [''],
+      emergencyPhone: ['']
     }, {
       validators: this.passwordMatchValidator
     });
@@ -64,7 +69,10 @@ export class RegisterPage implements OnInit {
       return;
     }
 
-    const { name, email, password } = this.registerForm.value;
+    const userData = {
+      ...this.registerForm.value,
+      userType: this.userType
+    };
     
     const loading = await this.loadingController.create({
       message: 'Creating your account...',
@@ -74,8 +82,8 @@ export class RegisterPage implements OnInit {
     await loading.present();
 
     try {
-      // Register the user
-      const result = await this.authService.register(email, password, name, this.userType);
+      // Register the user with all form data
+      const result = await this.authService.register(userData);
       
       loading.dismiss();
       

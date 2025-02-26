@@ -10,6 +10,12 @@
 <ion-content class="ion-padding">
   <div class="register-container">
     <form [formGroup]="registerForm" (ngSubmit)="register()" class="register-form">
+      
+      <!-- Section 1: Personal Information -->
+      <ion-item-divider>
+        <ion-label>Personal Information</ion-label>
+      </ion-item-divider>
+      
       <ion-item class="ion-margin-bottom">
         <ion-label position="floating">Full Name</ion-label>
         <ion-input type="text" formControlName="name"></ion-input>
@@ -17,6 +23,28 @@
       <div class="error-message" *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
         <span *ngIf="registerForm.get('name')?.errors?.['required']">Name is required</span>
       </div>
+
+      <ion-item class="ion-margin-bottom">
+        <ion-label position="floating">Phone Number</ion-label>
+        <ion-input type="tel" formControlName="phone"></ion-input>
+      </ion-item>
+      <div class="error-message" *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched">
+        <span *ngIf="registerForm.get('phone')?.errors?.['required']">Phone number is required</span>
+        <span *ngIf="registerForm.get('phone')?.errors?.['pattern']">Please enter a valid phone number</span>
+      </div>
+
+      <ion-item class="ion-margin-bottom">
+        <ion-label position="stacked">Date of Birth</ion-label>
+        <ion-input type="date" formControlName="dob" max="{{ maxDate }}"></ion-input>
+      </ion-item>
+      <div class="error-message" *ngIf="registerForm.get('dob')?.invalid && registerForm.get('dob')?.touched">
+        <span *ngIf="registerForm.get('dob')?.errors?.['required']">Date of birth is required</span>
+      </div>
+
+      <!-- Section 2: Account Information -->
+      <ion-item-divider class="ion-margin-top">
+        <ion-label>Account Information</ion-label>
+      </ion-item-divider>
 
       <ion-item class="ion-margin-bottom">
         <ion-label position="floating">Email</ion-label>
@@ -44,9 +72,25 @@
         Passwords do not match
       </div>
 
-      <ion-list-header class="ion-margin-top">
+      <!-- Section 3: Emergency Contact -->
+      <ion-item-divider class="ion-margin-top">
+        <ion-label>Emergency Contact (Optional)</ion-label>
+      </ion-item-divider>
+
+      <ion-item class="ion-margin-bottom">
+        <ion-label position="floating">Emergency Contact Name</ion-label>
+        <ion-input type="text" formControlName="emergencyContact"></ion-input>
+      </ion-item>
+
+      <ion-item class="ion-margin-bottom">
+        <ion-label position="floating">Emergency Contact Phone</ion-label>
+        <ion-input type="tel" formControlName="emergencyPhone"></ion-input>
+      </ion-item>
+
+      <!-- User Type Selection -->
+      <ion-item-divider class="ion-margin-top">
         <ion-label>I am a:</ion-label>
-      </ion-list-header>
+      </ion-item-divider>
 
       <div class="user-type-container">
         <ion-button
@@ -68,14 +112,16 @@
         </ion-button>
       </div>
 
+      <!-- Register Button -->
       <ion-button
         expand="block"
         type="submit"
-        class="ion-margin-top"
+        class="ion-margin-top ion-margin-bottom"
         [disabled]="registerForm.invalid">
         REGISTER
       </ion-button>
       
+      <!-- Login Link -->
       <div class="login-prompt">
         <span>Already have an account?</span>
         <ion-button fill="clear" (click)="goToLogin()">SIGN IN</ion-button>  
