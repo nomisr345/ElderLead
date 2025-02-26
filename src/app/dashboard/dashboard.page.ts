@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
@@ -18,14 +18,19 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController
   ) {}
 
   ngOnInit() {
     // Subscribe to user changes
     this.userSubscription = this.authService.user$.subscribe((user: any) => {
       this.user = user;
-      // You can add additional logic based on user state here
+      
+      // Check if profile is completed
+      if (user && user.profileCompleted === false) {
+        this.showProfileCompletionAlert();
+      }
     });
   }
 
@@ -34,6 +39,27 @@ export class DashboardPage implements OnInit, OnDestroy {
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }
+  }
+
+  async showProfileCompletionAlert() {
+    const alert = await this.alertController.create({
+      header: 'Complete Your Profile',
+      message: 'Please complete your profile to fully use all features of the app.',
+      buttons: [
+        {
+          text: 'Later',
+          role: 'cancel'
+        },
+        {
+          text: 'Complete Now',
+          handler: () => {
+            this.router.navigateByUrl('/profile-setup', { replaceUrl: false });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   async logout() {

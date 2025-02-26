@@ -52,3 +52,46 @@
     margin: 0;
   }
 }
+
+.register-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+ion-item-divider {
+  --background: var(--ion-color-light);
+  --color: var(--ion-color-primary);
+  font-weight: bold;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.user-type-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  
+  .user-type-button {
+    flex: 1;
+    margin: 0 5px;
+    
+    &.active {
+      --background: var(--ion-color-primary);
+      --color: var(--ion-color-light);
+    }
+  }
+}
+
+.error-message {
+  color: var(--ion-color-danger);
+  font-size: 12px;
+  padding-left: 16px;
+  margin-bottom: 8px;
+}
+
+.login-prompt {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
