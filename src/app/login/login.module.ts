@@ -2,15 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { LoginPage } from './login.page';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: LoginPage
-  }
-];
 
 @NgModule({
   imports: [
@@ -18,8 +11,13 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
-    LoginPage // Import the standalone component
-  ]
+    RouterModule.forChild([
+      {
+        path: '',
+        component: LoginPage
+      }
+    ])
+  ],
+  declarations: [] // LoginPage is standalone - don't declare it here
 })
 export class LoginPageModule {}

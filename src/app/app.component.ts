@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ import { Router } from '@angular/router';
 export class AppComponent {
   constructor(
     private menuCtrl: MenuController,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   async openMore() {
@@ -52,8 +54,6 @@ export class AppComponent {
 
   setTheme(theme: string) {
     console.log('Setting theme to', theme);
-    // Implement theme switching logic here
-    // For example:
     document.body.classList.remove('light-theme', 'dark-theme', 'custom-theme');
     document.body.classList.add(`${theme}-theme`);
     this.closeMenu();
@@ -61,17 +61,21 @@ export class AppComponent {
 
   lockApp() {
     console.log('Locking app');
-    // Implement app locking logic
     this.router.navigate(['/lock-screen']);
     this.closeMenu();
   }
 
-  logout() {
+  async logout() {
     console.log('Logging out');
-    // Implement logout logic - clear tokens, etc.
-    // For example:
-    // this.authService.logout();
-    this.router.navigate(['/login']);
-    this.closeMenu();
+    try {
+      // Use signOut to match the dashboard page
+      await this.authService.signOut();
+      // Navigate to login with replaceUrl to clear navigation history
+      this.router.navigate(['/login'], { replaceUrl: true });
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      this.closeMenu();
+    }
   }
 }
