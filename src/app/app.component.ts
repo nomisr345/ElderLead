@@ -54,6 +54,7 @@ export class AppComponent {
 
   setTheme(theme: string) {
     console.log('Setting theme to', theme);
+    // Implement theme switching logic here
     document.body.classList.remove('light-theme', 'dark-theme', 'custom-theme');
     document.body.classList.add(`${theme}-theme`);
     this.closeMenu();
@@ -61,6 +62,7 @@ export class AppComponent {
 
   lockApp() {
     console.log('Locking app');
+    // Implement app locking logic
     this.router.navigate(['/lock-screen']);
     this.closeMenu();
   }
