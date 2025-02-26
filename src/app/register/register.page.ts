@@ -14,7 +14,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class RegisterPage implements OnInit {
   registerForm!: FormGroup;
-  userType: string = 'user'; // Default user type
+  userType: string = 'elderly'; // Default to elderly
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,13 +47,20 @@ export class RegisterPage implements OnInit {
     return null;
   }
 
-  // Add this missing method
+  // Add method to set user type
   setUserType(type: string) {
     this.userType = type;
   }
 
   async register() {
     if (this.registerForm.invalid) {
+      // Show validation errors
+      Object.keys(this.registerForm.controls).forEach(key => {
+        const control = this.registerForm.get(key);
+        if (control) {
+          control.markAsTouched();
+        }
+      });
       return;
     }
 
@@ -67,29 +74,51 @@ export class RegisterPage implements OnInit {
     await loading.present();
 
     try {
-      await this.authService.register(email, password, name, this.userType); 
+      // Register the user
+      const result = await this.authService.register(email, password, name, this.userType);
+      
       loading.dismiss();
       
-      const alert = await this.alertController.create({
-        header: 'Registration Successful',
-        message: 'Your account has been created successfully.',
-        buttons: [
-          {
-            text: 'OK',
-            handler: () => {
-              this.router.navigateByUrl('/login', { replaceUrl: true });
+      // As long as we have a user credential, consider it a success
+      if (result && result.user) {
+        const alert = await this.alertController.create({
+          header: 'Registration Successful',
+          message: 'Your account has been created successfully.',
+          buttons: [
+            {
+              text: 'OK',
+              handler: () => {
+                // After registration success, sign out and redirect to login
+                this.authService.signOut().then(() => {
+                  this.router.navigateByUrl('/login', { replaceUrl: true });
+                });
+              }
             }
-          }
-        ]
-      });
-      
-      await alert.present();
+          ]
+        });
+        
+        await alert.present();
+      } else {
+        throw new Error('User registration did not return a valid user object');
+      }
     } catch (error: any) {
       loading.dismiss();
       
+      let errorMessage = 'Could not create your account. Please try again.';
+      console.error('Registration error:', error);
+      
+      // Handle specific Firebase error codes
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = 'This email address is already in use.';
+      } else if (error.code === 'auth/weak-password') {
+        errorMessage = 'This password is too weak. Please use a stronger password.';
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = 'The email address is not valid.';
+      }
+      
       const alert = await this.alertController.create({
         header: 'Registration Failed',
-        message: error?.message || 'Could not create your account. Please try again.',
+        message: errorMessage,
         buttons: ['OK']
       });
       

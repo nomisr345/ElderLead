@@ -29,7 +29,7 @@
 
       <ion-item class="ion-margin-bottom">
         <ion-label position="floating">Password</ion-label>
-        <ion-input type="password" formControlName="password"></ion-input>
+        <ion-input type="password" formControlName="password"></ion-input>   
       </ion-item>
       <div class="error-message" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
         <span *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</span>
@@ -40,7 +40,7 @@
         <ion-label position="floating">Confirm Password</ion-label>
         <ion-input type="password" formControlName="confirmPassword"></ion-input>
       </ion-item>
-      <div class="error-message" *ngIf="(registerForm.get('confirmPassword')?.touched || registerForm.touched) && registerForm.hasError('passwordMismatch')">
+      <div class="error-message" *ngIf="(registerForm.get('confirmPassword')?.touched || registerForm.touched) && registerForm.hasError('passwordMismatch')">     
         Passwords do not match
       </div>
 
@@ -49,36 +49,36 @@
       </ion-list-header>
 
       <div class="user-type-container">
-        <ion-button 
-          [class.active]="userType === 'elderly'" 
-          (click)="setUserType('elderly')" 
-          expand="block" 
-          fill="outline" 
+        <ion-button
+          [class.active]="userType === 'elderly'"
+          (click)="setUserType('elderly')"
+          size="large" 
+          fill="outline"
           class="user-type-button">
-          Senior
+          SENIOR
         </ion-button>
-        
-        <ion-button 
-          [class.active]="userType === 'caregiver'" 
-          (click)="setUserType('caregiver')" 
-          expand="block" 
-          fill="outline" 
+
+        <ion-button
+          [class.active]="userType === 'caregiver'"
+          (click)="setUserType('caregiver')"
+          size="large"
+          fill="outline"
           class="user-type-button">
-          Caregiver
+          CAREGIVER
         </ion-button>
       </div>
 
-      <ion-button 
-        expand="block" 
-        type="submit" 
-        class="ion-margin-top" 
+      <ion-button
+        expand="block"
+        type="submit"
+        class="ion-margin-top"
         [disabled]="registerForm.invalid">
-        Register
+        REGISTER
       </ion-button>
-
+      
       <div class="login-prompt">
         <span>Already have an account?</span>
-        <ion-button fill="clear" (click)="goToLogin()">Sign In</ion-button>
+        <ion-button fill="clear" (click)="goToLogin()">SIGN IN</ion-button>  
       </div>
     </form>
   </div>
