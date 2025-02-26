@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule, LoadingController, AlertController } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { IonicModule, AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
@@ -14,7 +14,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class RegisterPage implements OnInit {
   registerForm!: FormGroup;
-  userType: string = 'elderly'; // Default user type
+  userType: string = 'user'; // Default user type
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,9 +39,15 @@ export class RegisterPage implements OnInit {
     const password = form.get('password')?.value;
     const confirmPassword = form.get('confirmPassword')?.value;
     
-    return password === confirmPassword ? null : { passwordMismatch: true };
+    if (password !== confirmPassword) {
+      form.get('confirmPassword')?.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    }
+    
+    return null;
   }
 
+  // Add this missing method
   setUserType(type: string) {
     this.userType = type;
   }
@@ -52,19 +58,21 @@ export class RegisterPage implements OnInit {
     }
 
     const { name, email, password } = this.registerForm.value;
+    
     const loading = await this.loadingController.create({
-      message: 'Creating account...',
+      message: 'Creating your account...',
       spinner: 'crescent'
     });
     
     await loading.present();
 
     try {
-      await this.authService.register(email, password, name, this.userType);
+      await this.authService.register(email, password, name, this.userType); 
+      loading.dismiss();
       
       const alert = await this.alertController.create({
-        header: 'Account Created',
-        message: 'Your account has been created successfully!',
+        header: 'Registration Successful',
+        message: 'Your account has been created successfully.',
         buttons: [
           {
             text: 'OK',
@@ -77,33 +85,15 @@ export class RegisterPage implements OnInit {
       
       await alert.present();
     } catch (error: any) {
-      console.error('Registration error:', error);
-      
-      // Check for specific error types
-      if (error.message === 'email-already-exists' || error.code === 'auth/email-already-in-use') {
-        const alert = await this.alertController.create({
-          header: 'Account Already Exists',
-          message: 'You have already registered with this email address. Please sign in instead.',
-          buttons: [
-            {
-              text: 'Go to Login',
-              handler: () => {
-                this.router.navigateByUrl('/login', { replaceUrl: true });
-              }
-            }
-          ]
-        });
-        await alert.present();
-      } else {
-        const alert = await this.alertController.create({
-          header: 'Registration Failed',
-          message: error?.message || 'An unexpected error occurred. Please try again.',
-          buttons: ['OK']
-        });
-        await alert.present();
-      }
-    } finally {
       loading.dismiss();
+      
+      const alert = await this.alertController.create({
+        header: 'Registration Failed',
+        message: error?.message || 'Could not create your account. Please try again.',
+        buttons: ['OK']
+      });
+      
+      await alert.present();
     }
   }
 
