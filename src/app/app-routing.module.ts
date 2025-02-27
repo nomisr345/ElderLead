@@ -37,6 +37,10 @@ const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin)
   },
   {
+    path: 'all-activities',
+    loadChildren: () => import('./all-activities/all-activities.module').then( m => m.AllActivitiesPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'login'
   }

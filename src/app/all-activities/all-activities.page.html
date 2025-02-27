@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon size="large" name="chevron-back-outline" (click)="goBack()"></ion-icon>
+    </ion-buttons>
+    <ion-title>Search</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="search-filter">
+    <ion-searchbar placeholder="Search..."></ion-searchbar>
+    <ion-button fill="outline">
+      <ion-icon slot="icon-only" name="options-outline"></ion-icon>
+    </ion-button>
+  </div>
+
+  <ion-list>
+    <ion-item class="activity-card">
+      <ion-thumbnail slot="start">
+        <img src="assets/taichi.jpeg" alt="Tai Chi">
+      </ion-thumbnail>
+      <ion-label>
+        <p class="date-time">18TH FEB • TUESDAY • 8:00 AM</p>
+        <h2>Morning Tai Chi Session</h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-item class="activity-card">
+      <ion-thumbnail slot="start">
+        <img src="assets/tea-session.webp" alt="Tea Session">
+      </ion-thumbnail>
+      <ion-label>
+        <p class="date-time">18TH FEB • TUESDAY • 10:00 AM</p>
+        <h2>Community Tea Session</h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-item class="activity-card">
+      <ion-thumbnail slot="start">
+        <img src="assets/smartphone.jpg" alt="Smartphone Workshop">
+      </ion-thumbnail>
+      <ion-label>
+        <p class="date-time">19TH FEB • WEDNESDAY • 10:00 AM</p>
+        <h2>Smartphone Workshop</h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-item class="activity-card">
+      <ion-thumbnail slot="start">
+        <img src="assets/craft.webp" alt="Craft & Chat">
+      </ion-thumbnail>
+      <ion-label>
+        <p class="date-time">19TH FEB • WEDNESDAY • 4:30 PM</p>
+        <h2>Craft & Chat</h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-item class="activity-card">
+      <ion-thumbnail slot="start">
+        <img src="assets/exercise.png" alt="Evening Exercise">
+      </ion-thumbnail>
+      <ion-label>
+        <p class="date-time">21ST FEB • FRIDAY • 5:00 PM</p>
+        <h2>Evening Exercise</h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-item class="activity-card">
+      <ion-thumbnail slot="start">
+        <img src="assets/karaoke.jpeg" alt="Karaoke Night">
+      </ion-thumbnail>
+      <ion-label>
+        <p class="date-time">21ST FEB • FRIDAY • 7:00 PM</p>
+        <h2>Karaoke Night</h2>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
