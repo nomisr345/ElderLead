@@ -13,13 +13,15 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule),
-    ...canActivate(redirectLoggedInToDashboard)
+    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
+    // Temporarily removed to fix login access
+    // ...canActivate(redirectLoggedInToDashboard)
   },
   {
     path: 'register',
-    loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule),
-    ...canActivate(redirectLoggedInToDashboard)
+    loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule)
+    // Temporarily removed to fix registration access
+    // ...canActivate(redirectLoggedInToDashboard)
   },
   {
     path: 'tabs',
