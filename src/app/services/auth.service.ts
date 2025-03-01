@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import * as firebaseApp from 'firebase/app';
 import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class AuthService {
               // Type check: if userData exists and displayName is missing
               if (userData && user.displayName && 
                   (typeof userData === 'object' && 
-                   (!userData.hasOwnProperty('displayName') || !userData.displayName))) {
+                   (!userData.hasOwnProperty('displayName') || !userData['displayName']))) {
                 console.log('Updating displayName from auth user');
                 this.firestore.doc(`users/${user.uid}`).update({
                   displayName: user.displayName,
@@ -277,6 +278,65 @@ export class AuthService {
       }
     } catch (error) {
       console.error('Error getting user data:', error);
+      throw error;
+    }
+  }
+
+  // Upload profile image to Firebase Storage
+  async uploadProfileImage(userId: string, file: File): Promise<string> {
+    try {
+      console.log('Uploading profile image for user:', userId);
+      
+      // For local development, use base64 storage instead of Firebase Storage
+      // to work around CORS issues
+      if (window.location.hostname === 'localhost') {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const base64String = reader.result as string;
+            resolve(base64String);
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+      
+      // Normal Firebase Storage flow for production
+      const userData = await this.getUserData(userId);
+      if (userData && userData['photoURL'] && userData['photoURL'].includes('firebase')) {
+        try {
+          // Extract path from URL
+          const storage = getStorage();
+          const oldImageRef = ref(storage, userData['photoURL']);
+          await deleteObject(oldImageRef);
+          console.log('Old profile image deleted');
+        } catch (error) {
+          console.log('No old image to delete or error deleting:', error);
+        }
+      }
+      
+      // Upload new image
+      const storage = getStorage();
+      const filePath = `profile_images/${userId}/${Date.now()}_${file.name}`;
+      const fileRef = ref(storage, filePath);
+      
+      await uploadBytes(fileRef, file);
+      const downloadUrl = await getDownloadURL(fileRef);
+      
+      // Update user document with new photoURL
+      await this.updateUserProfile(userId, { photoURL: downloadUrl });
+      
+      // Also update the Firebase Auth user profile
+      const currentUser = await this.getCurrentUser();
+      if (currentUser) {
+        await currentUser.updateProfile({
+          photoURL: downloadUrl
+        });
+      }
+      
+      console.log('Profile image uploaded successfully');
+      return downloadUrl;
+    } catch (error) {
+      console.error('Error uploading profile image:', error);
       throw error;
     }
   }

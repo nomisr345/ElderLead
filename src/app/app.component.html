@@ -3,12 +3,18 @@
     <ion-content>
       <div class="menu-header">
         <div class="logo-section">
-          <ion-avatar>
-            <img src="/assets/icon/favicon.png" alt="logo">
-          </ion-avatar>
-          <div class="title-section">
-            <h1>Dashboard</h1>
-            <p>All you need in one place</p>
+          <!-- Changed to show user profile photo -->
+          <div class="user-profile">
+            <ion-avatar *ngIf="userPhotoURL">
+              <img [src]="userPhotoURL" alt="Profile Picture">
+            </ion-avatar>
+            <ion-avatar *ngIf="!userPhotoURL" class="default-avatar">
+              <img src="/assets/icon/favicon.png" alt="Default Profile">
+            </ion-avatar>
+            <div class="user-info">
+              <h2>Hi {{ userName }}</h2>
+              <p>{{ userRole === 'elderly' ? 'Senior' : (userRole === 'caregiver' ? 'Caregiver' : 'User') }}</p>
+            </div>
           </div>
         </div>
         <ion-button fill="clear" (click)="closeMenu()" class="close-button">
