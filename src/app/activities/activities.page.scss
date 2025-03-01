@@ -1,0 +1,157 @@
+/* General */
+ion-content {
+    --padding-bottom: 15px;
+  }
+  
+  /* Search Bar & Filter */
+  .search-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  ion-searchbar {
+    flex: 1;
+  }
+  
+  /* Category Chips */
+  .category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px 0;
+  }
+  
+  ion-chip {
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 20px;
+    padding: 10px;
+  }
+  
+  .exercise {
+    background: #fdbb3b;
+    color: white;
+  }
+  
+  .social {
+    background: #D4A373;
+    color: white;
+  }
+  
+  .learning {
+    background: #6ac5a9;
+    color: white;
+  }
+  
+  /* Upcoming Events Header */
+  .events-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+  }
+
+  .view-all-btn {
+    font-size:small;
+    color: blue;
+    --color: blue; /* Ensures button text is blue */
+  }
+
+  .view-all-btn ion-icon {
+    margin-left: 5px;
+  }
+  
+  /* Event Card Slider */
+  ion-slides {
+    height: auto;
+  }
+  
+  ion-slide {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .event-card {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  
+  .date-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: orange;
+    color: white;
+    font-weight: bold;
+    padding: 5px 8px;
+    border-radius: 5px;
+  }
+  
+  ion-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px 10px 0 0;
+    object-fit: cover;
+  }
+  
+  ion-card-header {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+  
+  ion-card-content {
+    font-size: 0.9rem;
+    color: gray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  /* Responsive Grid */
+  @media (max-width: 768px) {
+    .category-buttons {
+      justify-content: center;
+    }
+  
+    ion-chip {
+      font-size: 0.9rem;
+      padding: 8px;
+    }
+  
+    .event-card {
+      margin-bottom: 10px;
+    }
+  }
+  
+  .community-card {
+    background-color: #cbd8eb; /* Light blue background */
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-content img {
+    width: auto; /* Adjust size as needed */
+    height: 100px;
+  }
+
+  ion-card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  ion-button {
+    margin-top: 10px;
+  }
+  

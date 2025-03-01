@@ -1,0 +1,47 @@
+ion-content {
+    padding: 10px;
+  }
+
+  .search-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  ion-searchbar {
+    flex: 1;
+  }
+
+  .activity-card {
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background: #f8f9fc;
+  }
+
+  .selected {
+    border: 2px solid blue;
+    background: #ffe0b3;
+  }
+
+  .date-time {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  ion-thumbnail {
+    width: 70px;  /* Increase width */
+    height: 70px; /* Increase height */
+  }
+  
+  ion-thumbnail img {
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image fills the thumbnail properly */
+  }
+  
