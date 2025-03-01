@@ -10,8 +10,18 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h2>Hello, {{ userName }}!</h2>
-  <p>What do you want to do today?</p>
+  <div class="greeting-container">
+    <div class="user-profile">
+      <div class="profile-image-container">
+        <img *ngIf="user?.photoURL" [src]="user?.photoURL" alt="Profile picture">
+        <ion-icon *ngIf="!user?.photoURL" name="person-circle-outline" class="default-profile-icon"></ion-icon>
+      </div>
+      <div class="greeting-text">
+        <h2>Hello, {{ userName }}!</h2>
+        <p>What do you want to do today?</p>
+      </div>
+    </div>
+  </div>
 
   <!-- Debug section (hidden) -->
   <div style="display: none;">
