@@ -57,32 +57,37 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   navigateToPage(page: string) {
-    console.log('Navigating to', page);
-    // Add your navigation logic here
-    switch(page) {
-      case 'profile':
-        this.router.navigate(['/profile']);
-        break;
-      case 'account':
-        this.router.navigate(['/settings/account']);
-        break;
-      case 'privacy':
-        this.router.navigate(['/settings/privacy']);
-        break;
-      case 'help':
-        this.router.navigate(['/help']);
-        break;
-      case 'report':
-        this.router.navigate(['/report-problem']);
-        break;
-      case 'terms':
-        this.router.navigate(['/terms']);
-        break;
-      default:
-        this.router.navigate(['/dashboard']);
-    }
-    this.closeMenu();
+  console.log('Navigating to', page);
+  
+  // Add your navigation logic here
+  switch(page) {
+    case 'profile':
+      this.router.navigate(['/profile-setup']);  // Changed to profile-setup route
+      break;
+    case 'ai-companion':
+      this.router.navigate(['/chatbot']);  // Changed to chatbot route
+      break;
+    case 'account':
+      this.router.navigate(['/settings/account']);
+      break;
+    case 'privacy':
+      this.router.navigate(['/settings/privacy']);
+      break;
+    case 'help':
+      this.router.navigate(['/help']);
+      break;
+    case 'report':
+      this.router.navigate(['/report-problem']);
+      break;
+    case 'terms':
+      this.router.navigate(['/terms']);
+      break;
+    default:
+      this.router.navigate(['/tabs/dashboard']);
   }
+  
+  this.closeMenu();
+}
 
   setTheme(theme: string) {
     console.log('Setting theme to', theme);

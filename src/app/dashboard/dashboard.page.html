@@ -10,16 +10,22 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h2>Hello, {{ user?.displayName || 'User' }}!</h2>
+  <h2>Hello, {{ userName }}!</h2>
   <p>What do you want to do today?</p>
+
+  <!-- Debug section (hidden) -->
+  <div style="display: none;">
+    <p>Debug - Raw user data: {{ user | json }}</p>
+    <p>Debug - User name: {{ userName }}</p>
+  </div>
 
   <ion-grid>
     <ion-row>
       <ion-col size="6">
-        <ion-card class="caregiver-card">
+        <ion-card class="caregiver-card" (click)="goToProfile()">
           <ion-card-header>
             <ion-icon name="person-circle-outline"></ion-icon>
-            <ion-card-title>Caregiver Profile</ion-card-title>
+            <ion-card-title>{{ user?.role === 'elderly' ? 'Senior' : 'Caregiver' }} Profile</ion-card-title>
           </ion-card-header>
           <ion-card-content>Manage your profile</ion-card-content>
         </ion-card>

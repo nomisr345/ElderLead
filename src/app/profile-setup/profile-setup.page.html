@@ -5,7 +5,7 @@
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Complete Your Profile</ion-title>
+    <ion-title>{{ user && user.profileCompleted ? 'Update Profile' : 'Complete Your Profile' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -180,8 +180,9 @@
         Service radius is required
       </div>
       
+      <!-- For the submit button -->
       <ion-button expand="block" type="submit" class="ion-margin-top" [disabled]="profileForm.invalid">
-        Save Profile
+        {{ user && user.profileCompleted ? 'Update Profile' : 'Save Profile' }}
       </ion-button>
     </form>
   </div>
