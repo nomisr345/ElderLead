@@ -3,7 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
+
 import { LoginPage } from './login.page';
+import { AuthService } from '../services/auth.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @NgModule({
   imports: [
@@ -11,6 +14,7 @@ import { LoginPage } from './login.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
+    LoginPage, // Import the standalone component instead of declaring it
     RouterModule.forChild([
       {
         path: '',
@@ -18,6 +22,9 @@ import { LoginPage } from './login.page';
       }
     ])
   ],
-  declarations: [] // LoginPage is standalone - don't declare it here
+  providers: [
+    AuthService,
+    AngularFirestore
+  ]
 })
 export class LoginPageModule {}

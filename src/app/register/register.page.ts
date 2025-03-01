@@ -55,6 +55,7 @@ export class RegisterPage implements OnInit {
   // Add method to set user type
   setUserType(type: string) {
     this.userType = type;
+    console.log('Selected user type:', type);
   }
 
   async register() {
@@ -71,7 +72,8 @@ export class RegisterPage implements OnInit {
 
     const userData = {
       ...this.registerForm.value,
-      userType: this.userType
+      userType: this.userType,
+      role: this.userType // Explicitly set role to match userType
     };
     
     const loading = await this.loadingController.create({

@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { Subscription } from 'rxjs';
+import { initializeApp } from 'firebase/app';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -9,23 +12,40 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['app.component.scss'],
   standalone: false,
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
+  private authSub: Subscription | null = null;
+  
   constructor(
     private menuCtrl: MenuController,
     private router: Router,
+    private platform: Platform,
     private authService: AuthService
   ) {
     this.initializeApp();
   }
 
+  ngOnInit() {
+    // Initialize Firebase modular SDK
+    initializeApp(environment.firebase);
+    
+    // Subscribe to auth state to handle redirects
+    this.authSub = this.authService.isAuthenticated().subscribe(user => {
+      console.log('Auth state changed:', user ? 'logged in' : 'logged out');
+    });
+  }
+
   async initializeApp() {
-    try {
-      // Initialize Firestore collections
-      await this.authService.initializeFirestoreCollections();
-      console.log('Firestore collections initialized');
-    } catch (error) {
-      console.error('Error during app initialization:', error);
-    }
+    this.platform.ready().then(async () => {
+      console.log('Platform ready');
+      
+      try {
+        // Initialize collections
+        await this.authService.initializeFirestoreCollections();
+        console.log('Firestore collections initialized');
+      } catch (error) {
+        console.error('Error initializing Firestore collections:', error);
+      }
+    });
   }
 
   async openMore() {
@@ -58,9 +78,6 @@ export class AppComponent {
       case 'terms':
         this.router.navigate(['/terms']);
         break;
-      case 'ai-companion':  // Keep this case but change the route
-        this.router.navigate(['/chatbot']);
-        break;
       default:
         this.router.navigate(['/dashboard']);
     }
@@ -69,7 +86,6 @@ export class AppComponent {
 
   setTheme(theme: string) {
     console.log('Setting theme to', theme);
-    // Implement theme switching logic here
     document.body.classList.remove('light-theme', 'dark-theme', 'custom-theme');
     document.body.classList.add(`${theme}-theme`);
     this.closeMenu();
@@ -77,7 +93,6 @@ export class AppComponent {
 
   lockApp() {
     console.log('Locking app');
-    // Implement app locking logic
     this.router.navigate(['/lock-screen']);
     this.closeMenu();
   }
@@ -85,14 +100,17 @@ export class AppComponent {
   async logout() {
     console.log('Logging out');
     try {
-      // Use signOut to match the dashboard page
       await this.authService.signOut();
-      // Navigate to login with replaceUrl to clear navigation history
       this.router.navigate(['/login'], { replaceUrl: true });
     } catch (error) {
       console.error('Logout error:', error);
-    } finally {
-      this.closeMenu();
+    }
+    this.closeMenu();
+  }
+  
+  ngOnDestroy() {
+    if (this.authSub) {
+      this.authSub.unsubscribe();
     }
   }
 }
