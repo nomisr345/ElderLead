@@ -2,48 +2,48 @@
   <div class="login-container">
     <div class="logo-container">
       <img src="assets/logo/elderlead_app_logo_v1.jpg" alt="ElderLead Logo" class="logo">
-      <!-- Removed the h1 with app-title class -->
-      <p class="app-subtitle">Connecting Seniors to Active Communities</p>
+      <h3>Connecting Seniors to Active Communities</h3>
     </div>
-
-    <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form">
-      <ion-item class="ion-margin-bottom">
+    
+    <form [formGroup]="loginForm" (ngSubmit)="login()" class="form-container">
+      <ion-item lines="full">
         <ion-label position="floating">Email</ion-label>
         <ion-input type="email" formControlName="email"></ion-input>
       </ion-item>
-      <div class="error-message" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-        <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
-        <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+      <div *ngIf="isSubmitted && errorControl['email'].errors" class="error-message">
+        <span *ngIf="errorControl['email'].errors?.['required']">Email is required</span>
+        <span *ngIf="errorControl['email'].errors?.['email']">Please enter a valid email</span>
       </div>
-
-      <ion-item class="ion-margin-bottom">
+      
+      <ion-item lines="full">
         <ion-label position="floating">Password</ion-label>
         <ion-input type="password" formControlName="password"></ion-input>
       </ion-item>
-      <div class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-        <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</span>
-        <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</span>
+      <div *ngIf="isSubmitted && errorControl['password'].errors" class="error-message">
+        <span *ngIf="errorControl['password'].errors?.['required']">Password is required</span>
+        <span *ngIf="errorControl['password'].errors?.['minlength']">Password must be at least 6 characters</span>
       </div>
-
-      <ion-button expand="block" type="submit" [disabled]="loginForm.invalid">
-        Sign In
-      </ion-button>
-
-      <div class="divider">
-        <span class="divider-line"></span>
-        <span class="divider-text">OR</span>
-        <span class="divider-line"></span>
-      </div>
-
-      <ion-button expand="block" fill="outline" (click)="loginWithGoogle()" class="google-button">
-        <ion-icon slot="start" name="logo-google"></ion-icon>
-        Sign in with Google
-      </ion-button>
-
-      <div class="register-prompt">
-        <span>Don't have an account?</span>
-        <ion-button fill="clear" (click)="goToRegister()">Register</ion-button>
+      
+      <div class="ion-padding">
+        <ion-button type="submit" color="primary" expand="block">SIGN IN</ion-button>
       </div>
     </form>
+    
+    <div class="separator">
+      <div class="line"></div>
+      <div class="text">OR</div>
+      <div class="line"></div>
+    </div>
+    
+    <div class="social-login">
+      <ion-button expand="block" fill="outline" (click)="googleLogin()">
+        <ion-icon name="logo-google" slot="start"></ion-icon>
+        SIGN IN WITH GOOGLE
+      </ion-button>
+    </div>
+    
+    <div class="register-link">
+      <p>Don't have an account? <a (click)="goToRegister()">REGISTER</a></p>
+    </div>
   </div>
 </ion-content>
