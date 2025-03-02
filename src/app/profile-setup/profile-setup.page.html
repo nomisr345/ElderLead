@@ -5,7 +5,7 @@
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Complete Your Profile</ion-title>
+    <ion-title>{{ user && user.profileCompleted ? 'Update Profile' : 'Complete Your Profile' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -41,6 +41,21 @@
   <!-- Step 2: Role-specific form -->
   <div *ngIf="step === 2 && role === 'elderly'">
     <h2 class="ion-text-center">Senior Profile</h2>
+    
+    <!-- Profile Image Section -->
+    <div class="profile-image-container">
+      <div class="profile-image-wrapper" (click)="selectImageSource()">
+        <div class="profile-image">
+          <img *ngIf="profileImage" [src]="profileImage" alt="Profile picture">
+          <ion-icon *ngIf="!profileImage" name="person-circle" class="default-profile-icon"></ion-icon>
+        </div>
+        <div class="profile-image-overlay">
+          <ion-icon name="camera"></ion-icon>
+          <span>Change Photo</span>
+        </div>
+      </div>
+      <input type="file" #fileInput style="display: none" accept="image/*" (change)="onFileSelected($event)">
+    </div>
     
     <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" *ngIf="profileForm">
       <ion-item>
@@ -98,7 +113,7 @@
         Location is required
       </div>
       
-      <ion-button expand="block" type="submit" class="ion-margin-top" [disabled]="profileForm.invalid">
+      <ion-button expand="block" type="submit" class="ion-margin-top" [disabled]="profileForm.invalid || isUploading">
         Save Profile
       </ion-button>
     </form>
@@ -106,6 +121,21 @@
   
   <div *ngIf="step === 2 && role === 'caregiver'">
     <h2 class="ion-text-center">Caregiver Profile</h2>
+    
+    <!-- Profile Image Section (same for caregiver) -->
+    <div class="profile-image-container">
+      <div class="profile-image-wrapper" (click)="selectImageSource()">
+        <div class="profile-image">
+          <img *ngIf="profileImage" [src]="profileImage" alt="Profile picture">
+          <ion-icon *ngIf="!profileImage" name="person-circle" class="default-profile-icon"></ion-icon>
+        </div>
+        <div class="profile-image-overlay">
+          <ion-icon name="camera"></ion-icon>
+          <span>Change Photo</span>
+        </div>
+      </div>
+      <input type="file" #fileInput style="display: none" accept="image/*" (change)="onFileSelected($event)">
+    </div>
     
     <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" *ngIf="profileForm">
       <ion-item>
@@ -180,8 +210,9 @@
         Service radius is required
       </div>
       
-      <ion-button expand="block" type="submit" class="ion-margin-top" [disabled]="profileForm.invalid">
-        Save Profile
+      <!-- For the submit button -->
+      <ion-button expand="block" type="submit" class="ion-margin-top" [disabled]="profileForm.invalid || isUploading">
+        {{ user && user.profileCompleted ? 'Update Profile' : 'Save Profile' }}
       </ion-button>
     </form>
   </div>

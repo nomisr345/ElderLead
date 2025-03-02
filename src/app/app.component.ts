@@ -5,6 +5,8 @@ import { AuthService } from './services/auth.service';
 import { Subscription } from 'rxjs';
 import { initializeApp } from 'firebase/app';
 import { environment } from '../environments/environment';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +16,10 @@ import { environment } from '../environments/environment';
 })
 export class AppComponent implements OnInit, OnDestroy {
   private authSub: Subscription | null = null;
+  userData: any = null;
+  userPhotoURL: string | null = null;
+  userName: string = '';
+  userRole: string = '';
   
   constructor(
     private menuCtrl: MenuController,
@@ -28,10 +34,50 @@ export class AppComponent implements OnInit, OnDestroy {
     // Initialize Firebase modular SDK
     initializeApp(environment.firebase);
     
-    // Subscribe to auth state to handle redirects
-    this.authSub = this.authService.isAuthenticated().subscribe(user => {
-      console.log('Auth state changed:', user ? 'logged in' : 'logged out');
+    // Subscribe to auth state to handle redirects and user data
+    this.authSub = this.authService.isAuthenticated().subscribe(isAuthenticated => {
+      console.log('Auth state changed:', isAuthenticated ? 'logged in' : 'logged out');
+      
+      if (isAuthenticated) {
+        this.loadUserData();
+      } else {
+        this.userData = null;
+        this.userPhotoURL = null;
+        this.userName = '';
+        this.userRole = '';
+      }
     });
+  }
+
+  async loadUserData() {
+    try {
+      const currentUser = await this.authService.getCurrentUser();
+      if (currentUser) {
+        // Get user document from Firestore
+        const db = getFirestore();
+        const userDocRef = doc(db, 'users', currentUser.uid);
+        const docSnap = await getDoc(userDocRef);
+        
+        if (docSnap.exists()) {
+          this.userData = docSnap.data();
+          
+          // Set user photo URL (prefer Firestore data over Auth data)
+          this.userPhotoURL = this.userData.photoURL || currentUser.photoURL;
+          
+          // Set user name and role
+          this.userName = this.userData.displayName || this.userData.name || currentUser.displayName || 'User';
+          this.userRole = this.userData.role || 'user';
+          
+          console.log('User data loaded for menu:', {
+            name: this.userName,
+            role: this.userRole,
+            photo: this.userPhotoURL ? 'Available' : 'Not available'
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error loading user data for menu:', error);
+    }
   }
 
   async initializeApp() {
@@ -58,10 +104,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   navigateToPage(page: string) {
     console.log('Navigating to', page);
+    
     // Add your navigation logic here
     switch(page) {
       case 'profile':
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/profile-setup']);  // Changed to profile-setup route
+        break;
+      case 'ai-companion':
+        this.router.navigate(['/chatbot']);  // Changed to chatbot route
         break;
       case 'account':
         this.router.navigate(['/settings/account']);
@@ -79,8 +129,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.router.navigate(['/terms']);
         break;
       default:
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/tabs/dashboard']);
     }
+    
     this.closeMenu();
   }
 
