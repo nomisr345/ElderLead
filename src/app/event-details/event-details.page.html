@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon size="large" name="chevron-back-outline" (click)="goBack()"></ion-icon>
+    </ion-buttons>
+    <ion-title>Event Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Event Banner -->
+  <div class="event-banner">
+    <img src="assets/taichi.jpeg" alt="Tai Chi Event">
+  </div>
+
+  <!-- Attendees & Invite Button 
+  <div class="event-attendees">
+    <ion-avatar-group>
+      <ion-avatar><img src="assets/user1.jpg" alt="User 1"></ion-avatar>
+      <ion-avatar><img src="assets/user2.jpg" alt="User 2"></ion-avatar>
+      <ion-avatar><img src="assets/user3.jpg" alt="User 3"></ion-avatar>
+    </ion-avatar-group>
+    <span class="going-count">+20 Going</span>
+    <ion-button fill="outline" color="primary">Invite</ion-button>
+  </div> -->
+
+  <!-- Event Title -->
+  <h1 class="event-title">Morning Tai Chi Sessions</h1>
+
+  <!-- Event Details -->
+  <ion-list>
+    <ion-item>
+      <ion-icon slot="start" name="calendar-outline"></ion-icon>
+      <ion-label>Every Tuesday & Thursday</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="time-outline"></ion-icon>
+      <ion-label>8:00 AM - 9:00 AM</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="location-outline"></ion-icon>
+      <ion-label>Toa Payoh Central CC</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Instructor Info -->
+  <div class="instructor-info">
+    <ion-avatar>
+      <img src="assets/taichi-instructor.jpg" alt="Instructor">
+    </ion-avatar>
+    <div class="instructor-details">
+      <h4>Master Chen Wei Ming</h4>
+      <p class="certified-text">Certified Tai Chi Instructor</p>
+    </div>
+    <ion-button fill="outline" size="small">Follow</ion-button>
+  </div>
+
+  <div class="about-session">
+    <h2>About Session:</h2>
+    <p>
+      Join our beginner-friendly Tai Chi sessions led by experienced instructor Master Chen.
+      Suitable for all mobility levels. Improve balance, flexibility, and peace of mind through gentle movements.
+    </p>
+  </div>
+
+
+  <div class="more-info">
+    <h3>Difficulty Level:</h3>
+    <ul>
+      <li>⭐ Beginner Level</li>
+      <li>👥 All Welcome</li>
+      <li>🦽 Seated options available</li>
+    </ul>
+
+    <h3>Important Info:</h3>
+    <ul>
+      <li>👕 Wear comfortable clothes</li>
+      <li>⏰ Arrive 10 minutes early</li>
+    </ul>
+
+    <h3>Venue Features:</h3>
+    <ul>
+      <li>🏠 Sheltered Area</li>
+      <li>🪑 Seating Available</li>
+      <li>💧 Water Available</li>
+    </ul>
+  </div>
+
+  <ion-button expand="full" color="primary" (click)="bookNow()">
+    Book Now
+  </ion-button>
+
+</ion-content>

@@ -20,10 +20,6 @@ const routes: Routes = [
         loadChildren: () => import('../community/community.module').then(m => m.CommunityPageModule)
       },
       {
-        path: 'chatbot',
-        loadChildren: () => import('../chatbot/chatbot.module').then(m => m.ChatbotPageModule)
-      },
-      {
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full'

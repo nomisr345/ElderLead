@@ -1,0 +1,27 @@
+.confirmation-container {
+    text-align: center;
+    padding: 20px;
+  
+    .success-icon {
+      font-size: 64px;
+      color: green;
+    }
+  
+    h2 {
+      margin-top: 20px;
+      font-size: 24px;
+    }
+  
+    p {
+      font-size: 16px;
+      color: #666;
+    }
+  
+    ion-button {
+      margin-top: 20px;
+    }
+  }
+
+  ion-icon{
+    font-size: 1.5rem;
+  }

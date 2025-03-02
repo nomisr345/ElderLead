@@ -14,6 +14,7 @@ import { environment } from '../environments/environment';
 
 // Services
 import { AuthService } from './services/auth.service';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,7 @@ import { AuthService } from './services/auth.service';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    AngularFireStorageModule // Added for Firebase Storage support
+    GoogleMapsModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
