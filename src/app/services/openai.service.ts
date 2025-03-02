@@ -10,11 +10,35 @@ interface OpenAIError {
   message?: string;
 }
 
+type MessageType = 'location' | 'weather' | 'activity' | 'default';
+
+interface PromptTemplates {
+  location: string;
+  weather: string;
+  activity: string;
+  default: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class OpenAiService {
   private openai: OpenAI;
+  private readonly CHAT_PROMPT_TEMPLATES: PromptTemplates = {
+    location: `Please suggest places. Keep the response short and clear. Include:
+              - Name
+              - Simple address
+              - One key feature`,
+    weather: `For Singapore weather:
+             - Current conditions
+             - Simple recommendation`,
+    activity: `Suggest age-friendly activities. Include:
+              - Activity name
+              - Basic details
+              - Safety note if needed`,
+    default: `Please provide a simple, clear response suitable for elderly users.
+             Use basic English and short sentences.`
+  };
 
   constructor() {
     this.openai = new OpenAI({
@@ -25,73 +49,70 @@ export class OpenAiService {
 
   async generateChatResponse(message: string): Promise<string> {
     try {
+      const messageType = this.detectMessageType(message);
+      const systemPrompt = this.getSystemPrompt(messageType, message);
+
       const completion = await this.openai.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
           { 
             role: "system", 
-            content: `You are a friendly and patient AI companion for elderly users in Singapore.
-                     Keep responses clear, helpful, and relevant to Singapore context.
-                     For location questions, be specific about Singapore locations.
-                     For weather questions, ask which part of Singapore they're in.
-                     For health-related questions, recommend consulting healthcare providers.
-                     For activities, suggest age-appropriate options in Singapore.` 
+            content: systemPrompt
           },
           { role: "user", content: message }
         ],
-        temperature: 0.7,
-        max_tokens: 150,
-        store: true
+        temperature: 0.5,
+        max_tokens: 100,
+        store: true,
+        presence_penalty: -0.5,
+        frequency_penalty: 0.3
       });
       
-      return completion.choices[0]?.message?.content || 
-             "I'm sorry, could you rephrase that question?";
+      let response = completion.choices[0]?.message?.content || 
+                    "I'm sorry, could you ask that again in a simpler way?";
+
+      response = this.formatResponse(response);
+      
+      return response;
     } catch (err) {
       const error = err as OpenAIError;
       console.error('Chat error:', error);
-      
-      // Provide context-aware fallback responses
-      if (message.toLowerCase().includes('weather')) {
-        return "I'm having trouble checking the weather right now. Could you tell me which area of Singapore you're asking about?";
-      }
-      if (message.toLowerCase().includes('park') || message.toLowerCase().includes('activity')) {
-        return "I'm having trouble at the moment, but I'd be happy to suggest some activities or parks in your area. Which part of Singapore are you in?";
-      }
-      return "I'm having a temporary issue connecting to my service. Could you try asking your question again?";
+      return this.getErrorResponse(message);
     }
   }
 
   async generateStoryWithImage(memory: string): Promise<{ story: string; imageUrl: string }> {
     try {
-      // First generate the story
       const storyCompletion = await this.openai.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
           { 
             role: "system", 
-            content: `You are helping elderly users relive their memories.
-                     Create a warm, descriptive paragraph about their memory.
-                     Focus on sensory details and positive emotions.
-                     Keep the tone gentle and nostalgic.
-                     The description should be suitable for image generation.` 
+            content: `Create a short, warm story about this memory.
+                     - Use simple, clear language
+                     - Focus on feelings and sensory details
+                     - Keep it under 3 sentences
+                     - Avoid complex words
+                     - Make it personal and relatable` 
           },
           { role: "user", content: memory }
         ],
         temperature: 0.7,
-        max_tokens: 200,
+        max_tokens: 150,
         store: true
       });
 
       const story = storyCompletion.choices[0]?.message?.content || 
-                   "Let me help you create a story about that memory.";
+                   "Let me turn that memory into a story.";
 
-      // Then generate the image based on the story
       try {
+        // In the generateStoryWithImage method, update the image generation:
         const imageResponse = await this.openai.images.generate({
           model: "dall-e-3",
-          prompt: `Create a warm, cheerful image showing: ${story}. 
-                  Style: Natural, gentle colors, welcoming atmosphere.
-                  Make it clear and easy to understand for elderly viewers.`,
+          prompt: `Create a gentle, clear image of: ${story}. 
+                  Make it warm and friendly, with soft colors.
+                  Style: Simple and clear, like a pleasant photograph.
+                  Should be easy for elderly viewers to understand.`,
           n: 1,
           size: "1024x1024",
           quality: "standard",
@@ -99,41 +120,64 @@ export class OpenAiService {
         });
 
         return {
-          story,
+          story: this.formatStory(story),
           imageUrl: imageResponse.data[0]?.url || ""
         };
       } catch (err) {
-        const imageError = err as OpenAIError;
-        console.error('Image generation error:', imageError);
-        // Return the story even if image generation fails
-        return {
-          story,
-          imageUrl: ""
-        };
+        console.error('Image generation error:', err);
+        return { story, imageUrl: "" };
       }
     } catch (err) {
-      const error = err as OpenAIError;
-      console.error('Story generation error:', error);
+      console.error('Story generation error:', err);
       return {
-        story: "I'm having trouble creating your story right now. Could you try telling me more about your memory?",
+        story: "I'm having trouble with your story. Could you share another memory?",
         imageUrl: ""
       };
     }
   }
 
-  private async retryWithDelay(operation: () => Promise<any>, retries = 3, delay = 1000): Promise<any> {
-    for (let i = 0; i < retries; i++) {
-      try {
-        return await operation();
-      } catch (err) {
-        const error = err as OpenAIError;
-        if (i === retries - 1) throw error;
-        if (error.response?.status === 429) {
-          await new Promise(resolve => setTimeout(resolve, delay * (i + 1)));
-          continue;
-        }
-        throw error;
-      }
+  private detectMessageType(message: string): MessageType {
+    const lowerMessage = message.toLowerCase();
+    if (lowerMessage.includes('where') || lowerMessage.includes('location') || 
+        lowerMessage.includes('place')) return 'location';
+    if (lowerMessage.includes('weather')) return 'weather';
+    if (lowerMessage.includes('activity') || lowerMessage.includes('do')) return 'activity';
+    return 'default';
+  }
+
+  private getSystemPrompt(type: MessageType, message: string): string {
+    const template = this.CHAT_PROMPT_TEMPLATES[type as keyof PromptTemplates];
+    return `You are a friendly AI assistant for elderly users in Singapore.
+           ${template}
+           Always use simple English and clear formatting.
+           Keep responses brief but complete.`;
+  }
+
+  private formatResponse(response: string): string {
+    response = response.replace(/\s+/g, ' ').trim();
+    
+    if (response.length > 50) {
+      response = response.replace(/([.!?])\s+/g, '$1\n');
+    }
+    
+    return response;
+  }
+
+  private formatStory(story: string): string {
+    return story.trim().replace(/\s+/g, ' ');
+  }
+
+  private getErrorResponse(message: string): string {
+    const type = this.detectMessageType(message);
+    switch (type) {
+      case 'location':
+        return "I can help find places for you. Which area of Singapore are you interested in?";
+      case 'weather':
+        return "I can check the weather for you. Which part of Singapore are you in?";
+      case 'activity':
+        return "I can suggest activities. Which area are you in?";
+      default:
+        return "Could you ask that again in a simpler way?";
     }
   }
 }

@@ -34,6 +34,11 @@ const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin) // Add auth guard to protect this route
   },
   {
+    path: 'chatbot',
+    loadChildren: () => import('./chatbot/chatbot.module').then(m => m.ChatbotPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+  },
+  {
     path: 'all-activities',
     loadChildren: () => import('./all-activities/all-activities.module').then( m => m.AllActivitiesPageModule)
   },

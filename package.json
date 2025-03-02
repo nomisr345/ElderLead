@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^19.0.0",
     "@angular/router": "^19.0.0",
     "@capacitor/camera": "^7.0.0",
+    "@capacitor/google-maps": "^7.0.1",
     "@ionic/angular": "^8.4.3",
     "@ionic/pwa-elements": "^3.3.0",
     "firebase": "^11.3.1",
