@@ -7,7 +7,7 @@
 <ion-content class="ion-padding">
   <!-- Search Bar & Filter Button -->
   <div class="search-filter">
-    <ion-searchbar placeholder="Search..."></ion-searchbar>
+    <ion-searchbar placeholder="Search..." (ionInput)="filterEvents($event)"></ion-searchbar>
     <ion-button fill="outline">
       <ion-icon slot="icon-only" name="options-outline"></ion-icon>
     </ion-button>
@@ -33,40 +33,21 @@
     <h2>Upcoming Events</h2>
     <ion-button fill="clear" class="view-all-btn" (click)="navigateToAllActivities()">
       View All <ion-icon name="chevron-forward-outline"></ion-icon>
-    </ion-button>    
+    </ion-button>
   </div>
   
-  
+  <!-- Filtered Events Grid -->
   <ion-grid>
     <ion-row>
-      <ion-col size="6">
+      <ion-col size="6" *ngFor="let event of filteredEvents">
         <ion-card class="event-card">
-          <ion-badge class="date-badge">18 FEB</ion-badge>
-          <img src="assets/taichi.jpeg" alt="Tai Chi">
+          <ion-badge class="date-badge">{{ event.date }}</ion-badge>
+          <img [src]="event.image" [alt]="event.name">
           <ion-card-header>
-            <ion-card-title>Taichi Sessions</ion-card-title>
+            <ion-card-title>{{ event.name }}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-icon name="people-circle"></ion-icon> +20 Going  
-            <p>
-              <ion-icon name="location"></ion-icon> 93 Toa Payoh Central
-            </p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-  
-      <ion-col size="6">
-        <ion-card class="event-card">
-          <ion-badge class="date-badge">21 FEB</ion-badge>
-          <img src="assets/health-talk.jpeg" alt="Health Talk">
-          <ion-card-header>
-            <ion-card-title>Health Talks</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <ion-icon name="people-circle"></ion-icon> +30 Going  
-            <p>
-              <ion-icon name="location"></ion-icon> 5 Bishan Place
-            </p>
+            <ion-icon name="location"></ion-icon> {{ event.location }}
           </ion-card-content>
         </ion-card>
       </ion-col>

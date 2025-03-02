@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 
 // Services
 import { AuthService } from './services/auth.service';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +23,8 @@ import { AuthService } from './services/auth.service';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    GoogleMapsModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
