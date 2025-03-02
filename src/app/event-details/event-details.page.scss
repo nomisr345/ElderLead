@@ -1,0 +1,67 @@
+ion-content {
+    --padding-start: 16px;
+    --padding-end: 16px;
+  }
+  
+  .event-banner img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .event-attendees {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+  }
+  
+  .going-count {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .event-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .instructor-info {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .instructor-info ion-avatar {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .instructor-details {
+    flex-grow: 1;
+    margin-left: 10px;
+  }
+  
+  .certified-text {
+    font-size: 14px;
+    color: gray;
+  }
+  
+  .about-session h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 15px;
+  }
+  
+  .about-session p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 35px;
+  }
+
+.more-info h3 {
+    font-size: 18px; 
+}
+  

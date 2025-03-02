@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon class="back-button" name="chevron-back-outline" (click)="goBack()"></ion-icon>
+    </ion-buttons>
+    <ion-title>Activities</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Toggle Tabs -->
+  <ion-segment [(ngModel)]="selectedSegment">
+    <ion-segment-button value="upcoming">
+      <ion-label>UPCOMING</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="past">
+      <ion-label>PAST ACTIVITIES</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Activity Card -->
+  <div *ngIf="selectedSegment === 'upcoming'">
+    <ion-list>
+      <ion-item button (click)="toggleDetails()">
+        <ion-thumbnail slot="start">
+          <img src="assets/taichi.jpeg">
+        </ion-thumbnail>
+        <ion-label>
+          <p class="date-time">18TH FEB • TUESDAY • 8:00 AM</p>
+          <h2>Morning Tai Chi Session</h2>
+        </ion-label>
+        <ion-icon slot="end" [name]="detailsVisible ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+      </ion-item>
+
+      <!-- Expandable Details -->
+      <div *ngIf="detailsVisible" class="details-container">
+        <div class="action-buttons">
+          <ion-button fill="outline">
+            <ion-icon name="information-circle-outline" class="icon"></ion-icon> SESSION DETAILS
+          </ion-button>
+          <ion-button fill="outline" (click)="goToMaps()">
+            <ion-icon name="location-outline" class="icon" ></ion-icon> GET DIRECTIONS
+          </ion-button>
+          <ion-button fill="outline">
+            <ion-icon name="people-outline" class="icon"></ion-icon> JOIN FRIENDS
+          </ion-button>
+          <ion-button fill="outline">
+            <ion-icon name="chatbubble-outline" class="icon"></ion-icon> VIEW SOCIALS
+          </ion-button>
+        </div>
+
+        <ion-card class="cancel-session">
+          <ion-icon name="close-outline" size="large"></ion-icon>
+          <p><strong>CANCEL MY SESSION</strong></p>
+          <p>Please inform at least 2 hours before if you cannot attend</p>
+        </ion-card>
+
+        <div class="friends-joining">
+          <p><strong>FRIENDS JOINING</strong></p>
+          <div class="friends-list">
+            <img src="assets/taichi-instructor.jpg">
+            <img src="assets/aunty.jpg">
+            <span>+2 FRIENDS FROM YOUR FRIEND LIST</span>
+          </div>
+        </div>
+      </div>
+    </ion-list>
+  </div>
+
+  <!-- Explore Activities Button -->
+  <ion-button expand="full" class="explore-button">EXPLORE ACTIVITIES</ion-button>
+</ion-content>
