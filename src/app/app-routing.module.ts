@@ -37,7 +37,7 @@ const routes: Routes = [
     path: 'all-activities',
     loadChildren: () => import('./all-activities/all-activities.module').then( m => m.AllActivitiesPageModule)
   },
-  /*{
+  {
     path: 'event-details',
     loadChildren: () => import('./event-details/event-details.module').then( m => m.EventDetailsPageModule)
   },
@@ -52,7 +52,7 @@ const routes: Routes = [
   {
     path: 'maps',
     loadChildren: () => import('./maps/maps.module').then( m => m.MapsPageModule)
-  },*/
+  },
   {
     path: '**',
     redirectTo: 'login'
