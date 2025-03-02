@@ -34,18 +34,37 @@ const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin) // Add auth guard to protect this route
   },
   {
-    path: 'chatbot',
-    loadChildren: () => import('./chatbot/chatbot.module').then(m => m.ChatbotPageModule),
-    ...canActivate(redirectUnauthorizedToLogin)
-  },
-  {
     path: 'all-activities',
     loadChildren: () => import('./all-activities/all-activities.module').then( m => m.AllActivitiesPageModule)
   },
+  /*{
+    path: 'event-details',
+    loadChildren: () => import('./event-details/event-details.module').then( m => m.EventDetailsPageModule)
+  },
+  {
+    path: 'activity-confirmation',
+    loadChildren: () => import('./activity-confirmation/activity-confirmation.module').then( m => m.ActivityConfirmationPageModule)
+  },
+  {
+    path: 'my-activities',
+    loadChildren: () => import('./my-activities/my-activities.module').then( m => m.MyActivitiesPageModule)
+  },
+  {
+    path: 'maps',
+    loadChildren: () => import('./maps/maps.module').then( m => m.MapsPageModule)
+  },*/
   {
     path: '**',
     redirectTo: 'login'
-  }
+  },
+  
+
+  
+
+ 
+
+  
+
 ];
 
 @NgModule({
