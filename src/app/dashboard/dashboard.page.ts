@@ -4,6 +4,8 @@ import { IonicModule, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import * as firebaseApp from 'firebase/app';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +16,8 @@ import { Subscription } from 'rxjs';
 })
 export class DashboardPage implements OnInit, OnDestroy {
   user: any;
-  private userSubscription: Subscription | null = null;
+  userName: string = 'User'; // Default value
+  private authSubscription: Subscription | null = null;
 
   constructor(
     private authService: AuthService,
@@ -22,22 +25,63 @@ export class DashboardPage implements OnInit, OnDestroy {
     private alertController: AlertController
   ) {}
 
-  ngOnInit() {
-    // Subscribe to user changes
-    this.userSubscription = this.authService.user$.subscribe((user: any) => {
-      this.user = user;
+  async ngOnInit() {
+    console.log("Dashboard component initialized");
+    
+    // Subscribe to auth state for logout detection
+    this.authSubscription = this.authService.getAuthState().subscribe(async (user) => {
+      console.log("Auth state in dashboard:", user ? `User: ${user.uid}` : 'No user');
       
-      // Check if profile is completed
-      if (user && user.profileCompleted === false) {
-        this.showProfileCompletionAlert();
+      if (user) {
+        try {
+          // Get user document from Firestore using modular API
+          const db = getFirestore(firebaseApp.getApp());
+          const userDocRef = doc(db, 'users', user.uid);
+          const docSnap = await getDoc(userDocRef);
+          
+          if (docSnap.exists()) {
+            // Get user data from document
+            this.user = docSnap.data();
+            console.log("User data from Firestore:", this.user);
+            
+            // Extract user name
+            if (this.user) {
+              this.userName = this.getFirstName(this.user.displayName || this.user.name || 'User');
+              console.log("Set user name to:", this.userName);
+              
+              // Check if profile needs completion
+              if (this.user.profileCompleted === false) {
+                this.showProfileCompletionAlert();
+              }
+            }
+          } else {
+            console.log("No user document found");
+            this.userName = 'User';
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          this.userName = 'User';
+        }
+      } else {
+        // No user, reset to default
+        this.userName = 'User';
       }
     });
   }
 
+  // Helper function to extract first name from full name
+  private getFirstName(fullName: string): string {
+    if (!fullName || typeof fullName !== 'string') return 'User';
+    
+    // Split the name and return first part
+    const nameParts = fullName.split(' ');
+    return nameParts[0] || 'User';
+  }
+
   ngOnDestroy() {
     // Clean up subscription when component is destroyed
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
     }
   }
 
@@ -69,5 +113,10 @@ export class DashboardPage implements OnInit, OnDestroy {
     } catch (error) {
       console.error('Logout error:', error);
     }
+  }
+
+  goToProfile() {
+    console.log('Navigating to profile setup page');
+    this.router.navigate(['/profile-setup']);
   }
 }
