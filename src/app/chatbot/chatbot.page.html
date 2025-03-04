@@ -36,6 +36,18 @@
       Back to Menu
     </ion-button>
 
+    <!-- Suggested Prompts -->
+    <div class="suggested-prompts">
+      <ion-chip 
+        *ngFor="let prompt of getPrompts()" 
+        (click)="sendSuggestedPrompt(prompt)"
+        color="primary"
+        outline>
+        <ion-label>{{prompt.label}}</ion-label>
+      </ion-chip>
+    </div>
+
+    <!-- Messages -->
     <div *ngFor="let message of messages" 
          [ngClass]="{'user-message': message.sender === 'user', 'bot-message': message.sender === 'bot'}" 
          class="message">

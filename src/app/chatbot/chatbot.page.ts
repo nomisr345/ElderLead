@@ -12,6 +12,12 @@ interface ChatMessage {
   timestamp?: Date;
 }
 
+interface SuggestedPrompt {
+  label: string;
+  text: string;
+  category: 'weather' | 'location' | 'activity';
+}
+
 @Component({
   selector: 'app-chatbot',
   templateUrl: './chatbot.page.html',
@@ -26,6 +32,62 @@ export class ChatbotPage {
   recognition: any;
   isLoading = false;
 
+  suggestedPrompts: SuggestedPrompt[] = [
+    {
+      label: '☀️ Weather Today',
+      text: "What's the weather like today?",
+      category: 'weather'
+    },
+    {
+      label: '🏃‍♂️ Activities Nearby',
+      text: 'What activities can I do nearby?',
+      category: 'activity'
+    },
+    {
+      label: '🎯 Popular Places',
+      text: 'Where are some popular places to visit?',
+      category: 'location'
+    },
+    {
+      label: '🚶‍♂️ Walking Spots',
+      text: 'Where can I go for a nice walk?',
+      category: 'location'
+    },
+    {
+      label: '🌧️ Rain Check',
+      text: 'Will it rain today?',
+      category: 'weather'
+    },
+    {
+      label: '🎨 Weekend Activities',
+      text: 'What activities can I do this weekend?',
+      category: 'activity'
+    }
+  ];
+
+  storyPrompts: SuggestedPrompt[] = [
+    {
+      label: '🏫 School Days',
+      text: 'I remember my first day at school in Singapore...',
+      category: 'activity'
+    },
+    {
+      label: '🎉 Festivals',
+      text: 'My favorite festival celebration was...',
+      category: 'activity'
+    },
+    {
+      label: '🍜 Food Memories',
+      text: 'I remember the old hawker center where...',
+      category: 'location'
+    },
+    {
+      label: '👨‍👩‍👧‍👦 Family Time',
+      text: 'A special family moment I remember is...',
+      category: 'activity'
+    }
+  ];
+
   constructor(private openAiService: OpenAiService) {
     this.initializeSpeechRecognition();
   }
@@ -34,8 +96,8 @@ export class ChatbotPage {
     this.activeMode = mode;
     this.messages = [{
       content: mode === 'chat' 
-        ? "Hello! What would you like to chat about?" 
-        : "I'd love to hear about a memory that I can turn into a story with an image.",
+        ? "Hello! Choose a suggestion below or type your own question!" 
+        : "I'd love to hear your story! Pick a memory type or share your own.",
       sender: 'bot',
       type: 'text',
       timestamp: new Date()
@@ -48,12 +110,21 @@ export class ChatbotPage {
     this.userInput = '';
   }
 
+  getPrompts(): SuggestedPrompt[] {
+    return this.activeMode === 'chat' ? this.suggestedPrompts : this.storyPrompts;
+  }
+
+  async sendSuggestedPrompt(prompt: SuggestedPrompt) {
+    this.userInput = prompt.text;
+    await this.sendMessage();
+  }
+
   private initializeSpeechRecognition() {
     if ('webkitSpeechRecognition' in window) {
       this.recognition = new (window as any).webkitSpeechRecognition();
       this.recognition.continuous = false;
       this.recognition.interimResults = false;
-      this.recognition.lang = 'en-SG'; // Set to Singapore English
+      this.recognition.lang = 'en-SG';
 
       this.recognition.onresult = (event: any) => {
         const transcript = event.results[0][0].transcript;
