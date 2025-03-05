@@ -217,4 +217,26 @@ export class ChatbotPage {
       this.isLoading = false;
     }
   }
+
+  async refresh(event: any) {
+    // Reset the chat state
+    this.messages = [];
+    this.userInput = '';
+    this.isLoading = false;
+    
+    // If we're in a specific mode, reinitialize that mode
+    if (this.activeMode) {
+      this.messages = [{
+        content: this.activeMode === 'chat' 
+          ? "Hello! Choose a suggestion below or type your own question!" 
+          : "I'd love to hear your story! Pick a memory type or share your own.",
+        sender: 'bot',
+        type: 'text',
+        timestamp: new Date()
+      }];
+    }
+
+    // Complete the refresh
+    event.target.complete();
+  }
 }

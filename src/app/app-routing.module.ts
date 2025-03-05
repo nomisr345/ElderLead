@@ -62,14 +62,6 @@ const routes: Routes = [
     path: '**',
     redirectTo: 'login'
   },
-  
-
-  
-
- 
-
-  
-
 ];
 
 @NgModule({
