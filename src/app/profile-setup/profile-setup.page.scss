@@ -46,6 +46,19 @@ form {
   margin-top: 16px;
 }
 
+// New styles for field headers
+.field-header {
+  font-weight: bold;
+  color: #1e4d8c; // Dark blue color
+  margin-bottom: 8px;
+  font-size: 16px;
+  padding-left: 16px;
+}
+
+.form-field-container {
+  margin-bottom: 16px;
+}
+
 // For desktop screens, make the role cards appear side by side
 @media (min-width: 768px) {
   .role-selection {

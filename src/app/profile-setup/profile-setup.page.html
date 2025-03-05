@@ -10,7 +10,11 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Step 1: Role Selection -->
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  <!-- Step 1: Role Selection - This will be skipped in most cases but kept for new users -->
   <div *ngIf="step === 1">
     <h2 class="ion-text-center">Choose Your Role</h2>
     <p class="ion-text-center">Select your role to customize your experience</p>
@@ -58,59 +62,69 @@
     </div>
     
     <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" *ngIf="profileForm">
-      <ion-item>
-        <ion-label position="floating">Mobility Status</ion-label>
-        <ion-select formControlName="mobilityStatus">
-          <ion-select-option value="fully_mobile">Fully Mobile</ion-select-option>
-          <ion-select-option value="uses_cane">Uses Cane</ion-select-option>
-          <ion-select-option value="uses_walker">Uses Walker</ion-select-option>
-          <ion-select-option value="wheelchair">Wheelchair</ion-select-option>
-          <ion-select-option value="limited_mobility">Limited Mobility</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <div class="error-message" *ngIf="profileForm.get('mobilityStatus')?.invalid && profileForm.get('mobilityStatus')?.touched">
-        Mobility status is required
+      <div class="form-field-container">
+        <div class="field-header">Mobility Status</div>
+        <ion-item>
+          <ion-select formControlName="mobilityStatus">
+            <ion-select-option value="fully_mobile">Fully Mobile</ion-select-option>
+            <ion-select-option value="uses_cane">Uses Cane</ion-select-option>
+            <ion-select-option value="uses_walker">Uses Walker</ion-select-option>
+            <ion-select-option value="wheelchair">Wheelchair</ion-select-option>
+            <ion-select-option value="limited_mobility">Limited Mobility</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div class="error-message" *ngIf="profileForm.get('mobilityStatus')?.invalid && profileForm.get('mobilityStatus')?.touched">
+          Mobility status is required
+        </div>
       </div>
       
-      <ion-item>
-        <ion-label position="floating">Activity Preferences</ion-label>
-        <ion-select formControlName="activityPreferences" multiple="true">
-          <ion-select-option value="social">Social Gatherings</ion-select-option>
-          <ion-select-option value="physical">Physical Activities</ion-select-option>
-          <ion-select-option value="educational">Educational Activities</ion-select-option>
-          <ion-select-option value="arts">Arts & Crafts</ion-select-option>
-          <ion-select-option value="music">Music & Entertainment</ion-select-option>
-          <ion-select-option value="outdoor">Outdoor Activities</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <div class="error-message" *ngIf="profileForm.get('activityPreferences')?.invalid && profileForm.get('activityPreferences')?.touched">
-        Please select at least one activity preference
+      <div class="form-field-container">
+        <div class="field-header">Activity Preferences</div>
+        <ion-item>
+          <ion-select formControlName="activityPreferences" multiple="true">
+            <ion-select-option value="social">Social Gatherings</ion-select-option>
+            <ion-select-option value="physical">Physical Activities</ion-select-option>
+            <ion-select-option value="educational">Educational Activities</ion-select-option>
+            <ion-select-option value="arts">Arts & Crafts</ion-select-option>
+            <ion-select-option value="music">Music & Entertainment</ion-select-option>
+            <ion-select-option value="outdoor">Outdoor Activities</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div class="error-message" *ngIf="profileForm.get('activityPreferences')?.invalid && profileForm.get('activityPreferences')?.touched">
+          Please select at least one activity preference
+        </div>
       </div>
       
-      <ion-item>
-        <ion-label position="floating">Health Considerations (Optional)</ion-label>
-        <ion-textarea formControlName="healthConsiderations" rows="3"></ion-textarea>
-      </ion-item>
-      
-      <ion-item>
-        <ion-label position="floating">Preferred Communication Method</ion-label>
-        <ion-select formControlName="preferredCommunication">
-          <ion-select-option value="phone">Phone Call</ion-select-option>
-          <ion-select-option value="text">Text Message</ion-select-option>
-          <ion-select-option value="email">Email</ion-select-option>
-          <ion-select-option value="app">In-App Notification</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <div class="error-message" *ngIf="profileForm.get('preferredCommunication')?.invalid && profileForm.get('preferredCommunication')?.touched">
-        Preferred communication method is required
+      <div class="form-field-container">
+        <div class="field-header">Health Considerations (Optional)</div>
+        <ion-item>
+          <ion-textarea formControlName="healthConsiderations" rows="3"></ion-textarea>
+        </ion-item>
       </div>
       
-      <ion-item>
-        <ion-label position="floating">Location/Address</ion-label>
-        <ion-input formControlName="location" type="text"></ion-input>
-      </ion-item>
-      <div class="error-message" *ngIf="profileForm.get('location')?.invalid && profileForm.get('location')?.touched">
-        Location is required
+      <div class="form-field-container">
+        <div class="field-header">Preferred Communication Method</div>
+        <ion-item>
+          <ion-select formControlName="preferredCommunication">
+            <ion-select-option value="phone">Phone Call</ion-select-option>
+            <ion-select-option value="text">Text Message</ion-select-option>
+            <ion-select-option value="email">Email</ion-select-option>
+            <ion-select-option value="app">In-App Notification</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div class="error-message" *ngIf="profileForm.get('preferredCommunication')?.invalid && profileForm.get('preferredCommunication')?.touched">
+          Preferred communication method is required
+        </div>
+      </div>
+      
+      <div class="form-field-container">
+        <div class="field-header">Location/Address</div>
+        <ion-item>
+          <ion-input formControlName="location" type="text"></ion-input>
+        </ion-item>
+        <div class="error-message" *ngIf="profileForm.get('location')?.invalid && profileForm.get('location')?.touched">
+          Location is required
+        </div>
       </div>
       
       <ion-button expand="block" type="submit" class="ion-margin-top" [disabled]="profileForm.invalid || isUploading">
@@ -138,76 +152,88 @@
     </div>
     
     <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" *ngIf="profileForm">
-      <ion-item>
-        <ion-label position="floating">Relationship to Seniors</ion-label>
-        <ion-select formControlName="relationship">
-          <ion-select-option value="family">Family Member</ion-select-option>
-          <ion-select-option value="professional">Professional Caregiver</ion-select-option>
-          <ion-select-option value="volunteer">Volunteer</ion-select-option>
-          <ion-select-option value="friend">Friend</ion-select-option>
-          <ion-select-option value="other">Other</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <div class="error-message" *ngIf="profileForm.get('relationship')?.invalid && profileForm.get('relationship')?.touched">
-        Relationship is required
+      <div class="form-field-container">
+        <div class="field-header">Relationship to Seniors</div>
+        <ion-item>
+          <ion-select formControlName="relationship">
+            <ion-select-option value="family">Family Member</ion-select-option>
+            <ion-select-option value="professional">Professional Caregiver</ion-select-option>
+            <ion-select-option value="volunteer">Volunteer</ion-select-option>
+            <ion-select-option value="friend">Friend</ion-select-option>
+            <ion-select-option value="other">Other</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div class="error-message" *ngIf="profileForm.get('relationship')?.invalid && profileForm.get('relationship')?.touched">
+          Relationship is required
+        </div>
       </div>
       
-      <ion-item>
-        <ion-label position="floating">Experience Level</ion-label>
-        <ion-select formControlName="experience">
-          <ion-select-option value="novice">Less than 1 year</ion-select-option>
-          <ion-select-option value="intermediate">1-3 years</ion-select-option>
-          <ion-select-option value="experienced">3-5 years</ion-select-option>
-          <ion-select-option value="expert">More than 5 years</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <div class="error-message" *ngIf="profileForm.get('experience')?.invalid && profileForm.get('experience')?.touched">
-        Experience level is required
+      <div class="form-field-container">
+        <div class="field-header">Experience Level</div>
+        <ion-item>
+          <ion-select formControlName="experience">
+            <ion-select-option value="novice">Less than 1 year</ion-select-option>
+            <ion-select-option value="intermediate">1-3 years</ion-select-option>
+            <ion-select-option value="experienced">3-5 years</ion-select-option>
+            <ion-select-option value="expert">More than 5 years</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div class="error-message" *ngIf="profileForm.get('experience')?.invalid && profileForm.get('experience')?.touched">
+          Experience level is required
+        </div>
       </div>
       
-      <ion-item>
-        <ion-label position="floating">Areas of Expertise</ion-label>
-        <ion-select formControlName="expertise" multiple="true">
-          <ion-select-option value="personal_care">Personal Care</ion-select-option>
-          <ion-select-option value="medication">Medication Management</ion-select-option>
-          <ion-select-option value="mobility">Mobility Assistance</ion-select-option>
-          <ion-select-option value="companionship">Companionship</ion-select-option>
-          <ion-select-option value="transportation">Transportation</ion-select-option>
-          <ion-select-option value="meal_prep">Meal Preparation</ion-select-option>
-          <ion-select-option value="dementia">Dementia Care</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <div class="error-message" *ngIf="profileForm.get('expertise')?.invalid && profileForm.get('expertise')?.touched">
-        Please select at least one area of expertise
+      <div class="form-field-container">
+        <div class="field-header">Areas of Expertise</div>
+        <ion-item>
+          <ion-select formControlName="expertise" multiple="true">
+            <ion-select-option value="personal_care">Personal Care</ion-select-option>
+            <ion-select-option value="medication">Medication Management</ion-select-option>
+            <ion-select-option value="mobility">Mobility Assistance</ion-select-option>
+            <ion-select-option value="companionship">Companionship</ion-select-option>
+            <ion-select-option value="transportation">Transportation</ion-select-option>
+            <ion-select-option value="meal_prep">Meal Preparation</ion-select-option>
+            <ion-select-option value="dementia">Dementia Care</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div class="error-message" *ngIf="profileForm.get('expertise')?.invalid && profileForm.get('expertise')?.touched">
+          Please select at least one area of expertise
+        </div>
       </div>
       
-      <ion-item>
-        <ion-label position="floating">Availability</ion-label>
-        <ion-select formControlName="availability" multiple="true">
-          <ion-select-option value="weekdays">Weekdays</ion-select-option>
-          <ion-select-option value="weekends">Weekends</ion-select-option>
-          <ion-select-option value="mornings">Mornings</ion-select-option>
-          <ion-select-option value="afternoons">Afternoons</ion-select-option>
-          <ion-select-option value="evenings">Evenings</ion-select-option>
-          <ion-select-option value="overnight">Overnight</ion-select-option>
-          <ion-select-option value="24hr">24/7</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <div class="error-message" *ngIf="profileForm.get('availability')?.invalid && profileForm.get('availability')?.touched">
-        Please select at least one availability option
+      <div class="form-field-container">
+        <div class="field-header">Availability</div>
+        <ion-item>
+          <ion-select formControlName="availability" multiple="true">
+            <ion-select-option value="weekdays">Weekdays</ion-select-option>
+            <ion-select-option value="weekends">Weekends</ion-select-option>
+            <ion-select-option value="mornings">Mornings</ion-select-option>
+            <ion-select-option value="afternoons">Afternoons</ion-select-option>
+            <ion-select-option value="evenings">Evenings</ion-select-option>
+            <ion-select-option value="overnight">Overnight</ion-select-option>
+            <ion-select-option value="24hr">24/7</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div class="error-message" *ngIf="profileForm.get('availability')?.invalid && profileForm.get('availability')?.touched">
+          Please select at least one availability option
+        </div>
       </div>
       
-      <ion-item>
-        <ion-label position="floating">Certifications (Optional)</ion-label>
-        <ion-textarea formControlName="certifications" rows="2"></ion-textarea>
-      </ion-item>
+      <div class="form-field-container">
+        <div class="field-header">Certifications (Optional)</div>
+        <ion-item>
+          <ion-textarea formControlName="certifications" rows="2"></ion-textarea>
+        </ion-item>
+      </div>
       
-      <ion-item>
-        <ion-label position="floating">Service Radius (km)</ion-label>
-        <ion-input formControlName="serviceRadius" type="number"></ion-input>
-      </ion-item>
-      <div class="error-message" *ngIf="profileForm.get('serviceRadius')?.invalid && profileForm.get('serviceRadius')?.touched">
-        Service radius is required
+      <div class="form-field-container">
+        <div class="field-header">Service Radius (km)</div>
+        <ion-item>
+          <ion-input formControlName="serviceRadius" type="number"></ion-input>
+        </ion-item>
+        <div class="error-message" *ngIf="profileForm.get('serviceRadius')?.invalid && profileForm.get('serviceRadius')?.touched">
+          Service radius is required
+        </div>
       </div>
       
       <!-- For the submit button -->
