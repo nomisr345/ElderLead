@@ -54,9 +54,34 @@ const routes: Routes = [
     loadChildren: () => import('./maps/maps.module').then( m => m.MapsPageModule)
   },
   {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
+  },
+  {
+    path: 'edit-activity/:id',
+    loadChildren: () => import('./edit-activity/edit-activity.module').then( m => m.EditActivityPageModule)
+  },
+  {
+    path: 'add-activity',
+    loadChildren: () => import('./add-activity/add-activity.module').then( m => m.AddActivityPageModule)
+  },
+  {
+    path: 'activity-details/:id',
+    loadChildren: () => import('./activity-details/activity-details.module').then( m => m.ActivityDetailsPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'login'
   },
+  
+
+  
+
+
+  
+
+ 
+
   
 
   

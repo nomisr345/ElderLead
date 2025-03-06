@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit Activity</ion-title>
+    <ion-buttons slot="start">
+      <ion-icon size="small" name="chevron-back-outline" (click)="goBack()"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">Title</ion-label>
+    <ion-input [(ngModel)]="activity.title"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Description</ion-label>
+    <ion-textarea [(ngModel)]="activity.description"></ion-textarea>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Date</ion-label>
+    <ion-input type="date" [(ngModel)]="activity.date"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Location</ion-label>
+    <ion-input [(ngModel)]="activity.location"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Category</ion-label>
+    <ion-select [(ngModel)]="activity.category" name="category" #category="ngModel">
+      <ion-select-option value="Exercise">Exercise</ion-select-option>
+      <ion-select-option value="Social">Social</ion-select-option>
+      <ion-select-option value="Learning">Learning</ion-select-option>
+      <ion-select-option value="Others">Others</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- Image Preview -->
+  <ion-item *ngIf="activity.imagePath">
+    <img [src]="activity.imagePath" alt="Activity Image" style="max-width: 100%; height: auto;" />
+  </ion-item>
+
+  <!-- Upload Image Button -->
+  <ion-item>
+    <ion-button expand="block" color="tertiary" (click)="uploadImage()">Upload Image</ion-button>
+  </ion-item>
+
+  <!-- Save Button -->
+  <ion-button expand="block" (click)="saveActivity()">Save Activity</ion-button>
+</ion-content>

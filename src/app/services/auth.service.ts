@@ -59,6 +59,10 @@ export class AuthService {
     return this.afAuth.authState;
   }
 
+  observeAuthState(func: firebase.Observer<any, Error> | ((a: firebase.User | null) => any)) {
+    return firebase.auth().onAuthStateChanged(func);
+  }
+
   // Check if user is authenticated
   isAuthenticated(): Observable<boolean> {
     return this.afAuth.authState.pipe(

@@ -1,5 +1,7 @@
 {
   "name": "ElderLead",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

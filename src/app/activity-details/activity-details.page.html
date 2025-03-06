@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon size="large" name="chevron-back-outline" (click)="goBack()"></ion-icon>
+    </ion-buttons>
+    <ion-title>Event Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Event Banner -->
+  <div class="event-banner" *ngIf="activity?.imagePath">
+    <img [src]="activity?.imagePath" alt="{{ activity?.title || 'Activity Image' }}">
+  </div>
+
+  <!-- Event Title -->
+  <h1 class="event-title">{{ activity?.title }}</h1>
+
+  <!-- Event Details -->
+  <ion-list>
+    <ion-item>
+      <ion-icon slot="start" name="calendar-outline"></ion-icon>
+      <ion-label>{{ activity?.date | date: 'EEEE, MMM d, yyyy' }}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="time-outline"></ion-icon>
+      <ion-label>{{ activity?.date | date: 'h:mm a' }}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="location-outline"></ion-icon>
+      <ion-label>{{ activity?.location }}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Instructor Info -->
+  <div class="instructor-info" *ngIf="activity?.instructorName">
+    <ion-avatar>
+      <!-- <img [src]="activity?.instructorImage || 'assets/default-avatar.jpg'" alt="Instructor"> -->
+    </ion-avatar>
+    <div class="instructor-details">
+      <h4>{{ activity?.instructorName }}</h4>
+      <p class="certified-text">{{ activity?.instructorCert }}</p>
+    </div>
+    <ion-button fill="outline" size="small">Follow</ion-button>
+  </div>
+
+  <div class="about-session">
+    <h2>About Session:</h2>
+    <p>{{ activity?.description }}</p>
+  </div>
+
+  <div class="more-info">
+    <h3>Difficulty Level:</h3>
+    <ul>
+      <li>⭐ Beginner Level</li>
+      <li>👥 All Welcome</li>
+      <li>🦽 Seated options available</li>
+    </ul>
+
+    <h3>Important Info:</h3>
+    <ul>
+      <li>👕 Wear comfortable clothes</li>
+      <li>⏰ Arrive 10 minutes early</li>
+    </ul>
+
+    <h3>Venue Features:</h3>
+    <ul>
+      <li>🏠 Sheltered Area</li>
+      <li>🪑 Seating Available</li>
+      <li>💧 Water Available</li>
+    </ul>
+  </div>
+
+  <ion-button expand="full" color="primary" (click)="bookNow()">
+    Book Now
+  </ion-button>
+</ion-content>
