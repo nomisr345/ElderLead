@@ -1,0 +1,167 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/community-details"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="community">{{ community.communityName || community.name }}</ion-title>
+    <ion-title *ngIf="!community">Community Chat</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="showSearch = !showSearch">
+        <ion-icon name="search-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="isAdmin || isOwner" [routerLink]="['/community-management', communityId]">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+    
+  <!-- Search bar - only shown when search is active -->
+  <ion-toolbar *ngIf="showSearch">
+    <ion-searchbar placeholder="Search messages or files" 
+                (ionInput)="filterMessages($event)"
+                [(ngModel)]="searchTerm">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" #content>
+  <!-- Loading indicator -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading messages...</p>
+  </div>
+  
+  <!-- Empty state -->
+  <div *ngIf="!isLoading && (!messages || messages.length === 0)" class="empty-state">
+    <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+    <h3>No messages yet</h3>
+    <p>Start the conversation by sending the first message!</p>
+  </div>
+  
+  <!-- Search results -->
+  <div *ngIf="searchTerm && searchResults.length === 0 && !isLoading" class="empty-state">
+    <ion-icon name="search-outline"></ion-icon>
+    <h3>No results found</h3>
+    <p>Try a different search term</p>
+  </div>
+  
+  <!-- Messages list -->
+  <div class="messages-container">
+    <div *ngFor="let message of searchTerm ? searchResults : messages" [ngClass]="{'message-wrapper': true, 'own-message': message.senderId === currentUserId, 'other-message': message.senderId !== currentUserId}">
+      <!-- Avatar only for messages from others -->
+      <div *ngIf="message.senderId !== currentUserId" class="avatar">
+        <ion-avatar>
+          <img [src]="message.senderPhotoURL || 'assets/default-avatar.png'" alt="{{ message.senderName }}">
+        </ion-avatar>
+      </div>
+      
+      <div class="message-content">
+        <!-- Sender name only for messages from others -->
+        <div *ngIf="message.senderId !== currentUserId" class="sender-name">
+          {{ message.senderName }}
+        </div>
+        
+        <!-- Text message -->
+        <div *ngIf="message.type === 'text'" class="message-bubble">
+          {{ message.content }}
+        </div>
+        
+        <!-- Image message -->
+        <div *ngIf="message.type === 'image'" class="message-bubble image-message">
+          <div class="image-container" (click)="message.fileUrl && viewFullImage(message.fileUrl)">
+            <img [src]="message.fileUrl" alt="Shared image" class="shared-image">
+            <div class="download-overlay">
+              <ion-button fill="clear" class="download-btn" (click)="message.fileUrl && downloadFile(message.fileUrl, message.fileName || 'image'); $event.stopPropagation();">
+                <ion-icon name="download-outline"></ion-icon>
+              </ion-button>
+            </div>
+            <div *ngIf="message.content" class="image-caption">{{ message.content }}</div>
+          </div>
+        </div>
+        
+        <!-- File message -->
+        <div *ngIf="message.type === 'file'" class="message-bubble file-message">
+          <div class="file-details">
+            <ion-icon name="document-outline"></ion-icon>
+            <div class="file-info">
+              <div class="file-name" [title]="message.fileName">{{ message.fileName }}</div>
+              <div class="file-size">{{ formatFileSize(message.fileSize) }}</div>
+            </div>
+            <ion-button fill="clear" size="small" class="download-button" (click)="message.fileUrl && downloadFile(message.fileUrl, message.fileName || '')">
+              <ion-icon name="download-outline"></ion-icon>
+            </ion-button>
+          </div>
+          <div *ngIf="message.content" class="file-caption">{{ message.content }}</div>
+        </div>
+        
+        <div class="message-time">
+          {{ formatTime(message.timestamp) }}
+          <span class="message-date">{{ formatDate(message.timestamp) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- Image viewer modal -->
+<div *ngIf="showImageViewer" class="fullscreen-image-viewer" (click)="closeImageViewer()">
+  <div class="image-viewer-content">
+    <img [src]="fullImageUrl" alt="Full size image">
+    <ion-button fill="clear" class="close-button" (click)="closeImageViewer(); $event.stopPropagation();">
+      <ion-icon name="close-circle"></ion-icon>
+    </ion-button>
+    <ion-button fill="clear" class="download-button-viewer" (click)="downloadFile(fullImageUrl, 'image'); $event.stopPropagation();">
+      <ion-icon name="download-outline"></ion-icon>
+    </ion-button>
+  </div>
+</div>
+
+<!-- File preview area - shown when files are selected -->
+<div *ngIf="selectedFiles.length > 0" class="file-preview-container">
+  <div class="file-preview-header">
+    <span>Selected Files ({{ selectedFiles.length }}/{{ maxFiles }})</span>
+  </div>
+  <div class="file-previews">
+    <div *ngFor="let file of selectedFiles; let i = index" class="file-preview-item">
+      <!-- Image preview -->
+      <div *ngIf="file.type === 'image'" class="image-preview">
+        <img [src]="file.preview" alt="Preview">
+      </div>
+      
+      <!-- File icon for non-images -->
+      <div *ngIf="file.type === 'file'" class="file-icon">
+        <ion-icon name="document-outline"></ion-icon>
+      </div>
+      
+      <!-- File info -->
+      <div class="file-preview-info">
+        <div class="file-preview-name" [title]="file.name">{{ file.name }}</div>
+        <div class="file-preview-size">{{ formatFileSize(file.size) }}</div>
+      </div>
+      
+      <!-- Remove button -->
+      <ion-button fill="clear" class="remove-file-btn" (click)="removeFile(i)">
+        <ion-icon name="close-circle"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</div>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="openFileSelector()" [disabled]="selectedFiles.length >= maxFiles">
+        <ion-icon name="attach-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-input placeholder="Type your message..." [(ngModel)]="newMessage" (keyup.enter)="sendMessage()"></ion-input>
+    <ion-buttons slot="end">
+      <ion-button (click)="sendMessage()" [disabled]="(!newMessage || !newMessage.trim()) && selectedFiles.length === 0">
+        <ion-icon name="send"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
+<!-- Hidden file input -->
+<input #fileInput type="file" style="display: none;" (change)="onFileSelected($event)">

@@ -59,6 +59,27 @@ const routes: Routes = [
     loadChildren: () => import('./maps/maps.module').then( m => m.MapsPageModule)
   },
   {
+    path: 'community-setup',
+    loadChildren: () => import('./community-setup/community-setup.module').then( m => m.CommunitySetupPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+    
+  },
+  {
+  path: 'community-details/:communityId',  // Make sure it has :communityId parameter
+  loadChildren: () => import('./community-details/community-details.module').then(m => m.CommunityDetailsPageModule),
+  ...canActivate(redirectUnauthorizedToLogin)
+  },
+  {
+    path: 'community-chat/:communityId',
+    loadChildren: () => import('./community-chat/community-chat.module').then( m => m.CommunityChatPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+  },
+  {
+    path: 'community-management',
+    loadChildren: () => import('./community-management/community-management.module').then( m => m.CommunityManagementPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
+  },
+  {
     path: '**',
     redirectTo: 'login'
   },

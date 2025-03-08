@@ -1,0 +1,61 @@
+<div [ngClass]="{'message-container': true, 'current-user': isCurrentUser(), 'other-user': !isCurrentUser()}">
+  <!-- User avatar only for messages from others -->
+  <div *ngIf="!isCurrentUser()" class="avatar-container">
+    <ion-avatar>
+      <img [src]="getAvatar()" alt="{{ message.senderName }}">
+    </ion-avatar>
+  </div>
+  
+  <div class="message-content">
+    <!-- Sender name only for messages from others -->
+    <div *ngIf="!isCurrentUser()" class="sender-name">
+      {{ message.senderName }}
+    </div>
+    
+    <!-- Text message -->
+    <div *ngIf="message.type === 'text'" class="message-bubble" [ngClass]="{'current-user-bubble': isCurrentUser(), 'other-user-bubble': !isCurrentUser()}">
+      {{ message.content }}
+    </div>
+    
+    <!-- Image message -->
+    <div *ngIf="message.type === 'image'" class="message-bubble image-bubble" [ngClass]="{'current-user-bubble': isCurrentUser(), 'other-user-bubble': !isCurrentUser()}">
+      <img [src]="message.fileUrl" alt="Shared image" class="message-image">
+      <div *ngIf="message.content" class="image-caption">{{ message.content }}</div>
+    </div>
+    
+    <!-- File message -->
+    <div *ngIf="message.type === 'file'" class="message-bubble file-bubble" [ngClass]="{'current-user-bubble': isCurrentUser(), 'other-user-bubble': !isCurrentUser()}">
+      <div class="file-container">
+        <!-- Show preview for image files -->
+        <img *ngIf="isImageFile()" [src]="message.fileUrl" alt="File preview" class="file-preview">
+        
+        <!-- Icon for non-image files -->
+        <ion-icon *ngIf="!isImageFile()" name="document-outline" class="file-icon"></ion-icon>
+        
+        <div class="file-info">
+          <div class="file-name">{{ message.fileName }}</div>
+          <div class="file-size">{{ formatFileSize(message.fileSize) }}</div>
+        </div>
+        
+        <a [href]="message.fileUrl" download="{{ message.fileName }}" target="_blank">
+          <ion-icon name="download-outline"></ion-icon>
+        </a>
+      </div>
+      
+      <div *ngIf="message.content" class="file-caption">{{ message.content }}</div>
+    </div>
+    
+    <div class="message-meta">
+      <div class="message-time">
+        {{ formatTime(message.timestamp) }}
+      </div>
+      
+      <!-- Delete button -->
+      <div *ngIf="canDelete()" class="message-actions">
+        <ion-button fill="clear" size="small" color="danger" (click)="onDelete()">
+          <ion-icon name="trash-outline" slot="icon-only" size="small"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</div>
