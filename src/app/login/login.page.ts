@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } 
 import { Router } from '@angular/router';
 import { IonicModule, LoadingController, AlertController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import * as firebaseApp from 'firebase/app';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +17,7 @@ import { AuthService } from '../services/auth.service';
 export class LoginPage implements OnInit {
   loginForm!: FormGroup;
   isSubmitted = false;
+  logoUrl: string = 'assets/logo/ElderLead_Logo.png'; // Default fallback path
   
   constructor(
     public formBuilder: FormBuilder,
@@ -24,11 +27,34 @@ export class LoginPage implements OnInit {
     private alertController: AlertController
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+    
+    // Load logo from Firebase Storage
+    await this.getLogoFromStorage();
+  }
+
+  async getLogoFromStorage() {
+    try {
+      // Get Firebase Storage instance
+      const storage = getStorage(firebaseApp.getApp());
+      
+      // Create reference to logo in storage
+      const logoRef = ref(storage, 'logos/ElderLead_Logo.png');
+      
+      // Get download URL
+      const url = await getDownloadURL(logoRef);
+      
+      // Update logo URL
+      this.logoUrl = url;
+      console.log('Logo loaded from Firebase Storage:', this.logoUrl);
+    } catch (error) {
+      console.error('Error loading logo from storage:', error);
+      // Keep the default local path as fallback
+    }
   }
 
   get errorControl() {
