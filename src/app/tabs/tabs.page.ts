@@ -1,26 +1,18 @@
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-<<<<<<< HEAD
-import { RouterModule } from '@angular/router';
-import { MenuController } from '@ionic/angular';
-=======
 import { Router, RouterModule } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
->>>>>>> d01a5672c4fa3b4eb521cf85f686634ea7a5ac07
 
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, RouterModule] // Add this line
+  imports: [IonicModule, CommonModule, RouterModule]
 })
 export class TabsPage {
-<<<<<<< HEAD
-  constructor(private menuCtrl: MenuController) {}
-=======
   isAdmin = false;
   constructor(private menuCtrl: MenuController, private authService: AuthService, private router: Router) {
     this.authService.observeAuthState(user => {
@@ -40,7 +32,6 @@ export class TabsPage {
       }
     });
   }
->>>>>>> d01a5672c4fa3b4eb521cf85f686634ea7a5ac07
 
   openMenu() {
     this.menuCtrl.open();

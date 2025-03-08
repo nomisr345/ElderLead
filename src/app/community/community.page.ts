@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -86,7 +85,10 @@ export class CommunityPage implements OnInit {
       // Get all communities
       const communitiesRef = collection(this.db, 'communities');
       const communitiesSnapshot = await getDocs(query(communitiesRef, orderBy('createdAt', 'desc')));
-      const allCommunities = communitiesSnapshot.docs.map(doc => doc.data());
+      const allCommunities = communitiesSnapshot.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id // Include document ID
+      }));
       console.log('Fetched communities:', allCommunities.length);
       
       // If user is logged in, get their memberships
@@ -100,7 +102,7 @@ export class CommunityPage implements OnInit {
         
         // Merge communities with membership data
         this.communities = allCommunities.map(community => {
-          const membership = userMemberships.find(m => m['communityId'] === community['communityId']);
+          const membership = userMemberships.find(m => m['communityId'] === community.id);
           return {
             ...community,
             role: membership ? membership['role'] : null
@@ -197,22 +199,4 @@ export class CommunityPage implements OnInit {
       });
     }
   }
-=======
-import { Component, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
-import { CommonModule } from '@angular/common';
-
-@Component({
-  selector: 'app-community',
-  templateUrl: './community.page.html',
-  styleUrls: ['./community.page.scss'],
-  standalone: true,
-  imports: [IonicModule, CommonModule] // Add this line
-})
-export class CommunityPage implements OnInit {
-  constructor() { }
-
-  ngOnInit() {
-  }
->>>>>>> d01a5672c4fa3b4eb521cf85f686634ea7a5ac07
 }

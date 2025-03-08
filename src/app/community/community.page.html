@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 <ion-header>
   <ion-toolbar>
-    <!-- <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/dashboard"></ion-back-button>
-    </ion-buttons> -->
     <ion-title>Community</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -14,7 +10,6 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   
-  <!-- Search bar -->
   <div class="search-container">
     <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="onSearchInput($event)" placeholder="Search communities"></ion-searchbar>
     
@@ -25,26 +20,20 @@
       <ion-segment-button value="my">
         <ion-label>MY COMMUNITIES</ion-label>
       </ion-segment-button>
-      <!-- <ion-segment-button value="public">
-        <ion-label>PUBLIC</ion-label>
-      </ion-segment-button> -->
-    </ion-segment>
+      </ion-segment>
   </div>
   
-  <!-- Loading indicator -->
   <div *ngIf="isLoading" class="loading-container">
     <ion-spinner name="crescent"></ion-spinner>
     <p>Loading communities...</p>
   </div>
   
-  <!-- Community Groups header -->
   <div class="section-header" *ngIf="!isLoading && filteredCommunities.length > 0">
     <h2>Community Groups</h2>
     <p *ngIf="searchTerm">Search results</p>
     <p *ngIf="!searchTerm">Popular Near Me</p>
   </div>
   
-  <!-- Empty state -->
   <div *ngIf="!isLoading && filteredCommunities.length === 0" class="empty-state">
     <ion-icon name="people-outline"></ion-icon>
     <h3>No communities found</h3>
@@ -58,7 +47,6 @@
     </ion-button>
   </div>
   
-  <!-- Community list in grid layout -->
   <div *ngIf="!isLoading && filteredCommunities.length > 0" class="communities-grid">
     <div *ngFor="let community of filteredCommunities" class="community-card">
       <div class="community-image" [style.backgroundImage]="'url(' + (community.imageUrl || 'assets/green_park.jpg') + ')'"></div>
@@ -72,20 +60,9 @@
     </div>
   </div>
   
-  <!-- Quick action button -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="goToCreateCommunity()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-=======
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Community</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="ion-padding">
-  <!-- Empty content for now -->
->>>>>>> d01a5672c4fa3b4eb521cf85f686634ea7a5ac07
 </ion-content>
