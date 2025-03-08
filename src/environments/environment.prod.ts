@@ -1,4 +1,5 @@
 export const environment = {
+<<<<<<< HEAD
   production: true,
   openaiApiKey: 'your-production-api-key-here', // Replace with your actual OpenAI API key
   apiUrl: 'https://api.openai.com/v1',
@@ -21,3 +22,7 @@ export const environment = {
   debugMode: false,
   logErrors: true
 };
+=======
+  production: true
+};
+>>>>>>> d01a5672c4fa3b4eb521cf85f686634ea7a5ac07

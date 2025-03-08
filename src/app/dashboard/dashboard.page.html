@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <ion-header>
   <ion-toolbar>
     <ion-title>Dashboard</ion-title>
@@ -78,4 +79,82 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+=======
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Dashboard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon slot="icon-only" name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="greeting-container">
+    <div class="user-profile">
+      <div class="profile-image-container">
+        <img *ngIf="user?.photoURL" [src]="user?.photoURL" alt="Profile picture">
+        <ion-icon *ngIf="!user?.photoURL" name="person-circle-outline" class="default-profile-icon"></ion-icon>
+      </div>
+      <div class="greeting-text">
+        <h2>Hello, {{ userName }}!</h2>
+        <p>What do you want to do today?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Debug section (hidden) -->
+  <div style="display: none;">
+    <p>Debug - Raw user data: {{ user | json }}</p>
+    <p>Debug - User name: {{ userName }}</p>
+  </div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-card class="caregiver-card" (click)="goToProfile()">
+          <ion-card-header>
+            <ion-icon name="person-circle-outline"></ion-icon>
+            <ion-card-title>{{ user?.role === 'elderly' ? 'Senior' : 'Caregiver' }} Profile</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>Manage your profile</ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-card class="wellness-card">
+          <ion-card-header>
+            <ion-icon name="leaf-outline"></ion-icon>
+            <ion-card-title>Wellness Tracker</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>View wellness activities</ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-card class="schedule-card">
+          <ion-card-header>
+            <ion-icon name="calendar-outline"></ion-icon>
+            <ion-card-title>Track Schedule</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>Track events, activities & appointments</ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-card class="resource-card">
+          <ion-card-header>
+            <ion-icon name="book-outline"></ion-icon>
+            <ion-card-title>Resource Hub</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>Get more support & information</ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+>>>>>>> d01a5672c4fa3b4eb521cf85f686634ea7a5ac07
 </ion-content>

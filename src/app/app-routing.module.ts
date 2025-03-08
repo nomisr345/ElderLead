@@ -40,44 +40,59 @@ const routes: Routes = [
   },
   {
     path: 'all-activities',
-    loadChildren: () => import('./all-activities/all-activities.module').then( m => m.AllActivitiesPageModule)
+    loadChildren: () => import('./all-activities/all-activities.module').then(m => m.AllActivitiesPageModule)
   },
   {
     path: 'event-details',
-    loadChildren: () => import('./event-details/event-details.module').then( m => m.EventDetailsPageModule)
+    loadChildren: () => import('./event-details/event-details.module').then(m => m.EventDetailsPageModule)
+  },
+    {
+    path: 'edit-activity/:id',
+    loadChildren: () => import('./edit-activity/edit-activity.module').then(m => m.EditActivityPageModule)
+  },
+  {
+    path: 'add-activity',
+    loadChildren: () => import('./add-activity/add-activity.module').then(m => m.AddActivityPageModule)
+  },
+  {
+    path: 'activity-details/:id',
+    loadChildren: () => import('./activity-details/activity-details.module').then(m => m.ActivityDetailsPageModule)
   },
   {
     path: 'activity-confirmation',
-    loadChildren: () => import('./activity-confirmation/activity-confirmation.module').then( m => m.ActivityConfirmationPageModule)
+    loadChildren: () => import('./activity-confirmation/activity-confirmation.module').then(m => m.ActivityConfirmationPageModule)
   },
   {
     path: 'my-activities',
-    loadChildren: () => import('./my-activities/my-activities.module').then( m => m.MyActivitiesPageModule)
+    loadChildren: () => import('./my-activities/my-activities.module').then(m => m.MyActivitiesPageModule)
   },
   {
     path: 'maps',
-    loadChildren: () => import('./maps/maps.module').then( m => m.MapsPageModule)
+    loadChildren: () => import('./maps/maps.module').then(m => m.MapsPageModule)
   },
   {
     path: 'community-setup',
-    loadChildren: () => import('./community-setup/community-setup.module').then( m => m.CommunitySetupPageModule),
+    loadChildren: () => import('./community-setup/community-setup.module').then(m => m.CommunitySetupPageModule),
     ...canActivate(redirectUnauthorizedToLogin)
-    
   },
   {
-  path: 'community-details/:communityId',  // Make sure it has :communityId parameter
-  loadChildren: () => import('./community-details/community-details.module').then(m => m.CommunityDetailsPageModule),
-  ...canActivate(redirectUnauthorizedToLogin)
+    path: 'community-details/:communityId',
+    loadChildren: () => import('./community-details/community-details.module').then(m => m.CommunityDetailsPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
   },
   {
     path: 'community-chat/:communityId',
-    loadChildren: () => import('./community-chat/community-chat.module').then( m => m.CommunityChatPageModule),
+    loadChildren: () => import('./community-chat/community-chat.module').then(m => m.CommunityChatPageModule),
     ...canActivate(redirectUnauthorizedToLogin)
   },
   {
     path: 'community-management',
-    loadChildren: () => import('./community-management/community-management.module').then( m => m.CommunityManagementPageModule),
+    loadChildren: () => import('./community-management/community-management.module').then(m => m.CommunityManagementPageModule),
     ...canActivate(redirectUnauthorizedToLogin)
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminPageModule)
   },
   {
     path: '**',

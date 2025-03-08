@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Admin Activities</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon [routerLink]="['/add-activity']" size="large" name="add-circle-outline"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Search Bar -->
+  <ion-searchbar 
+    [(ngModel)]="searchQuery" 
+    (ionInput)="filterActivity()" 
+    showClearButton="focus" 
+    placeholder="Search activities..."
+  ></ion-searchbar>
+
+  <ion-grid class="activity-table">
+    <!-- Header Row -->
+    <ion-row>
+      <ion-col size="3"><strong>Title</strong></ion-col>
+      <ion-col size="3"><strong>Date</strong></ion-col>
+      <ion-col size="2"><strong>Category</strong></ion-col>
+      <ion-col size="2"><strong>Location</strong></ion-col>
+      <ion-col size="2"><strong>Actions</strong></ion-col>
+    </ion-row>
+
+    <!-- Table Rows -->
+    <ion-row *ngFor="let activity of filteredActivities">
+      <ion-col size="3">{{ activity.title }}</ion-col>
+      <ion-col size="3">{{ activity.date }}</ion-col>
+      <ion-col size="2">{{ activity.category }}</ion-col>
+      <ion-col size="2">{{ activity.location }}</ion-col>
+      <ion-col size="2">
+        <ion-button [routerLink]="['/edit-activity', activity.id]" fill="clear">
+          <ion-icon size="large" name="create" fill="outline" color="primary"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" (click)="deleteActivity(activity)" fill="clear">
+          <ion-icon size="large" name="trash" fill="outline" color="danger"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Export Button -->
+</ion-content>

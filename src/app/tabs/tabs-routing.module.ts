@@ -20,6 +20,13 @@ const routes: Routes = [
         loadChildren: () => import('../community/community.module').then(m => m.CommunityPageModule)
       },
       {
+<<<<<<< HEAD
+=======
+        path: 'admin',
+        loadChildren: () => import('../admin/admin.module').then(m => m.AdminPageModule)
+      },
+      {
+>>>>>>> d01a5672c4fa3b4eb521cf85f686634ea7a5ac07
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full'

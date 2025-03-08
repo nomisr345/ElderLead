@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -196,4 +197,22 @@ export class CommunityPage implements OnInit {
       });
     }
   }
+=======
+import { Component, OnInit } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-community',
+  templateUrl: './community.page.html',
+  styleUrls: ['./community.page.scss'],
+  standalone: true,
+  imports: [IonicModule, CommonModule] // Add this line
+})
+export class CommunityPage implements OnInit {
+  constructor() { }
+
+  ngOnInit() {
+  }
+>>>>>>> d01a5672c4fa3b4eb521cf85f686634ea7a5ac07
 }

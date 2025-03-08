@@ -24,12 +24,21 @@
     "@angular/platform-browser-dynamic": "^19.0.0",
     "@angular/router": "^19.0.0",
     "@capacitor/camera": "^7.0.0",
+<<<<<<< HEAD
     "@capacitor/google-maps": "^7.0.1",
     "@ionic/angular": "^8.4.3",
     "@ionic/pwa-elements": "^3.3.0",
     "firebase": "^11.3.1",
     "ionicons": "^7.0.0",
     "openai": "^4.86.1",
+=======
+    "@capacitor/cli": "^7.0.1",
+    "@capacitor/core": "^7.0.1",
+    "@ionic/angular": "^8.0.0",
+    "@ionic/pwa-elements": "^3.3.0",
+    "firebase": "^11.3.1",
+    "ionicons": "^7.0.0",
+>>>>>>> d01a5672c4fa3b4eb521cf85f686634ea7a5ac07
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

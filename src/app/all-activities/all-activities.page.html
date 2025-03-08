@@ -16,16 +16,18 @@
   </div>
 
   <ion-list>
-    <ion-item *ngFor="let activity of filteredActivities" (click)="goToEventDetails()">
+    <ion-item *ngFor="let activity of filteredActivities" [routerLink]="['/activity-details', activity.id]">
       <ion-thumbnail slot="start">
-        <img [src]="activity.image" [alt]="activity.name">
+        <img [src]="activity.imagePath || 'default-image.jpg'" alt="{{ activity.title }}">
       </ion-thumbnail>
       <ion-label>
-        <p class="date-time">{{ activity.date }}</p>
-        <h2>{{ activity.name }}</h2>
+        <h2>{{ activity.title }}</h2>
+        <p>{{ activity.date | date: 'd MMM • EEEE • h:mm a' }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
+  
+  
 
   <ion-text *ngIf="filteredActivities.length === 0">
     <p style="text-align: center; margin-top: 20px;">No activities found.</p>

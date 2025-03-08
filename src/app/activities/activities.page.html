@@ -13,20 +13,26 @@
     </ion-button>
   </div>
 
-  <!-- Categories -->
+  <!-- Category Filters -->
   <div class="category-buttons">
-    <ion-chip class="exercise">
+    <ion-chip class="exercise" (click)="filterByCategory('Exercise')">
       <ion-icon name="barbell-sharp" style="color: white"></ion-icon>
       <ion-label>Exercise</ion-label>
     </ion-chip>
-    <ion-chip class="social">
+
+    <ion-chip class="social" (click)="filterByCategory('Social')">
       <ion-icon name="people-sharp" style="color: white"></ion-icon>
       <ion-label>Social</ion-label>
     </ion-chip>
-    <ion-chip class="learning">
+
+    <ion-chip class="learning" (click)="filterByCategory('Learning')">
       <ion-icon name="book-sharp" style="color: white"></ion-icon>
       <ion-label>Learning</ion-label>
     </ion-chip>
+
+    <ion-button fill="clear" (click)="clearAllFilters()">
+      <ion-icon name="close-circle" slot="end"></ion-icon> Clear All
+    </ion-button>
   </div>
 
   <div class="events-header">
@@ -36,19 +42,23 @@
     </ion-button>
   </div>
   
-  <!-- Filtered Events Grid -->
   <ion-grid>
     <ion-row>
       <ion-col size="6" *ngFor="let event of filteredEvents">
         <ion-card class="event-card">
-          <ion-badge class="date-badge">{{ event.date }}</ion-badge>
-          <img [src]="event.image" [alt]="event.name">
+          <ion-badge class="date-badge {{ getBadgeClass(event.category) }}">
+            {{ event.date }}
+          </ion-badge>          
+          <img [src]="event.imagePath" [alt]="event.title">
           <ion-card-header>
-            <ion-card-title>{{ event.name }}</ion-card-title>
+            <ion-card-title>{{ event.title }}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-icon name="location"></ion-icon> {{ event.location }}
-          </ion-card-content>
+            <div class="location-container">
+              <ion-icon name="location"></ion-icon>
+              <span>{{ event.location }}</span>
+            </div>
+          </ion-card-content>          
         </ion-card>
       </ion-col>
     </ion-row>

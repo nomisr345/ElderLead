@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Activity</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/tabs/admin-activity']">Cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Add Activity Form -->
+  <form #activityForm="ngForm" (ngSubmit)="add(activityForm)">
+    <!-- Title Field -->
+    <ion-item>
+      <ion-label position="floating">Title</ion-label>
+      <ion-input [(ngModel)]="newActivity.title" name="title" required #title="ngModel"></ion-input>
+    </ion-item>
+    <div *ngIf="title.invalid && title.touched" class="error-message">
+      <p *ngIf="title.errors?.['required']">Title is required.</p>
+    </div>
+
+    <!-- Description Field -->
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-input [(ngModel)]="newActivity.description" name="description" required #description="ngModel"></ion-input>
+    </ion-item>
+    <div *ngIf="description.invalid && description.touched" class="error-message">
+      <p *ngIf="description.errors?.['required']">Description is required.</p>
+    </div>
+
+    <!-- Date Field -->
+    <ion-item>
+      <ion-label position="floating">Date</ion-label>
+      <ion-datetime [(ngModel)]="newActivity.date" name="date" required [min]="today" #date="ngModel"></ion-datetime>
+    </ion-item>
+    <div *ngIf="date.invalid && date.touched" class="error-message">
+      <p *ngIf="date.errors?.['required']">Date is required.</p>
+    </div>
+
+    <!-- Location Field -->
+    <ion-item>
+      <ion-label position="floating">Location</ion-label>
+      <ion-input [(ngModel)]="newActivity.location" name="location" required #location="ngModel"></ion-input>
+    </ion-item>
+    <div *ngIf="location.invalid && location.touched" class="error-message">
+      <p *ngIf="location.errors?.['required']">Location is required.</p>
+    </div>
+
+    <!-- Category Dropdown -->
+    <ion-item>
+      <ion-label>Category</ion-label>
+      <ion-select [(ngModel)]="newActivity.category" name="category" interface="alert" required #category="ngModel">
+        <ion-select-option value="Exercise">Exercise</ion-select-option>
+        <ion-select-option value="Social">Social</ion-select-option>
+        <ion-select-option value="Learning">Learning</ion-select-option>
+        <ion-select-option value="Others">Others</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <div *ngIf="category.invalid && category.touched" class="error-message">
+      <p *ngIf="category.errors?.['required']">Category is required.</p>
+    </div>
+
+    
+    <ion-item>
+      <ion-label>Image</ion-label>
+      <ion-thumbnail *ngIf="newActivity.imagePath" style="width: 90%; height: auto; max-width: 400px; margin-top: 15px;">
+        <img [src]="newActivity.imagePath" alt="Activity Image">
+      </ion-thumbnail>
+      <ion-button expand="block" color="tertiary" (click)="uploadImage()">Upload Image</ion-button>
+    </ion-item> 
+
+    <!-- Submit Button -->
+    <ion-button expand="full" type="submit" [disabled]="!activityForm.form.valid">Add Activity</ion-button>
+  </form>
+</ion-content>

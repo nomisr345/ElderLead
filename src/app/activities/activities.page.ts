@@ -1,39 +1,82 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { ActivityService } from '../services/activity.service';
+import { Activity } from '../services/models/activity';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-activities',
   templateUrl: './activities.page.html',
   styleUrls: ['./activities.page.scss'],
-  standalone: true,
-  imports: [IonicModule, CommonModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  standalone: false,
 })
-export class ActivitiesPage {
-  searchQuery: string = ''; // Store the search input
-  events = [
-    { name: 'Taichi Sessions', location: '93 Toa Payoh Central', date: '18 FEB', image: 'assets/taichi.jpeg' },
-    { name: 'Community Tea Session', location: 'Community Hall', date: '18 FEB', image: 'assets/tea-session.webp' },
-    { name: 'Smartphone Workshop', location: 'Tech Center', date: '19 FEB', image: 'assets/smartphone.jpg' },
-    { name: 'Craft & Chat', location: 'Art Studio', date: '19 FEB', image: 'assets/craft.webp' },
-    { name: 'Evening Exercise', location: 'Park Pavilion', date: '21 FEB', image: 'assets/exercise.png' },
-    { name: 'Karaoke Night', location: 'Community Center', date: '21 FEB', image: 'assets/karaoke.jpeg' },
-    { name: 'Health Talks', location: '5 Bishan Place', date: '21 FEB', image: 'assets/health-talk.jpeg' }
-  ];
-  filteredEvents = [...this.events]; // Copy for filtering
+export class ActivitiesPage implements OnInit {
+  activities: Activity[] = [];  // Stores all activities
+  filteredEvents: Activity[] = []; // Stores filtered activities
 
-  constructor(private router: Router) {}
+  constructor(private activityService: ActivityService, private router: Router) {}
 
-  navigateToAllActivities() {
-    this.router.navigate(['/all-activities']);
+  ngOnInit() {
+    this.loadActivities();
   }
 
+  // Fetch activities from Firebase
+  loadActivities() {
+    this.activityService.getActivities().subscribe((data) => {
+      this.activities = data.map(activity => ({
+        ...activity,
+        date: this.formatDate(activity.date) // Format the date before storing
+      }));
+      this.filteredEvents = [...this.activities]; // Ensure filtered list is updated
+    });
+  }
+
+  // Format Firestore Timestamp to human-readable date format
+  formatDate(date: any): string {
+    if (date?.toDate) {
+      const jsDate = date.toDate(); // Convert Firestore Timestamp to JavaScript Date
+      return jsDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    } else if (typeof date === 'string' || date instanceof Date) {
+      return new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    }
+    return ''; // Return empty string if no valid date
+  }
+
+  // Determine badge class based on category
+  getBadgeClass(category: string): string {
+    switch (category) {
+      case 'Exercise': return 'exercise-badge';
+      case 'Social': return 'social-badge';
+      case 'Learning': return 'learning-badge';
+      default: return 'default-badge';
+    }
+  }
+
+  // Filter events based on the search query
   filterEvents(event: any) {
     const query = event.target.value.toLowerCase();
-    this.filteredEvents = this.events.filter(e =>
-      e.name.toLowerCase().includes(query) || e.location.toLowerCase().includes(query)
+    this.filteredEvents = this.activities.filter((activity) =>
+      activity.title.toLowerCase().includes(query) ||
+      activity.category.toLowerCase().includes(query) ||
+      activity.location.toLowerCase().includes(query)
     );
+  }
+
+  // Filter events by category
+  filterByCategory(category: string) {
+    this.filteredEvents = this.activities.filter((activity) =>
+      activity.category === category
+    );
+  }
+
+  // Clear category filter and show all activities
+  clearAllFilters() {
+    // Clear any active category filters and reset to all activities
+    this.filteredEvents = [...this.activities]; // Reset the filter
+  }
+  
+  
+  // Navigate to all activities page
+  navigateToAllActivities() {
+    this.router.navigate(['/all-activities']);
   }
 }
