@@ -100,7 +100,8 @@ const routes: Routes = [
   },
   {
     path: 'resource-hub',
-    loadChildren: () => import('./resource-hub/resource-hub.module').then( m => m.ResourceHubPageModule)
+    loadChildren: () => import('./resource-hub/resource-hub.module').then( m => m.ResourceHubPageModule),
+    ...canActivate(redirectUnauthorizedToLogin)
   },
   {
     path: '**',
