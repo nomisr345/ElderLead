@@ -15,7 +15,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage'; // Import Ang
 })
 export class EditActivityPage implements OnInit {
   activityId: string = '';
-  activity: Activity = new Activity('', '', '', '', '', '', '');
+  activity: Activity = new Activity('', '', '', '', '', '', '', '', '');
   isUploading = false;
 
   constructor(

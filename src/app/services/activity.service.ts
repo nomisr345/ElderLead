@@ -10,11 +10,15 @@ import {
   updateDoc,
   deleteDoc,
   Timestamp,
+  query,
+  where,
 } from 'firebase/firestore';
+import { collectionData } from '@angular/fire/firestore'; 
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';  // Import Firebase Storage functions
-import { Observable } from 'rxjs';
+import { from, Observable, of, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Activity } from './models/activity';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +28,7 @@ export class ActivityService {
   private activitiesRef;
   private storage;
 
-  constructor() {
+  constructor(private authService: AuthService) {
     const app = initializeApp(environment.firebase);
     this.firestore = getFirestore(app);
     this.activitiesRef = collection(this.firestore, 'Activities');
@@ -190,7 +194,6 @@ uploadImage(file: File): Promise<{ filePath: string; downloadURL: string }> {
       throw new Error('Failed to upload image: ' + error.message);
     });
 }
-
 
   // Convert Firestore Timestamp to JavaScript Date
   private convertToDate(date: Timestamp | string): Date {

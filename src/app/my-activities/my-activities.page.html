@@ -1,72 +1,70 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-icon class="back-button" name="chevron-back-outline" (click)="goBack()"></ion-icon>
+      <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
     </ion-buttons>
-    <ion-title>Activities</ion-title>
+    <ion-title>My Activities</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <!-- Toggle Tabs -->
-  <ion-segment [(ngModel)]="selectedSegment">
-    <ion-segment-button value="upcoming">
-      <ion-label>UPCOMING</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="past">
-      <ion-label>PAST ACTIVITIES</ion-label>
-    </ion-segment-button>
+<ion-content>
+  <ion-segment [(ngModel)]="segment" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="upcoming" checked>Upcoming</ion-segment-button>
+    <ion-segment-button value="past">Past</ion-segment-button>
   </ion-segment>
 
-  <!-- Activity Card -->
-  <div *ngIf="selectedSegment === 'upcoming'">
-    <ion-list>
-      <ion-item button (click)="toggleDetails()">
+  <ion-list>
+    <div *ngFor="let activity of filteredActivities">
+      <!-- Activity Item -->
+      <ion-item>
         <ion-thumbnail slot="start">
-          <img src="assets/taichi.jpeg">
+          <img [src]="activity.imagePath || 'assets/default-image.jpg'" alt="Activity Image">
         </ion-thumbnail>
         <ion-label>
-          <p class="date-time">18TH FEB • TUESDAY • 8:00 AM</p>
-          <h2>Morning Tai Chi Session</h2>
+          <h2>{{ activity.title }}</h2>
+          <p>{{ activity.date | date: 'EEEE, MMM d, yyyy' }} - {{ activity.date | date: 'h:mm a' }}</p>
+          <p>{{ activity.location }}</p>
         </ion-label>
-        <ion-icon slot="end" [name]="detailsVisible ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+      
+        <!-- Toggle Dropdown Button (Only for Upcoming Activities) -->
+        <ion-button *ngIf="isUpcoming(activity)" fill="clear" (click)="toggleDropdown(activity)">
+          <ion-icon [name]="activity.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+        </ion-button>
       </ion-item>
-
-      <!-- Expandable Details -->
-      <div *ngIf="detailsVisible" class="details-container">
-        <div class="action-buttons">
-          <ion-button fill="outline">
-            <ion-icon name="information-circle-outline" class="icon"></ion-icon> SESSION DETAILS
-          </ion-button>
-          <ion-button fill="outline" (click)="goToMaps()">
-            <ion-icon name="location-outline" class="icon" ></ion-icon> GET DIRECTIONS
-          </ion-button>
-          <ion-button fill="outline">
-            <ion-icon name="people-outline" class="icon"></ion-icon> JOIN FRIENDS
-          </ion-button>
-          <ion-button fill="outline">
-            <ion-icon name="chatbubble-outline" class="icon"></ion-icon> VIEW SOCIALS
-          </ion-button>
-        </div>
-
-        <ion-card class="cancel-session">
-          <ion-icon name="close-outline" size="large"></ion-icon>
-          <p><strong>CANCEL MY SESSION</strong></p>
-          <p>Please inform at least 2 hours before if you cannot attend</p>
+  
+      <!-- Dropdown Content (Now Separate & Styled) -->
+      <div *ngIf="activity.expanded && isUpcoming(activity)" class="dropdown-content">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-button fill="outline" expand="block" [routerLink]="['/booked-activities', activity.id]" >Session Details</ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button fill="outline" expand="block">Get Directions</ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <ion-button fill="outline" expand="block">Join Friends</ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button fill="outline" expand="block">View Socials</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+    
+        <ion-card color="danger" (click)="cancelSession(activity)">
+          <ion-card-content>
+            <div class="card-content-wrapper">
+              <ion-icon name="close-circle-outline" style="font-size: 1.5rem; margin-right: 10px;"></ion-icon>
+              <div>
+                <strong>Cancel My Session</strong>
+                <p>Please inform at least 2 hours before if you cannot attend.</p>
+              </div>
+            </div>
+          </ion-card-content>
         </ion-card>
-
-        <div class="friends-joining">
-          <p><strong>FRIENDS JOINING</strong></p>
-          <div class="friends-list">
-            <img src="assets/taichi-instructor.jpg">
-            <img src="assets/aunty.jpg">
-            <span>+2 FRIENDS FROM YOUR FRIEND LIST</span>
-          </div>
-        </div>
       </div>
-    </ion-list>
-  </div>
-
-  <!-- Explore Activities Button -->
-  <ion-button expand="full" class="explore-button">EXPLORE ACTIVITIES</ion-button>
+    </div>
+  </ion-list>
 </ion-content>

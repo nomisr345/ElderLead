@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActivityService } from '../services/activity.service';  // Adjust the path as necessary
+import { BookedActivitiesService } from '../services/booked-activities.service'; // ✅ Use BookedActivitiesService
+import { ActivityService } from '../services/activity.service';
 import { Activity } from '../services/models/activity';
 import { NavController } from '@ionic/angular';
 
@@ -11,21 +12,22 @@ import { NavController } from '@ionic/angular';
   standalone: false,
 })
 export class ActivityDetailsPage implements OnInit {
-  activityId: string = '';  // Initialize as empty string to avoid undefined errors
+  activityId: string = '';  // ✅ Avoid undefined errors
   activity: Activity | null = null;
 
   constructor(
-    private activityService: ActivityService,
+    private activityService: ActivityService,  // Fetch activity details
+    private bookedActivitiesService: BookedActivitiesService,  // ✅ Handle bookings
     private activatedRoute: ActivatedRoute,
     private navCtrl: NavController
   ) {}
 
   ngOnInit() {
-    // Retrieve the activity ID from the URL (assuming the ID is passed via router)
+    // ✅ Get activity ID from URL
     this.activityId = this.activatedRoute.snapshot.paramMap.get('id')!;
     console.log('Activity ID from route: ', this.activityId);
 
-    // Call loadActivity method to load the activity by id
+    // ✅ Load activity details
     this.loadActivity();
   }
 
@@ -49,8 +51,18 @@ export class ActivityDetailsPage implements OnInit {
     this.navCtrl.back();
   }
 
+  // ✅ Book activity using BookedActivitiesService
   bookNow() {
-    this.navCtrl.navigateForward(['/activity-confirmation']);
-  }
+    if (!this.activity) {
+      console.error('No activity available for booking!');
+      return;
+    }
 
+    this.bookedActivitiesService.bookActivity(this.activity).then(() => {
+      console.log('Navigating to confirmation page...');
+      this.navCtrl.navigateForward(['/activity-confirmation']);
+    }).catch(error => {
+      console.error('Booking failed:', error);
+    });
+  }
 }

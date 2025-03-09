@@ -17,8 +17,8 @@
     height: 70px; /* Increase height */
   }
 
-  .icon {
-    padding-right: 10px;
+  ion-icon {
+    font-size: 1.5rem;
   }
   
   ion-thumbnail img {
@@ -88,5 +88,20 @@
     height: 30px;
     border-radius: 50%;
   }
+
+  .card-content-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  
+  .card-content-wrapper ion-icon {
+    margin-right: 10px; /* Space between icon and text */
+  }
+  
+  .card-content-wrapper div {
+    display: flex;
+    flex-direction: column;
+  }
+  
   
   

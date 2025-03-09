@@ -119,4 +119,9 @@ export class DashboardPage implements OnInit, OnDestroy {
     console.log('Navigating to profile setup page');
     this.router.navigate(['/profile-setup']);
   }
+
+  goToResources() {
+    console.log('Navigating to resource hub page');
+    this.router.navigate(['/resource-hub']);
+  }
 }

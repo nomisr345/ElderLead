@@ -79,4 +79,8 @@ export class ActivitiesPage implements OnInit {
   navigateToAllActivities() {
     this.router.navigate(['/all-activities']);
   }
+  
+  goToActivityDetails(activityId: string) {
+    this.router.navigate(['/activity-details', activityId]);  // Navigates to the activity details page with the ID
+  }
 }

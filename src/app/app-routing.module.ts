@@ -66,13 +66,25 @@ const routes: Routes = [
     loadChildren: () => import('./add-activity/add-activity.module').then( m => m.AddActivityPageModule)
   },
   {
+    path: 'booked-activities/:id',
+    loadChildren: () => import('./booked-activities/booked-activities.module').then( m => m.BookedActivitiesPageModule)
+  },
+  {
     path: 'activity-details/:id',
     loadChildren: () => import('./activity-details/activity-details.module').then( m => m.ActivityDetailsPageModule)
+  },
+  {
+    path: 'resource-hub',
+    loadChildren: () => import('./resource-hub/resource-hub.module').then( m => m.ResourceHubPageModule)
   },
   {
     path: '**',
     redirectTo: 'login'
   },
+  
+
+  
+
   
 
   

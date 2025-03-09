@@ -1,0 +1,79 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
+    </ion-buttons>
+    <ion-title>Event Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-searchbar placeholder="Search..."></ion-searchbar>
+
+
+<ion-content>
+  <div class="category-buttons" style="margin-top: 10px">
+    <ion-chip class="exercise" >
+      <ion-icon name="school-sharp" style="color: white"></ion-icon>
+      <ion-label>Schemes</ion-label>
+    </ion-chip>
+
+    <ion-chip class="social" >
+      <ion-icon name="book-sharp" style="color: white"></ion-icon>
+      <ion-label>Feed</ion-label>
+    </ion-chip>
+
+    <ion-chip class="learning" >
+      <ion-icon name="people-sharp" style="color: white"></ion-icon>
+      <ion-label>Services</ion-label>
+    </ion-chip>
+
+  </div>
+
+  <div class="section-header" style="margin-top: 20px">Latest Schemes</div>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-card>
+          <img src="assets/scheme1.png" />
+          <ion-card-content>
+            <h3>2024 Public Transport Voucher Exercise</h3>
+            <ion-button expand="full">Learn More</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card>
+          <img src="assets/scheme2.png" />
+          <ion-card-content>
+            <h3>Seniors’ Mobility Enabling Fund</h3>
+            <ion-button expand="full">Learn More</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="section-header">Feed</div>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-card>
+          <img src="assets/feed1.png" />
+          <ion-card-content>
+            <p>Community Event Highlights</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card>
+          <img src="assets/feed2.png" />
+          <ion-card-content>
+            <p>New Government Initiatives</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+```
