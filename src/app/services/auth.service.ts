@@ -59,6 +59,7 @@ export class AuthService {
     return this.afAuth.authState;
   }
 
+  // Observable Auth State - this is the new method from the second version
   observeAuthState(func: firebase.Observer<any, Error> | ((a: firebase.User | null) => any)) {
     return firebase.auth().onAuthStateChanged(func);
   }

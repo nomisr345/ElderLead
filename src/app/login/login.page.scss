@@ -10,24 +10,29 @@
 
 .logo-container {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px; /* Reduced from 40px */
   
   .logo {
-    max-width: 200px;
-    max-height: 100px;
-    margin-bottom: 16px;
+    width: 250px; /* Increased from max-width: 200px */
+    height: auto; /* Keep aspect ratio */
+    margin-bottom: 8px; /* Reduced from 20px to bring text closer */
     object-fit: contain;
+    margin-left: auto;
+    margin-right: auto;
+    display: block; /* Ensures the logo is properly centered */
   }
   
   h3 {
     color: var(--ion-color-medium);
     font-weight: 400;
     margin: 0;
+    font-size: 16px; /* Added explicit font size */
   }
 }
 
 .form-container {
   margin-bottom: 24px;
+  margin-top: 20px; /* Added to create some space between tagline and form */
 }
 
 .error-message {
@@ -76,5 +81,18 @@
     color: var(--ion-color-primary);
     font-weight: 500;
     cursor: pointer;
+  }
+}
+
+/* Media queries for responsive logo size */
+@media (min-width: 400px) {
+  .logo-container .logo {
+    width: 280px; /* Larger on bigger screens */
+  }
+}
+
+@media (min-width: 768px) {
+  .logo-container .logo {
+    width: 320px; /* Even larger on tablets and above */
   }
 }

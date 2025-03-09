@@ -10,6 +10,10 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
   <div class="greeting-container">
     <div class="user-profile">
       <div class="profile-image-container">
@@ -23,7 +27,6 @@
     </div>
   </div>
 
-  <!-- Debug section (hidden) -->
   <div style="display: none;">
     <p>Debug - Raw user data: {{ user | json }}</p>
     <p>Debug - User name: {{ userName }}</p>

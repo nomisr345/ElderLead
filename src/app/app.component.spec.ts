@@ -4,7 +4,10 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
+<<<<<<< HEAD
+=======
 
+>>>>>>> d01a5672c4fa3b4eb521cf85f686634ea7a5ac07
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent],
@@ -17,5 +20,9 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
+<<<<<<< HEAD
+});
+=======
 
 });
+>>>>>>> d01a5672c4fa3b4eb521cf85f686634ea7a5ac07

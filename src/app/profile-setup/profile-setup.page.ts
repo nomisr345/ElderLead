@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, IonicModule, LoadingController, ActionSheetController } from '@ionic/angular';
+import { AlertController, IonicModule, LoadingController, ActionSheetController, RefresherEventDetail } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 import * as firebaseApp from 'firebase/app';
@@ -58,6 +58,7 @@ export class ProfileSetupPage implements OnInit, OnDestroy {
     private alertController: AlertController,
     private actionSheetController: ActionSheetController
   ) {}
+  
   async ngOnInit() {
     console.log('Profile setup component initialized');
     
@@ -268,22 +269,63 @@ export class ProfileSetupPage implements OnInit, OnDestroy {
   }
 
   goBack() {
-    if (this.step === 2) {
-      this.step = 1;
-      this.role = '';
-    } else {
-      this.router.navigateByUrl('/tabs/dashboard');
-    }
+    // Always redirect to dashboard when back button is clicked
+    this.router.navigateByUrl('/tabs/dashboard');
   }
 
-  // Simple method to open file browser for profile image
+  // Pull to refresh implementation
+  refresh(event: CustomEvent<RefresherEventDetail>) {
+    setTimeout(async () => {
+      if (this.userId) {
+        try {
+          // Get user document from Firestore using modular API
+          const db = getFirestore(firebaseApp.getApp());
+          const userDocRef = doc(db, 'users', this.userId);
+          const docSnap = await getDoc(userDocRef);
+          
+          if (docSnap.exists()) {
+            this.user = docSnap.data();
+            
+            // Set profile image if available
+            if (this.user['photoURL']) {
+              this.profileImage = this.user['photoURL'];
+            }
+            
+            // Reset form with fresh data
+            if (this.role === 'elderly') {
+              this.profileForm.patchValue({
+                mobilityStatus: this.user['mobilityStatus'] || '',
+                activityPreferences: this.user['activityPreferences'] || '',
+                healthConsiderations: this.user['healthConsiderations'] || '',
+                preferredCommunication: this.user['preferredCommunication'] || '',
+                location: this.user['location'] || ''
+              });
+            } else if (this.role === 'caregiver') {
+              this.profileForm.patchValue({
+                relationship: this.user['relationship'] || '',
+                experience: this.user['experience'] || '',
+                expertise: this.user['expertise'] || '',
+                availability: this.user['availability'] || '',
+                certifications: this.user['certifications'] || '',
+                serviceRadius: this.user['serviceRadius'] || ''
+              });
+            }
+          }
+        } catch (error) {
+          console.error('Error refreshing user data:', error);
+        }
+      }
+      event.detail.complete();
+    }, 1000);
+  }
+
+  // Profile image methods
   openFileBrowser() {
     if (this.fileInput) {
       this.fileInput.nativeElement.click();
     }
   }
 
-  // Profile image methods
   async selectImageSource() {
     const actionSheet = await this.actionSheetController.create({
       header: 'Select Image Source',

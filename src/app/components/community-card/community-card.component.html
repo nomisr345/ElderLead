@@ -1,0 +1,42 @@
+<div class="community-card" (click)="onViewDetails()">
+  <ion-card>
+    <img [src]="getImageUrl()" alt="{{ community.name }}" class="community-image" />
+    
+    <ion-card-header>
+      <ion-card-title>{{ community.name }}</ion-card-title>
+      <ion-card-subtitle>
+        <ion-icon name="people-outline"></ion-icon> {{ community.memberCount }} members
+      </ion-card-subtitle>
+    </ion-card-header>
+    
+    <ion-card-content>
+      <p>{{ truncateDescription(community.description) }}</p>
+      
+      <div class="card-footer">
+        <ion-text color="medium">
+          <small>Created {{ formatDate(community.createdAt) }}</small>
+        </ion-text>
+        
+        <div class="card-actions">
+          <!-- Show join button if not a member -->
+          <ion-button *ngIf="!userRole" fill="outline" size="small" color="primary" (click)="onJoin($event)">
+            Join
+          </ion-button>
+          
+          <!-- Show relevant actions if already a member -->
+          <ion-button *ngIf="userRole" fill="outline" size="small" routerLink="/community-chat/{{ community.communityId }}">
+            Chat
+          </ion-button>
+          
+          <ion-button *ngIf="userRole && userRole !== 'owner'" fill="outline" size="small" color="danger" (click)="onLeave($event)">
+            Leave
+          </ion-button>
+          
+          <ion-button *ngIf="userRole === 'owner' || userRole === 'admin'" fill="outline" size="small" color="tertiary" routerLink="/community-management/{{ community.communityId }}">
+            Manage
+          </ion-button>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</div>

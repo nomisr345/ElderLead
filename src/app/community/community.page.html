@@ -5,5 +5,64 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Empty content for now -->
+
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  <div class="search-container">
+    <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="onSearchInput($event)" placeholder="Search communities"></ion-searchbar>
+    
+    <ion-segment [(ngModel)]="filterOption" (ionChange)="onFilterChange()">
+      <ion-segment-button value="all">
+        <ion-label>ALL</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="my">
+        <ion-label>MY COMMUNITIES</ion-label>
+      </ion-segment-button>
+      </ion-segment>
+  </div>
+  
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading communities...</p>
+  </div>
+  
+  <div class="section-header" *ngIf="!isLoading && filteredCommunities.length > 0">
+    <h2>Community Groups</h2>
+    <p *ngIf="searchTerm">Search results</p>
+    <p *ngIf="!searchTerm">Popular Near Me</p>
+  </div>
+  
+  <div *ngIf="!isLoading && filteredCommunities.length === 0" class="empty-state">
+    <ion-icon name="people-outline"></ion-icon>
+    <h3>No communities found</h3>
+    <p *ngIf="searchTerm">Try a different search term or filter</p>
+    <p *ngIf="!searchTerm && filterOption === 'my'">You haven't joined any communities yet</p>
+    <p *ngIf="!searchTerm && filterOption === 'public'">No public communities available</p>
+    <p *ngIf="!searchTerm && filterOption === 'all'">No communities exist yet</p>
+    
+    <ion-button (click)="goToCreateCommunity()" expand="block" class="create-button">
+      CREATE A COMMUNITY
+    </ion-button>
+  </div>
+  
+  <div *ngIf="!isLoading && filteredCommunities.length > 0" class="communities-grid">
+    <div *ngFor="let community of filteredCommunities" class="community-card">
+      <div class="community-image" [style.backgroundImage]="'url(' + (community.imageUrl || 'assets/green_park.jpg') + ')'"></div>
+      <div class="community-content">
+        <h3>{{ community.communityName || community.name }}</h3>
+        <p>{{ community.short_description }}</p>
+        <ion-button fill="outline" size="small" (click)="viewCommunityDetails(community.communityId)">
+          View More
+        </ion-button>
+      </div>
+    </div>
+  </div>
+  
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="goToCreateCommunity()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

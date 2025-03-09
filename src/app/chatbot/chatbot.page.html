@@ -1,0 +1,94 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>ElderLead Companion</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  <!-- Mode Selection Screen -->
+  <div class="mode-selector" *ngIf="!activeMode">
+    <ion-card (click)="selectMode('chat')" class="mode-card">
+      <ion-card-header>
+        <ion-card-title>Chat Mode</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Let's chat! I can help with questions about activities, weather, or just have a friendly conversation.
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card (click)="selectMode('story')" class="mode-card">
+      <ion-card-header>
+        <ion-card-title>Story Mode</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Share your memories with me and I'll help create a story with pictures!
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Chat/Story Interface -->
+  <div class="chat-container" *ngIf="activeMode">
+    <ion-button fill="clear" (click)="resetMode()" class="back-button">
+      <ion-icon name="arrow-back"></ion-icon>
+      Back to Menu
+    </ion-button>
+
+    <!-- Suggested Prompts -->
+    <div class="suggested-prompts">
+      <ion-chip 
+        *ngFor="let prompt of getPrompts()" 
+        (click)="sendSuggestedPrompt(prompt)"
+        color="primary"
+        outline>
+        <ion-label>{{prompt.label}}</ion-label>
+      </ion-chip>
+    </div>
+
+    <!-- Messages -->
+    <div *ngFor="let message of messages" 
+         [ngClass]="{'user-message': message.sender === 'user', 'bot-message': message.sender === 'bot'}" 
+         class="message">
+      <div *ngIf="message.type === 'text'" class="message-content">{{ message.content }}</div>
+      <img *ngIf="message.type === 'image'" [src]="message.imageUrl" 
+           alt="Generated image" class="generated-image"
+           loading="lazy">
+      <div class="message-time" *ngIf="message.timestamp">
+        {{ message.timestamp | date:'shortTime' }}
+      </div>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-indicator">
+      <ion-spinner></ion-spinner>
+      <p>Processing your request...</p>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer *ngIf="activeMode">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="startVoiceInput()" [disabled]="isLoading">
+        <ion-icon name="mic"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-item>
+      <ion-input [(ngModel)]="userInput" 
+                 [placeholder]="activeMode === 'chat' ? 'Type your message...' : 'Share a memory...'"
+                 (keyup.enter)="sendMessage()"
+                 [disabled]="isLoading">
+      </ion-input>
+    </ion-item>
+    <ion-buttons slot="end">
+      <ion-button (click)="sendMessage()" [disabled]="isLoading || !userInput.trim()">
+        <ion-icon name="send"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

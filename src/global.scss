@@ -1,4 +1,14 @@
-/* Add these to your global.scss file */
+/* Fix for aria-hidden accessibility issue with ion-loading */
+.custom-loading-class {
+  &.overlay-hidden {
+    display: none !important; /* Instead of aria-hidden */
+  }
+  
+  .loading-wrapper {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
 
 // Theme classes
 .light-theme {

@@ -1,0 +1,163 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/community"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Create Community</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form [formGroup]="communityForm" (ngSubmit)="onSubmit()">
+    <!-- Stepper Navigation -->
+    <div class="stepper-container">
+      <div class="stepper-progress" [style.width]="currentStep / 3 * 100 + '%'"></div>
+      <div class="stepper-dots">
+        <div class="stepper-dot" [class.active]="currentStep >= 1" (click)="goToStep(1)">1</div>
+        <div class="stepper-dot" [class.active]="currentStep >= 2" (click)="goToStep(2)">2</div>
+        <div class="stepper-dot" [class.active]="currentStep >= 3" (click)="goToStep(3)">3</div>
+      </div>
+      <div class="stepper-labels">
+        <div class="stepper-label" [class.active]="currentStep === 1">Basics</div>
+        <div class="stepper-label" [class.active]="currentStep === 2">Details</div>
+        <div class="stepper-label" [class.active]="currentStep === 3">Finish</div>
+      </div>
+    </div>
+
+    <!-- Step 1: Community Name and Image -->
+    <div class="step-content" *ngIf="currentStep === 1">
+      <h2 class="section-title">Let's start with the basics</h2>
+      
+      <!-- Community Name -->
+      <ion-item class="form-item">
+        <ion-label position="floating">Community Name <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input formControlName="communityName" placeholder="Enter a name for your community"></ion-input>
+        <ion-note slot="error" *ngIf="hasError('communityName', 'required')">
+          Community name is required
+        </ion-note>
+        <ion-note slot="error" *ngIf="hasError('communityName', 'maxlength')">
+          Community name must be less than 50 characters
+        </ion-note>
+      </ion-item>
+
+      <!-- Community Image -->
+      <h4 class="subsection-title">Add a community image</h4>
+      <div class="image-upload-container">
+        <div class="image-preview" *ngIf="imagePreview" [style.backgroundImage]="'url(' + imagePreview + ')'">
+          <div class="image-overlay">
+            <ion-button class="remove-image-btn" fill="clear" color="light" (click)="removeImage()">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+        
+        <div class="upload-placeholder" *ngIf="!imagePreview" (click)="fileInput.click()">
+          <ion-icon name="image-outline"></ion-icon>
+          <p>Add Community Image</p>
+          <small>Tap to select an image</small>
+        </div>
+        
+        <input type="file" #fileInput hidden accept="image/*" (change)="onImageSelected($event)">
+        <ion-button *ngIf="!imagePreview" expand="block" fill="outline" type="button" (click)="fileInput.click()">
+          Upload Image
+        </ion-button>
+        <ion-button *ngIf="imagePreview" expand="block" fill="outline" type="button" (click)="fileInput.click()">
+          Change Image
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Step 2: Descriptions -->
+    <div class="step-content" *ngIf="currentStep === 2">
+      <h2 class="section-title">Tell others about your community</h2>
+      
+      <!-- Short Description -->
+      <ion-item class="form-item">
+        <ion-label position="floating">Short Description <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input formControlName="short_description" placeholder="Brief description (shown in listings)"></ion-input>
+        <ion-note slot="helper">This will appear in community listings</ion-note>
+        <ion-note slot="error" *ngIf="hasError('short_description', 'required')">
+          Short description is required
+        </ion-note>
+        <ion-note slot="error" *ngIf="hasError('short_description', 'maxlength')">
+          Short description must be less than 100 characters
+        </ion-note>
+      </ion-item>
+
+      <!-- Long Description -->
+      <ion-item class="form-item">
+        <ion-label position="floating">Long Description <ion-text color="danger">*</ion-text></ion-label>
+        <ion-textarea 
+          formControlName="long_description" 
+          placeholder="Detailed description of the community" 
+          [rows]="4"
+          [autoGrow]="true"
+        ></ion-textarea>
+        <ion-note slot="helper">
+          Provide details about the purpose, activities, and any other important information about your community
+        </ion-note>
+        <ion-note slot="error" *ngIf="hasError('long_description', 'required')">
+          Long description is required
+        </ion-note>
+        <ion-note slot="error" *ngIf="hasError('long_description', 'maxlength')">
+          Long description must be less than 500 characters
+        </ion-note>
+      </ion-item>
+    </div>
+
+    <!-- Step 3: Privacy and Finalize -->
+    <div class="step-content" *ngIf="currentStep === 3">
+      <h2 class="section-title">Almost done!</h2>
+      
+      <!-- Community Preview Card -->
+      <div class="preview-card">
+        <div class="preview-header">Community Preview</div>
+        <div class="preview-image" [style.backgroundImage]="'url(' + (imagePreview || 'assets/green_park.jpg') + ')'"></div>
+        <div class="preview-content">
+          <h3>{{ communityForm.get('communityName')?.value || 'Community Name' }}</h3>
+          <p>{{ communityForm.get('short_description')?.value || 'Short description will appear here' }}</p>
+        </div>
+      </div>
+
+      <!-- Privacy Setting -->
+      <ion-item class="form-item privacy-item">
+        <ion-label>
+          <h2>Community Privacy</h2>
+          <p>{{ communityForm.get('isPublic')?.value ? 'Public - Anyone can join' : 'Private - Invitation only' }}</p>
+        </ion-label>
+        <ion-toggle formControlName="isPublic" slot="end"></ion-toggle>
+      </ion-item>
+      
+      <div class="privacy-info">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <p>
+          {{ communityForm.get('isPublic')?.value 
+            ? 'Public communities will be visible to all ElderLead users and anyone can request to join.'
+            : 'Private communities are only visible to members. You\'ll need to invite others to join.' }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="button-container">
+      <ion-button *ngIf="currentStep > 1" fill="outline" type="button" (click)="previousStep()">
+        <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+        Back
+      </ion-button>
+      
+      <ion-button *ngIf="currentStep < 3" expand="block" type="button" (click)="nextStep()">
+        Next
+        <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+      </ion-button>
+      
+      <ion-button *ngIf="currentStep === 3" expand="block" type="submit" [disabled]="isSubmitting || !communityForm.valid">
+        <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+        Create Community
+      </ion-button>
+      
+      <ion-button *ngIf="currentStep === 3" expand="block" fill="outline" type="button" (click)="cancel()">
+        Cancel
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

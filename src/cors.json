@@ -1,0 +1,11 @@
+[
+  {
+    "origin": ["http://localhost:8100", 
+               "http://localhost:8101",
+               "http://localhost:4200", 
+               "https://your-app-domain.com"],
+    "method": ["GET", "POST", "PUT", "DELETE", "HEAD"],
+    "maxAgeSeconds": 3600,
+    "responseHeader": ["Content-Type", "x-goog-meta-firebaseStorageDownloadTokens", "Content-Disposition"]
+  }
+]

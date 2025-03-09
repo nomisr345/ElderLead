@@ -1,0 +1,81 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/community"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Loading indicator -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading community details...</p>
+  </div>
+  
+  <!-- Community not found -->
+  <div *ngIf="!isLoading && !community" class="error-container">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <h3>Community not found</h3>
+    <p>The community you're looking for doesn't exist or has been deleted.</p>
+    <ion-button routerLink="/community" expand="block">
+      Back to Communities
+    </ion-button>
+  </div>
+  
+  <!-- Community details -->
+  <div *ngIf="!isLoading && community" class="community-container">
+    <!-- Community header with image -->
+    <div class="community-header">
+      <img [src]="community.imageUrl || 'assets/green_park.jpg'" alt="{{ community.communityName || community.name }}">
+    </div>
+    
+    <!-- Community title and short description -->
+    <div class="community-title-section">
+      <h1>{{ community.communityName || community.name }}</h1>
+      <p class="short-description">{{ community.short_description }}</p>
+    </div>
+    
+    <!-- Group Description -->
+    <div class="description-section">
+      <h2>Group Description</h2>
+      <p>{{ community.long_description }}</p>
+    </div>
+    
+    <!-- People in the group -->
+    <div class="members-section">
+      <h2>People in the group</h2>
+      <div class="members-count">
+        <ion-icon name="people"></ion-icon>
+        <span>{{ community.memberCount }} {{ community.memberCount === 1 ? 'Person' : 'People' }}</span>
+      </div>
+    </div>
+    
+    <!-- Join button if not a member -->
+    <div *ngIf="!isCurrentUserMember" class="join-button-container">
+      <ion-button expand="block" color="primary" (click)="joinCommunity()">
+        Join Group
+      </ion-button>
+    </div>
+    
+    <!-- Chat button if is a member -->
+    <div *ngIf="isCurrentUserMember" class="chat-button-container">
+      <ion-button expand="block" color="primary" (click)="goToChat()">
+        Open Chat
+      </ion-button>
+      
+      <ion-button *ngIf="isOwner || isAdmin" expand="block" color="tertiary" (click)="goToManagement()">
+        Manage Community
+      </ion-button>
+      
+      <ion-button *ngIf="!isOwner" expand="block" color="medium" fill="outline" (click)="leaveCommunity()">
+        Leave Community
+      </ion-button>
+      
+      <ion-button *ngIf="isOwner" expand="block" color="danger" fill="outline" (click)="deleteCommunity()">
+        Delete Community
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

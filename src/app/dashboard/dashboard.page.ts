@@ -27,28 +27,28 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   async ngOnInit() {
     console.log("Dashboard component initialized");
-    
+
     // Subscribe to auth state for logout detection
     this.authSubscription = this.authService.getAuthState().subscribe(async (user) => {
       console.log("Auth state in dashboard:", user ? `User: ${user.uid}` : 'No user');
-      
+
       if (user) {
         try {
           // Get user document from Firestore using modular API
           const db = getFirestore(firebaseApp.getApp());
           const userDocRef = doc(db, 'users', user.uid);
           const docSnap = await getDoc(userDocRef);
-          
+
           if (docSnap.exists()) {
             // Get user data from document
             this.user = docSnap.data();
             console.log("User data from Firestore:", this.user);
-            
+
             // Extract user name
             if (this.user) {
               this.userName = this.getFirstName(this.user.displayName || this.user.name || 'User');
               console.log("Set user name to:", this.userName);
-              
+
               // Check if profile needs completion
               if (this.user.profileCompleted === false) {
                 this.showProfileCompletionAlert();
@@ -72,7 +72,7 @@ export class DashboardPage implements OnInit, OnDestroy {
   // Helper function to extract first name from full name
   private getFirstName(fullName: string): string {
     if (!fullName || typeof fullName !== 'string') return 'User';
-    
+
     // Split the name and return first part
     const nameParts = fullName.split(' ');
     return nameParts[0] || 'User';
@@ -118,10 +118,5 @@ export class DashboardPage implements OnInit, OnDestroy {
   goToProfile() {
     console.log('Navigating to profile setup page');
     this.router.navigate(['/profile-setup']);
-  }
-
-  goToResources() {
-    console.log('Navigating to resource hub page');
-    this.router.navigate(['/resource-hub']);
   }
 }

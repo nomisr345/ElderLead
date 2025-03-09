@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, RouterModule] // Add this line
+  imports: [IonicModule, CommonModule, RouterModule]
 })
 export class TabsPage {
   isAdmin = false;
