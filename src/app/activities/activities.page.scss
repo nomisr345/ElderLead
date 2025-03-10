@@ -142,8 +142,8 @@ ion-content {
       margin-right: 5px;
     }
     
-    .event-card {
-      height: 250px;  /* Adjust this value as needed */
+  .event-card {
+    height: 250px;  /* Adjust this value as needed */
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Ensure content is spaced evenly */
@@ -223,10 +223,33 @@ ion-content {
   .location-container ion-icon {
     margin-right: 8px;  /* Space between the icon and text */
   }
+
+  ion-card img {
+    width: 100%;
+    width: 300px;
+    height: auto;
+    object-fit: cover; /* Ensures images scale properly */
+  }
+  
+  
+  ion-card-title {
+    white-space: nowrap;   /* Prevents text from wrapping */
+    overflow: hidden;      /* Hides overflow */
+    text-overflow: ellipsis; /* Adds "..." if text is too long */
+    display: block;        /* Ensures it works properly */
+    width: 100%;           /* Ensures it doesn't overflow */
+  }
   
   .location-container span {
-    font-size: 14px;  /* Adjust font size if needed */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 80%; /* Adjust based on layout */
   }
+  
+
+
 
 /* Ensure the close-circle icon is visible and styled correctly */
 ion-chip ion-icon[name="close-circle"] {

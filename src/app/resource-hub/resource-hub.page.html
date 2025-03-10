@@ -1,79 +1,85 @@
-
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-icon name="chevron-back-outline" (click)="goBack()"></ion-icon>
+      <ion-back-button (click)="goBack()"></ion-back-button>
     </ion-buttons>
-    <ion-title>Event Details</ion-title>
+    <ion-title>Resource Hub</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-searchbar placeholder="Search..."></ion-searchbar>
 
-
 <ion-content>
+
+  <!-- Category Buttons -->
   <div class="category-buttons" style="margin-top: 10px">
-    <ion-chip class="exercise" >
+    <ion-chip class="exercise" (click)="scrollToSection('schemes')">
       <ion-icon name="school-sharp" style="color: white"></ion-icon>
       <ion-label>Schemes</ion-label>
     </ion-chip>
 
-    <ion-chip class="social" >
+    <ion-chip class="social" (click)="scrollToSection('feed')">
       <ion-icon name="book-sharp" style="color: white"></ion-icon>
       <ion-label>Feed</ion-label>
     </ion-chip>
 
-    <ion-chip class="learning" >
+    <ion-chip class="learning" (click)="scrollToSection('support-services')">
       <ion-icon name="people-sharp" style="color: white"></ion-icon>
       <ion-label>Services</ion-label>
     </ion-chip>
-
   </div>
 
-  <div class="section-header" style="margin-top: 20px">Latest Schemes</div>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6">
-        <ion-card>
-          <img src="assets/scheme1.png" />
-          <ion-card-content>
-            <h3>2024 Public Transport Voucher Exercise</h3>
-            <ion-button expand="full">Learn More</ion-button>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col size="6">
-        <ion-card>
-          <img src="assets/scheme2.png" />
-          <ion-card-content>
-            <h3>Seniors’ Mobility Enabling Fund</h3>
-            <ion-button expand="full">Learn More</ion-button>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <!-- Latest Schemes Section -->
+  <div id="schemes" class="section-header default-heading" style="margin-top: 20px;">Latest Schemes</div>
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" *ngFor="let scheme of schemes">
+        <div class="entry-card">
+          <img [src]="scheme.imagePath" *ngIf="scheme.imagePath" alt="Scheme Image"/>
+          <div class="entry-details">
+            <p class="entry-date">{{ scheme.title }}</p>
+            <ion-button style="padding-top: 20px;" expand="full" [routerLink]="['/scheme-details', scheme.id]">Learn More</ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
 
-  <div class="section-header">Feed</div>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6">
-        <ion-card>
-          <img src="assets/feed1.png" />
-          <ion-card-content>
-            <p>Community Event Highlights</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col size="6">
-        <ion-card>
-          <img src="assets/feed2.png" />
-          <ion-card-content>
-            <p>New Government Initiatives</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <!-- Feed Section -->
+  <div id="feed" class="section-header default-heading" style="margin-top: 20px;">Feed</div>
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" *ngFor="let article of newsArticles">
+        <div class="entry-card">
+          <img [src]="article.urlToImage || 'assets/default-image.jpg'" alt="Feed Image"/>
+          <div class="entry-details">
+            <p class="entry-date">{{ article.title }}</p>
+            <a [href]="article.url" target="_blank">
+              <ion-button expand="full">Read More</ion-button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <!-- Support Services Section -->
+  <div id="support-services" class="section-header default-heading" style="margin-top: 20px;">Support Services</div>
+  <ion-list>
+    <ion-item *ngFor="let service of supportServices" class="support-item">
+      <ion-thumbnail slot="start">
+        <img [src]="service.logo" alt="{{ service.name }} Logo">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ service.name }}</h2>
+        <p>{{ service.description }} | {{ service.phone }}</p>
+      </ion-label>
+      <ion-button fill="clear" size="small" [href]="service.link" target="_blank">
+        <ion-icon name="open-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
 </ion-content>
-```

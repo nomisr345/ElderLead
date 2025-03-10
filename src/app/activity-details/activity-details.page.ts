@@ -14,6 +14,7 @@ import { NavController } from '@ionic/angular';
 export class ActivityDetailsPage implements OnInit {
   activityId: string = '';  // ✅ Avoid undefined errors
   activity: Activity | null = null;
+  isBooked: boolean = false;
 
   constructor(
     private activityService: ActivityService,  // Fetch activity details
@@ -51,15 +52,13 @@ export class ActivityDetailsPage implements OnInit {
     this.navCtrl.back();
   }
 
-  // ✅ Book activity using BookedActivitiesService
+ 
+
   bookNow() {
-    if (!this.activity) {
-      console.error('No activity available for booking!');
-      return;
-    }
+    if (!this.activity || this.isBooked) return; // Prevent booking again
 
     this.bookedActivitiesService.bookActivity(this.activity).then(() => {
-      console.log('Navigating to confirmation page...');
+      this.isBooked = true; // ✅ Update button text dynamically
       this.navCtrl.navigateForward(['/activity-confirmation']);
     }).catch(error => {
       console.error('Booking failed:', error);

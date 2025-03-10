@@ -119,4 +119,51 @@ export class DashboardPage implements OnInit, OnDestroy {
     console.log('Navigating to profile setup page');
     this.router.navigate(['/profile-setup']);
   }
+
+  
+  goToResources() {
+    console.log('Navigating to resource hub page');
+    this.router.navigate(['/resource-hub']);
+  }
+
+  async refresh(event: any) {
+    console.log("Begin refresh operation");
+    
+
+    try {
+      // Get current user
+      const user = await this.authService.getCurrentUser();
+      
+
+      if (user) {
+        // Get user document from Firestore using modular API
+        const db = getFirestore(firebaseApp.getApp());
+        const userDocRef = doc(db, 'users', user.uid);
+        const docSnap = await getDoc(userDocRef);
+        
+
+        if (docSnap.exists()) {
+          // Update user data
+          this.user = docSnap.data();
+          this.userName = this.getFirstName(this.user.displayName || this.user.name || 'User');
+          
+
+          // Check profile completion
+          if (this.user.profileCompleted === false) {
+            this.showProfileCompletionAlert();
+          }
+        }
+      }
+      
+
+      // Complete the refresh
+      event.target.complete();
+      console.log("Refresh completed successfully");
+      
+
+    } catch (error) {
+      console.error("Error during refresh:", error);
+      event.target.complete();
+    }
+  }
 }

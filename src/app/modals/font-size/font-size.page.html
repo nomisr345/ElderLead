@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Adjust Font Size</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <p [style.fontSize.px]="currentFontSize">
+    Adjust the text size using the slider below.
+  </p>
+
+  <ion-item>
+    <ion-label position="stacked">Font Size: {{ currentFontSize }}px</ion-label>
+    <ion-range 
+      min="12" max="30" step="1"
+      [(ngModel)]="currentFontSize"
+      (ionChange)="updateFontSize($event)">
+    </ion-range>
+  </ion-item>
+</ion-content>

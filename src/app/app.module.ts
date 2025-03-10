@@ -21,6 +21,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -31,7 +32,7 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    GoogleMapsModule
+    GoogleMapsModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

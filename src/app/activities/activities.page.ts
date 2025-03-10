@@ -79,6 +79,10 @@ export class ActivitiesPage implements OnInit {
   navigateToAllActivities() {
     this.router.navigate(['/all-activities']);
   }
+
+  goToCommunity() {
+    this.router.navigate(['/tabs/community']);  // Navigates to the community page
+  }
   
   goToActivityDetails(activityId: string) {
     this.router.navigate(['/activity-details', activityId]);  // Navigates to the activity details page with the ID

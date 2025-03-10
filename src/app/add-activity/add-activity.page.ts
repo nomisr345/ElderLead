@@ -46,6 +46,7 @@ export class AddActivityPage {
       }
     };
   }
+  
 
   // Helper method to read the file as a data URL (base64)
   readFile(file: File) {

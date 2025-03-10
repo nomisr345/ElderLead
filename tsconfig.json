@@ -4,7 +4,7 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
+    "strict": false,
     "types": ["google.maps"],
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,

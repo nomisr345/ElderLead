@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivityService } from '../services/activity.service';
-import { Activity } from '../services/models/activity';
 import { DatePipe } from '@angular/common';
+import { Component } from '@angular/core';
+import { Timestamp } from '@firebase/firestore';
 import { AlertController, ToastController } from '@ionic/angular';
-import { Timestamp } from 'firebase/firestore';
-import 'firebase/firestore'; // Import Firestore module
-
+import { ActivityService } from '../services/activity.service';
+import { SchemeService } from '../services/scheme.service';
+import { Activity } from '../services/models/activity';
+import { Scheme } from '../services/models/scheme';
 
 @Component({
   selector: 'app-admin',
@@ -14,12 +14,19 @@ import 'firebase/firestore'; // Import Firestore module
   standalone: false,
   providers: [DatePipe],
 })
-export class AdminPage implements OnInit {
-  activities: Activity[] = [];
-  filteredActivities: Activity[] = []; // activitys after filtering
-  searchQuery: string = ''; // Search input value
+export class AdminPage {
+  selectedSection: string = 'activities'; // Default section
+  searchQuery: string = ''; // Single search input for both activities and schemes
 
-  constructor(private activityService: ActivityService,
+  activities: Activity[] = [];
+  filteredActivities: Activity[] = [];
+
+  schemes: Scheme[] = [];
+  filteredSchemes: Scheme[] = [];
+
+  constructor(
+    private activityService: ActivityService,
+    private schemeService: SchemeService,
     private datePipe: DatePipe,  
     private alertController: AlertController,
     private toastController: ToastController
@@ -27,14 +34,15 @@ export class AdminPage implements OnInit {
 
   ngOnInit() {
     this.loadActivities();
+    this.loadSchemes();
   }
 
- 
+  // Load Activities
   loadActivities() {
     this.activityService.getActivities().subscribe((data: Activity[]) => {
       this.activities = data;
-      this.filteredActivities = data; // Initialize filteredactivitys
-      // Convert Firestore Timestamps to human-readable dates
+      this.filteredActivities = data;
+
       this.activities.forEach((activity) => {
         if (activity.date && activity.date instanceof Timestamp) {
           activity.date = this.datePipe.transform(activity.date.toDate(), 'longDate') || '';
@@ -43,16 +51,34 @@ export class AdminPage implements OnInit {
     });
   }
 
-  
+  // Load Schemes
+  loadSchemes() {
+    this.schemeService.getSchemes().subscribe((data: Scheme[]) => {
+      this.schemes = data;
+      this.filteredSchemes = data;
+    });
+  }
+
+  // Filter Activities
   filterActivity() {
     const query = this.searchQuery.toLowerCase().trim();
     if (!query) {
-      // If no search query, show all rewards
       this.filteredActivities = this.activities;
     } else {
-      // Filter rewards by title
-      this.filteredActivities = this.activities.filter((activity) =>
+      this.filteredActivities = this.activities.filter(activity =>
         activity.title.toLowerCase().includes(query)
+      );
+    }
+  }
+
+  // Filter Schemes
+  filterSchemes() {
+    const query = this.searchQuery.toLowerCase().trim();
+    if (!query) {
+      this.filteredSchemes = this.schemes;
+    } else {
+      this.filteredSchemes = this.schemes.filter(scheme =>
+        scheme.title.toLowerCase().includes(query)
       );
     }
   }
@@ -87,6 +113,49 @@ export class AdminPage implements OnInit {
             } catch (error) {
               const toast = await this.toastController.create({
                 message: 'Failed to delete the activity. Please try again.',
+                duration: 2000,
+                color: 'danger',
+              });
+              toast.present();
+            }
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async deleteScheme(activity: any) {
+    const alert = await this.alertController.create({
+      header: 'Delete Scheme',
+      message: `Are you sure you want to delete the Scheme: ${activity.title}?`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Cancel delete');
+          },
+        },
+        {
+          text: 'Delete',
+          handler: async () => {
+            try {
+              await this.schemeService.delete(activity);
+              // Show the success notification
+              const toast = await this.toastController.create({
+                message: 'Scheme deleted successfully!',
+                duration: 2000,
+                color: 'success',
+              });
+              toast.present();
+              // Reload rewards after deletion
+              this.loadActivities();
+            } catch (error) {
+              const toast = await this.toastController.create({
+                message: 'Failed to delete the scheme. Please try again.',
                 duration: 2000,
                 color: 'danger',
               });

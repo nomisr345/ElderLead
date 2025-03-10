@@ -71,7 +71,8 @@
     </ul>
   </div>
 
-  <ion-button expand="full" color="primary" (click)="bookNow()">
-    Book Now
+  <ion-button expand="full" color="primary" [disabled]="isBooked" (click)="bookNow()">
+    {{ isBooked ? 'Booked' : 'Book Now' }}
   </ion-button>
+  
 </ion-content>

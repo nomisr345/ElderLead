@@ -2,11 +2,15 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { FontSizeService } from './services/font-size.service';
 import { Subscription } from 'rxjs';
 import { initializeApp } from 'firebase/app';
 import { environment } from '../environments/environment';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { ModalController } from '@ionic/angular';
+import { FontSizePage } from './modals/font-size/font-size.page';
+
 
 @Component({
   selector: 'app-root',
@@ -25,7 +29,9 @@ export class AppComponent implements OnInit, OnDestroy {
     private menuCtrl: MenuController,
     private router: Router,
     private platform: Platform,
-    private authService: AuthService
+    private authService: AuthService,
+    private modalCtrl: ModalController
+  
   ) {
     this.initializeApp();
   }
@@ -100,6 +106,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   async closeMenu() {
     await this.menuCtrl.close('start');
+  }
+
+  async openFontSizeModal() {
+    const modal = await this.modalCtrl.create({
+      component: FontSizePage,
+    });
+    await modal.present();
   }
 
   navigateToPage(page: string) {

@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit Scheme</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/tabs/admin']">Cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Title Field -->
+  <ion-item>
+    <ion-label position="floating">Title</ion-label>
+    <ion-input [(ngModel)]="scheme.title"></ion-input>
+  </ion-item>
+
+  <!-- Highlights Field -->
+  <ion-item>
+    <ion-label position="floating">Highlights</ion-label>
+    <ion-input [(ngModel)]="scheme.highlights"></ion-input>
+  </ion-item>
+
+  <!-- Start Date Field -->
+  <ion-item>
+    <ion-label position="floating">Start Date</ion-label>
+    <ion-datetime [(ngModel)]="scheme.startDate" [min]="today" displayFormat="YYYY-MM-DD" type="date"></ion-datetime>
+  </ion-item>
+
+  <!-- End Date Field -->
+  <ion-item>
+    <ion-label position="floating">End Date</ion-label>
+    <ion-datetime [(ngModel)]="scheme.endDate" [min]="scheme.startDate" displayFormat="YYYY-MM-DD" type="date"></ion-datetime>
+  </ion-item>
+
+  <!-- Eligibility Field -->
+  <ion-item>
+    <ion-label position="floating">Eligibility</ion-label>
+    <ion-input [(ngModel)]="scheme.eligibility"></ion-input>
+  </ion-item>
+
+  <!-- Image Preview -->
+  <ion-item *ngIf="scheme.imagePath">
+    <img [src]="scheme.imagePath" alt="Scheme Image" style="max-width: 100%; height: auto;" />
+  </ion-item>
+
+  <!-- Upload Image Button -->
+  <ion-item>
+    <ion-button expand="block" color="tertiary" (click)="uploadImage()">Upload Image</ion-button>
+  </ion-item>
+
+  <!-- Save Button -->
+  <ion-button expand="block" (click)="saveScheme()">Save Scheme</ion-button>
+</ion-content>

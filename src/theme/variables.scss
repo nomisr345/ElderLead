@@ -1,2 +1,13 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
+.small-text {
+  font-size: var(--app-small-text) !important;
+}
+
+.default-heading {
+  font-size: 18px /* Uses global size */
+}
+
+.large-heading {
+  font-size: 24px !important; /* Exception */
+}

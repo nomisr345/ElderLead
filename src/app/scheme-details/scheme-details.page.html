@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="goBack()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Scheme Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Scheme Banner -->
+  <div class="scheme-banner" *ngIf="scheme?.imagePath">
+    <img [src]="scheme?.imagePath" alt="{{ scheme?.title || 'Scheme Image' }}">
+  </div>
+
+  <!-- Scheme Title -->
+  <h1 class="large-heading" style="font-weight: bold;">{{ scheme?.title }}</h1>
+
+  <!-- Scheme Details -->
+  <ion-list>
+    <ion-item>
+      <ion-icon slot="start" name="calendar-outline"></ion-icon>
+      <ion-label>
+        <strong>Application Period:</strong> 
+        {{ scheme?.startDate | date: 'MMM d, yyyy' }} - 
+        {{ scheme?.endDate | date: 'MMM d, yyyy' }}
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="people-outline"></ion-icon>
+      <ion-label>
+        <strong>Eligibility:</strong> {{ scheme?.eligibility }}
+      </ion-label>
+    </ion-item>
+    <ion-item class="top-aligned-item">
+      <ion-icon slot="start" name="alert-circle-outline" class="top-left-icon"></ion-icon>
+      <ion-label>
+        <strong>Scheme Highlights:</strong> 
+        <ul>
+          <li *ngFor="let highlight of scheme?.highlights.split('. ')"> {{ highlight }}</li>
+        </ul>  
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+
+  <ion-button expand="full" color="primary" (click)="applyNow()">
+    Apply Now
+  </ion-button>
+</ion-content>

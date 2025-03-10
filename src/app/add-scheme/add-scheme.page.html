@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Scheme</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/tabs/admin']">Cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Add Scheme Form -->
+  <form #schemeForm="ngForm" (ngSubmit)="add(schemeForm)">
+    <!-- Title Field -->
+    <ion-item>
+      <ion-label position="floating">Title</ion-label>
+      <ion-input [(ngModel)]="newScheme.title" name="title" required #title="ngModel"></ion-input>
+    </ion-item>
+    <div *ngIf="title.invalid && title.touched" class="error-message">
+      <p *ngIf="title.errors?.['required']">Title is required.</p>
+    </div>
+
+    <!-- Highlights Field -->
+    <ion-item>
+      <ion-label position="floating">Highlights</ion-label>
+      <ion-input [(ngModel)]="newScheme.highlights" name="highlights" required #highlights="ngModel"></ion-input>
+    </ion-item>
+    <div *ngIf="highlights.invalid && highlights.touched" class="error-message">
+      <p *ngIf="highlights.errors?.['required']">Highlights are required.</p>
+    </div>
+
+    <!-- Start Date -->
+    <ion-item>
+      <ion-label position="floating">Start Date</ion-label>
+      <ion-datetime
+      [(ngModel)]="newScheme.startDate"
+      name="startDate"
+      required
+      [min]="today"
+      valueAsDate
+      (ionChange)="validateDates()"
+      #startDate="ngModel">
+    </ion-datetime>
+    </ion-item>
+    <div *ngIf="startDate.invalid && startDate.touched" class="error-message">
+      <p *ngIf="startDate.errors?.['required']">Start Date is required.</p>
+    </div>
+
+    <!-- End Date -->
+    <ion-item>
+      <ion-label position="floating">End Date</ion-label>
+      <ion-datetime
+        [(ngModel)]="newScheme.endDate"
+        name="endDate"
+        required
+        [min]="newScheme.startDate"
+        valueAsDate
+        (ionChange)="validateDates()"
+        #endDate="ngModel">
+      </ion-datetime>
+    </ion-item>
+    <div *ngIf="endDate.invalid && endDate.touched" class="error-message">
+      <p *ngIf="endDate.errors?.['required']">End Date is required.</p>
+      <p *ngIf="dateError">End Date must be after Start Date.</p>
+    </div>
+
+    <!-- Eligibility Field -->
+    <ion-item>
+      <ion-label position="floating">Eligibility</ion-label>
+      <ion-input [(ngModel)]="newScheme.eligibility" name="eligibility" required #eligibility="ngModel"></ion-input>
+    </ion-item>
+    <div *ngIf="eligibility.invalid && eligibility.touched" class="error-message">
+      <p *ngIf="eligibility.errors?.['required']">Eligibility is required.</p>
+    </div>
+
+    <!-- Image Upload -->
+    <ion-item>
+      <ion-label>Image</ion-label>
+      <ion-thumbnail *ngIf="newScheme.imagePath" style="width: 90%; height: auto; max-width: 400px; margin-top: 15px;">
+        <img [src]="newScheme.imagePath" alt="Activity Image">
+      </ion-thumbnail>
+      <ion-button expand="block" color="tertiary" (click)="uploadImage()">Upload Image</ion-button>
+    </ion-item> 
+
+    <!-- Submit Button -->
+    <ion-button expand="full" type="submit" [disabled]="!schemeForm.form.valid">Add Scheme</ion-button>
+  </form>
+</ion-content>

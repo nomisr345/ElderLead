@@ -8,12 +8,13 @@ import { ResourceHubPageRoutingModule } from './resource-hub-routing.module';
 
 import { ResourceHubPage } from './resource-hub.page';
 
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ResourceHubPageRoutingModule
+    ResourceHubPageRoutingModule,
   ],
   declarations: [ResourceHubPage]
 })

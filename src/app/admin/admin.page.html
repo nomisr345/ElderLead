@@ -1,47 +1,107 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Admin Activities</ion-title>
-    <ion-buttons slot="end">
-      <ion-icon [routerLink]="['/add-activity']" size="large" name="add-circle-outline"></ion-icon>
-    </ion-buttons>
+    <ion-title>Admin Panel</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- Search Bar -->
-  <ion-searchbar 
-    [(ngModel)]="searchQuery" 
-    (ionInput)="filterActivity()" 
-    showClearButton="focus" 
-    placeholder="Search activities..."
-  ></ion-searchbar>
+  <!-- Toggle Between Sections -->
+  <ion-segment [(ngModel)]="selectedSection">
+    <ion-segment-button value="activities">
+      <ion-label>Activities</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="schemes">
+      <ion-label>Schemes</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 
-  <ion-grid class="activity-table">
-    <!-- Header Row -->
-    <ion-row>
-      <ion-col size="3"><strong>Title</strong></ion-col>
-      <ion-col size="3"><strong>Date</strong></ion-col>
-      <ion-col size="2"><strong>Category</strong></ion-col>
-      <ion-col size="2"><strong>Location</strong></ion-col>
-      <ion-col size="2"><strong>Actions</strong></ion-col>
-    </ion-row>
+  <!-- Activity Management Section -->
+  <div *ngIf="selectedSection === 'activities'">
+    <!-- Custom Header -->
+    <div class="section-header">
+      <h2 class="large-heading">Activity Management</h2>
+      <ion-button fill="clear" [routerLink]="['/add-activity']">
+        <ion-icon size="large" name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </div>
+      
+  
 
-    <!-- Table Rows -->
-    <ion-row *ngFor="let activity of filteredActivities">
-      <ion-col size="3">{{ activity.title }}</ion-col>
-      <ion-col size="3">{{ activity.date }}</ion-col>
-      <ion-col size="2">{{ activity.category }}</ion-col>
-      <ion-col size="2">{{ activity.location }}</ion-col>
-      <ion-col size="2">
-        <ion-button [routerLink]="['/edit-activity', activity.id]" fill="clear">
-          <ion-icon size="large" name="create" fill="outline" color="primary"></ion-icon>
+    <ion-searchbar 
+      [(ngModel)]="searchQuery" 
+      (ionInput)="filterActivity()" 
+      showClearButton="focus" 
+      placeholder="Search activities..."
+    ></ion-searchbar>
+
+    <ion-grid class="activity-table">
+      <!-- Header Row -->
+      <ion-row class="table-header">
+        <ion-col size="3"><strong>Title</strong></ion-col>
+        <ion-col size="3"><strong>Date</strong></ion-col>
+        <ion-col size="2"><strong>Category</strong></ion-col>
+        <ion-col size="2"><strong>Location</strong></ion-col>
+        <ion-col size="2"><strong>Actions</strong></ion-col>
+      </ion-row>
+
+      <!-- Table Rows -->
+      <ion-row *ngFor="let activity of filteredActivities">
+        <ion-col size="3">{{ activity.title }}</ion-col>
+        <ion-col size="3">{{ activity.date | date: 'MMMM d, yyyy' }}</ion-col>
+        <ion-col size="2">{{ activity.category }}</ion-col>
+        <ion-col size="2">{{ activity.location }}</ion-col>
+        <ion-col size="2">
+          <ion-button fill="clear" [routerLink]="['/edit-activity', activity.id]">
+            <ion-icon size="large" name="create-outline" color="primary"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="danger" (click)="deleteActivity(activity)">
+            <ion-icon size="large" name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Scheme Management Section -->
+  <div *ngIf="selectedSection === 'schemes'">
+      <!-- Custom Header -->
+      <div class="section-header">
+        <h2 class="large-heading">Scheme Management</h2>
+        <ion-button fill="clear" [routerLink]="['/add-scheme']">
+          <ion-icon size="large" name="add-circle-outline"></ion-icon>
         </ion-button>
-        <ion-button color="danger" (click)="deleteActivity(activity)" fill="clear">
-          <ion-icon size="large" name="trash" fill="outline" color="danger"></ion-icon>
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+      </div>
+    <!--<ion-searchbar 
+      [(ngModel)]="searchQuery" 
+      (ionInput)="filterSchemes()" 
+      showClearButton="focus" 
+      placeholder="Search schemes..."
+    ></ion-searchbar>-->
 
-  <!-- Export Button -->
+    <ion-grid class="scheme-table">
+      <!-- Header Row -->
+      <ion-row class="table-header">
+        <ion-col size="2"><strong>Title</strong></ion-col>
+        <ion-col size="2"><strong>Start Date</strong></ion-col>
+        <ion-col size="2"><strong>End Date</strong></ion-col>
+        <ion-col size="3"><strong>Highlights</strong></ion-col>
+        <ion-col size="2"><strong>Actions</strong></ion-col>
+      </ion-row>
+
+      <ion-row *ngFor="let scheme of filteredSchemes">
+        <ion-col size="2">{{ scheme.title }}</ion-col>
+        <ion-col size="2">{{ scheme.startDate | date: 'MMMM d, yyyy' }}</ion-col>
+        <ion-col size="2">{{ scheme.endDate | date: 'MMMM d, yyyy' }}</ion-col>
+        <ion-col size="3">{{ scheme.highlights }}</ion-col>
+        <ion-col size="2"> 
+          <ion-button fill="clear" [routerLink]="['/edit-scheme', scheme.id]">
+            <ion-icon size="large" name="create-outline" color="primary"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="danger" (click)="deleteScheme(scheme)">
+            <ion-icon size="large" name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>

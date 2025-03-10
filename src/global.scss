@@ -45,6 +45,36 @@ ion-item[color="danger"] {
   margin: 0 16px !important;
 }
 
+:root {
+  --app-font-size: 16px;
+  --app-heading-size: 24px;
+  --app-subheading-size: 20px;
+  --app-small-text: 14px;
+  --app-tiny-text: 12px;
+}
+
+.small-text {
+  font-size: var(--app-small-text) !important;
+}
+
+.tiny-text {
+  font-size: var(--app-tiny-text) !important;
+}
+
+.default-heading {
+  font-size: var(--app-subheading-size) !important;
+}
+
+.large-heading {
+  font-size: 24px !important; /* Exception */
+}
+
+
+* {
+  font-size: var(--app-font-size) !important;
+}
+
+
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------

@@ -103,9 +103,33 @@ const routes: Routes = [
     loadChildren: () => import('./resource-hub/resource-hub.module').then( m => m.ResourceHubPageModule)
   },
   {
+    path: 'font-size',
+    loadChildren: () => import('./modals/font-size/font-size.module').then( m => m.FontSizePageModule)
+  },
+  {
+    path: 'add-scheme',
+    loadChildren: () => import('./add-scheme/add-scheme.module').then( m => m.AddSchemePageModule)
+  },
+  {
+    path: 'edit-scheme/:id',
+    loadChildren: () => import('./edit-scheme/edit-scheme.module').then( m => m.EditSchemePageModule)
+  },
+  {
+    path: 'scheme-details/:id',
+    loadChildren: () => import('./scheme-details/scheme-details.module').then( m => m.SchemeDetailsPageModule)
+  },
+  
+  
+  {
     path: '**',
     redirectTo: 'login'
   },
+  
+
+  
+
+ 
+
   
 
   

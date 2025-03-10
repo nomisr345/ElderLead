@@ -1,0 +1,27 @@
+ion-content {
+    --background: #f4f4f4;
+  }
+  
+  ion-card {
+    margin: 20px;
+  }
+  
+  ion-img {
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    object-fit: cover;
+  }
+
+  /* Aligns the icon to the top-left */
+.top-aligned-item {
+    align-items: flex-start !important;
+  }
+  
+  /* Adds spacing and proper alignment for the icon */
+  .top-left-icon {
+    margin-top: 12px; /* Adjust as needed */
+    font-size: 20px; /* Adjust icon size if necessary */
+  }
+  
+  
