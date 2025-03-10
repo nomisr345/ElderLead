@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-icon size="large" name="chevron-back-outline" (click)="goBack()"></ion-icon>
@@ -17,7 +17,7 @@
   <h1 class="event-title">{{ activity?.title }}</h1>
 
   <!-- Event Details -->
-  <ion-list>
+  <ion-list lines="full">
     <ion-item>
       <ion-icon slot="start" name="calendar-outline"></ion-icon>
       <ion-label>{{ activity?.date | date: 'EEEE, MMM d, yyyy' }}</ion-label>
@@ -35,7 +35,7 @@
   <!-- Instructor Info -->
   <div class="instructor-info" *ngIf="activity?.instructorName">
     <ion-avatar>
-      <!-- <img [src]="activity?.instructorImage || 'assets/default-avatar.jpg'" alt="Instructor"> -->
+      <ion-icon name="person" size="large"></ion-icon>
     </ion-avatar>
     <div class="instructor-details">
       <h4>{{ activity?.instructorName }}</h4>
@@ -45,25 +45,25 @@
   </div>
 
   <div class="about-session">
-    <h2>About Session:</h2>
+    <h2>About Session</h2>
     <p>{{ activity?.description }}</p>
   </div>
 
   <div class="more-info">
-    <h3>Difficulty Level:</h3>
+    <h3>Difficulty Level</h3>
     <ul>
       <li>⭐ Beginner Level</li>
       <li>👥 All Welcome</li>
       <li>🦽 Seated options available</li>
     </ul>
 
-    <h3>Important Info:</h3>
+    <h3>Important Info</h3>
     <ul>
       <li>👕 Wear comfortable clothes</li>
       <li>⏰ Arrive 10 minutes early</li>
     </ul>
 
-    <h3>Venue Features:</h3>
+    <h3>Venue Features</h3>
     <ul>
       <li>🏠 Sheltered Area</li>
       <li>🪑 Seating Available</li>
@@ -74,5 +74,4 @@
   <ion-button expand="full" color="primary" [disabled]="isBooked" (click)="bookNow()">
     {{ isBooked ? 'Booked' : 'Book Now' }}
   </ion-button>
-  
 </ion-content>

@@ -16,7 +16,7 @@ import Swiper from 'swiper'; // Import Swiper class
 export class ResourceHubPage implements OnInit {
   newsArticles: any[] = [];
   schemes: Scheme[] = [];  // Array to hold scheme data
-  swiper: Swiper;
+  swiper: Swiper | null = null;
 
   // Slider options for the news feed
   ngAfterViewInit() {

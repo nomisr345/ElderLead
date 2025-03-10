@@ -54,7 +54,7 @@ export class ChatbotPage implements OnInit {
   // UI text in different languages
   uiText = {
     en: {
-      appTitle: 'ElderLead Companion',
+      appTitle: 'AI Companion',
       welcomeMessage: "Hello! Choose a suggestion below or type your own question! You can change the language using the language button in the top right corner.",
       storyWelcome: "I'd love to hear your story! Pick a memory type or share your own.",
       chatMode: "Chat Mode",

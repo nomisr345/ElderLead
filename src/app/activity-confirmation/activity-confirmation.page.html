@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Activity Confirmation</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/activities"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Booking Confirmed</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,8 +11,20 @@
   <div class="confirmation-container">
     <ion-icon name="checkmark-circle" class="success-icon"></ion-icon>
     <h2>You're All Set!</h2>
-    <p>Successfully joined</p>
-    <ion-button expand="block" color="primary" (click)="viewActivities()">View My Activities</ion-button>
-    <ion-button expand="block" color="light" (click)="backToActivities()">Back to Activities</ion-button>
+    <p>You have successfully joined</p>
+    
+    <ng-container *ngIf="activity && activity.title">
+      <div class="activity-name">
+        {{ activity.title }}
+      </div>
+    </ng-container>
+    
+    <ion-button expand="block" color="primary" (click)="viewActivities()">
+      View My Activities
+    </ion-button>
+    
+    <ion-button expand="block" color="light" (click)="backToActivities()">
+      Explore More Activities
+    </ion-button>
   </div>
 </ion-content>

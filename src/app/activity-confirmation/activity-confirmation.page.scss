@@ -1,27 +1,146 @@
-.confirmation-container {
-    text-align: center;
-    padding: 20px;
-  
-    .success-icon {
-      font-size: 64px;
-      color: green;
-    }
-  
-    h2 {
-      margin-top: 20px;
-      font-size: 24px;
-    }
-  
-    p {
-      font-size: 16px;
-      color: #666;
-    }
-  
-    ion-button {
-      margin-top: 20px;
-    }
-  }
+ion-content {
+  --background: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-  ion-icon{
-    font-size: 1.5rem;
+ion-toolbar {
+  --background: #ffffff;
+  --color: #333333;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  display: flex; 
+  justify-content: start; /* Ensures left alignment */
+}
+
+ion-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: start !important; /* Forces left alignment */
+  margin-left: 8px; /* Adds spacing from back button */
+}
+
+ion-back-button {
+  --color: black !important; /* Ensures text/icon is black */
+  --ion-color-base: black !important; /* Fixes override issues */
+  color: black !important;
+}
+
+ion-back-button::part(icon) {
+  color: black !important; /* Ensures the icon itself is black */
+}
+
+ion-back-button::part(text) {
+  color: black !important; /* Ensures the text (if any) is black */
+}
+
+.confirmation-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  margin-top: 10vh;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.success-icon {
+  font-size: 96px;
+  color: #4CAF50;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  padding: 10px;
+  background-color: rgba(76, 175, 80, 0.1);
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.2);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 6px 16px rgba(76, 175, 80, 0.2); }
+  50% { transform: scale(1.05); box-shadow: 0 8px 24px rgba(76, 175, 80, 0.3); }
+  100% { transform: scale(1); box-shadow: 0 6px 16px rgba(76, 175, 80, 0.2); }
+}
+
+h2 {
+  margin-top: 24px;
+  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #333333;
+}
+
+p {
+  font-size: 18px;
+  color: #666666;
+  margin-bottom: 36px;
+  line-height: 1.4;
+  max-width: 80%;
+}
+
+ion-button {
+  --border-radius: 28px;
+  height: 52px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  margin: 8px 0;
+  width: 90%;
+  max-width: 320px;
+}
+
+ion-button[color="primary"] {
+  --background: #4285f4;
+  --background-activated: #3367d6;
+  --box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+}
+
+ion-button[color="light"] {
+  --background: #ffffff;
+  --color: #4285f4;
+  --border-width: 1px;
+  --border-color: #e0e0e0;
+  --box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.activity-name {
+  font-weight: 700;
+  color: #333333;
+  font-size: 20px;
+  margin: 0 0 32px;
+  padding: 10px 24px;
+  background-color: #f0f7ff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: inline-block;
+}
+
+/* Responsive Styling */
+@media (min-width: 768px) {
+  .confirmation-container {
+    margin-top: 15vh;
   }
+  
+  ion-button {
+    width: 70%;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 360px) {
+  .success-icon {
+    font-size: 80px;
+  }
+  
+  h2 {
+    font-size: 24px;
+  }
+  
+  p {
+    font-size: 16px;
+  }
+}

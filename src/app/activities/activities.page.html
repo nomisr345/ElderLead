@@ -1,13 +1,13 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Activities</ion-title>
+    <ion-title class="ion-text-start">Activities</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
   <!-- Search Bar & Filter Button -->
   <div class="search-filter">
-    <ion-searchbar placeholder="Search..." (ionInput)="filterEvents($event)"></ion-searchbar>
+    <ion-searchbar placeholder="Search activities..." (ionInput)="filterEvents($event)"></ion-searchbar>
     <ion-button fill="outline">
       <ion-icon slot="icon-only" name="options-outline"></ion-icon>
     </ion-button>
@@ -16,30 +16,29 @@
   <!-- Category Filters -->
   <div class="category-buttons">
     <ion-chip class="exercise" (click)="filterByCategory('Exercise')">
-      <ion-icon name="barbell-sharp" style="color: white"></ion-icon>
+      <ion-icon name="barbell-sharp" color="white"></ion-icon>
       <ion-label>Exercise</ion-label>
     </ion-chip>
 
     <ion-chip class="social" (click)="filterByCategory('Social')">
-      <ion-icon name="people-sharp" style="color: white"></ion-icon>
+      <ion-icon name="people-sharp" color="white"></ion-icon>
       <ion-label>Social</ion-label>
     </ion-chip>
 
     <ion-chip class="learning" (click)="filterByCategory('Learning')">
-      <ion-icon name="book-sharp" style="color: white"></ion-icon>
+      <ion-icon name="book-sharp" color="white"></ion-icon>
       <ion-label>Learning</ion-label>
     </ion-chip>
 
-    <ion-button fill="clear" (click)="clearAllFilters()" class="small-text" >
-      <ion-icon name="close-circle" slot="end" ></ion-icon> Clear All
+    <ion-button fill="clear" (click)="clearAllFilters()">
+      <ion-icon name="close-circle" slot="start"></ion-icon> Clear All
     </ion-button>
   </div>
 
   <div class="events-header">
     <h2>Upcoming Events</h2>
-    <ion-button fill="clear" class="small-text" (click)="navigateToAllActivities()">
-      View All 
-      <ion-icon name="chevron-forward-outline"></ion-icon>
+    <ion-button fill="clear" class="view-all-btn" (click)="navigateToAllActivities()">
+      View All <ion-icon name="chevron-forward-outline"></ion-icon>
     </ion-button>
   </div>
   
@@ -57,7 +56,7 @@
           <ion-card-content>
             <div class="location-container">
               <ion-icon name="location"></ion-icon>
-              <span class="location" >{{ event.location }}</span>
+              <span>{{ event.location }}</span>
             </div>
           </ion-card-content>          
         </ion-card>
@@ -77,7 +76,7 @@
       </div>
     </ion-card-header>
     <ion-card-content>
-      <ion-button fill="solid" (click)="goToCommunity()">COMMUNITY</ion-button>
+      <ion-button expand="block">COMMUNITY</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>
