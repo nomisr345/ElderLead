@@ -12,7 +12,7 @@ import * as firebaseApp from 'firebase/app';
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule]
+  imports: [CommonModule, IonicModule],
 })
 export class DashboardPage implements OnInit, OnDestroy {
   user: any;
@@ -26,11 +26,11 @@ export class DashboardPage implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    console.log("Dashboard component initialized");
+    console.log('Dashboard component initialized');
 
     // Subscribe to auth state for logout detection
     this.authSubscription = this.authService.getAuthState().subscribe(async (user) => {
-      console.log("Auth state in dashboard:", user ? `User: ${user.uid}` : 'No user');
+      console.log('Auth state in dashboard:', user ? `User: ${user.uid}` : 'No user');
 
       if (user) {
         try {
@@ -42,12 +42,12 @@ export class DashboardPage implements OnInit, OnDestroy {
           if (docSnap.exists()) {
             // Get user data from document
             this.user = docSnap.data();
-            console.log("User data from Firestore:", this.user);
+            console.log('User data from Firestore:', this.user);
 
             // Extract user name
             if (this.user) {
               this.userName = this.getFirstName(this.user.displayName || this.user.name || 'User');
-              console.log("Set user name to:", this.userName);
+              console.log('Set user name to:', this.userName);
 
               // Check if profile needs completion
               if (this.user.profileCompleted === false) {
@@ -55,11 +55,11 @@ export class DashboardPage implements OnInit, OnDestroy {
               }
             }
           } else {
-            console.log("No user document found");
+            console.log('No user document found');
             this.userName = 'User';
           }
         } catch (error) {
-          console.error("Error fetching user data:", error);
+          console.error('Error fetching user data:', error);
           this.userName = 'User';
         }
       } else {
@@ -92,15 +92,15 @@ export class DashboardPage implements OnInit, OnDestroy {
       buttons: [
         {
           text: 'Later',
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: 'Complete Now',
           handler: () => {
             this.router.navigateByUrl('/profile-setup', { replaceUrl: false });
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     await alert.present();
@@ -120,13 +120,8 @@ export class DashboardPage implements OnInit, OnDestroy {
     this.router.navigate(['/profile-setup']);
   }
 
-  
-  goToResources() {
-    console.log('Navigating to resource hub page');
-    this.router.navigate(['/resource-hub']);
-  }
 
-  async refresh(event: any) {
+  /*async refresh(event: any) {
     console.log("Begin refresh operation");
     
 
@@ -165,5 +160,22 @@ export class DashboardPage implements OnInit, OnDestroy {
       console.error("Error during refresh:", error);
       event.target.complete();
     }
+  }*/
+ 
+  async refresh(event: any) {
+    // Reload user data or perform refresh operations
+    try {
+      // Simulating a refresh - you might want to add actual refresh logic
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      event.target.complete(); // Complete the refresher
+    } catch (error) {
+      console.error('Refresh error:', error);
+      event.target.complete(); // Always complete the refresher
+    }
+  }
+
+  goToResources() {
+    console.log('Navigating to resources page');
+    this.router.navigate(['/resource-hub']); // Adjust route as needed
   }
 }

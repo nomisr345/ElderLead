@@ -4,8 +4,11 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
-    "strict": false,
-    "types": ["google.maps"],
+    "strict": true,
+    "types": [
+      "google.maps",
+      "jasmine"
+    ],
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,

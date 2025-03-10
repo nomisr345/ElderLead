@@ -3,32 +3,50 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>ElderLead Companion</ion-title>
+    <ion-title>{{ getText('appTitle') }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button id="language-select" class="language-button">
+        <ion-icon name="language-outline"></ion-icon>
+        <small>{{ getCurrentLanguageName() }}</small>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
+
+  <!-- Language Popover -->
+  <ion-popover trigger="language-select" dismissOnSelect="true">
+    <ng-template>
+      <ion-list>
+        <ion-item button *ngFor="let lang of languages" (click)="changeLanguage(lang.code)">
+          <ion-label>{{ lang.nativeName }} ({{ lang.name }})</ion-label>
+          <ion-icon *ngIf="currentLanguage === lang.code" name="checkmark-outline" slot="end"></ion-icon>
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </ion-popover>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true" class="ion-padding" [scrollEvents]="true">
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  
+
   <!-- Mode Selection Screen -->
   <div class="mode-selector" *ngIf="!activeMode">
     <ion-card (click)="selectMode('chat')" class="mode-card">
       <ion-card-header>
-        <ion-card-title>Chat Mode</ion-card-title>
+        <ion-card-title>{{ getText('chatMode') }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        Let's chat! I can help with questions about activities, weather, or just have a friendly conversation.
+        {{ getText('chatDescription') }}
       </ion-card-content>
     </ion-card>
 
     <ion-card (click)="selectMode('story')" class="mode-card">
       <ion-card-header>
-        <ion-card-title>Story Mode</ion-card-title>
+        <ion-card-title>{{ getText('storyMode') }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        Share your memories with me and I'll help create a story with pictures!
+        {{ getText('storyDescription') }}
       </ion-card-content>
     </ion-card>
   </div>
@@ -37,28 +55,27 @@
   <div class="chat-container" *ngIf="activeMode">
     <ion-button fill="clear" (click)="resetMode()" class="back-button">
       <ion-icon name="arrow-back"></ion-icon>
-      Back to Menu
+      {{ getText('backToMenu') }}
     </ion-button>
 
     <!-- Suggested Prompts -->
     <div class="suggested-prompts">
-      <ion-chip 
-        *ngFor="let prompt of getPrompts()" 
+      <ion-chip
+        *ngFor="let prompt of getPrompts()"
         (click)="sendSuggestedPrompt(prompt)"
         color="primary"
         outline>
-        <ion-label>{{prompt.label}}</ion-label>
+        <ion-label [attr.lang]="prompt.language">{{prompt.label}}</ion-label>
       </ion-chip>
     </div>
 
     <!-- Messages -->
-    <div *ngFor="let message of messages" 
+    <div *ngFor="let message of messages; let i = index" 
          [ngClass]="{'user-message': message.sender === 'user', 'bot-message': message.sender === 'bot'}" 
          class="message">
       <div *ngIf="message.type === 'text'" class="message-content">{{ message.content }}</div>
       <img *ngIf="message.type === 'image'" [src]="message.imageUrl" 
-           alt="Generated image" class="generated-image"
-           loading="lazy">
+           alt="Generated image" class="generated-image" loading="lazy">
       <div class="message-time" *ngIf="message.timestamp">
         {{ message.timestamp | date:'shortTime' }}
       </div>
@@ -66,8 +83,13 @@
 
     <div *ngIf="isLoading" class="loading-indicator">
       <ion-spinner></ion-spinner>
-      <p>Processing your request...</p>
+      <p>{{ getText('processingRequest') }}</p>
     </div>
+
+    <!-- Transparent Scroll Button is here -->
+    <ion-button (click)="scrollToBottom()" class="transparent-scroll-button" fill="clear">
+      <ion-icon name="arrow-down"></ion-icon>
+    </ion-button>
   </div>
 </ion-content>
 
@@ -80,7 +102,7 @@
     </ion-buttons>
     <ion-item>
       <ion-input [(ngModel)]="userInput" 
-                 [placeholder]="activeMode === 'chat' ? 'Type your message...' : 'Share a memory...'"
+                 [placeholder]="activeMode === 'chat' ? getText('inputPlaceholder') : getText('storyInputPlaceholder')"
                  (keyup.enter)="sendMessage()"
                  [disabled]="isLoading">
       </ion-input>
