@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class AddActivityPage {
-  newActivity: Activity = new Activity('', '','', '', '', '','', '', '');
+  newActivity: Activity = new Activity('', '','', '', '', '','', '', '','');
   today = new Date().toISOString();
 
   constructor(private activityService: ActivityService, private router: Router) {}

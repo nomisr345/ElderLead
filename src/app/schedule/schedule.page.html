@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>My Schedule</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Calendar View -->
+  <ion-datetime [(ngModel)]="selectedDate" (ionChange)="onDaySelect($event)" displayFormat="YYYY-MM-DD" type="date"></ion-datetime>
+
+  <ion-list *ngIf="selectedDateActivities.length">
+    <ion-item-divider>
+      <ion-label>Activities on {{ selectedDate }}</ion-label>
+    </ion-item-divider>
+
+    <ion-item *ngFor="let activity of selectedDateActivities">
+      <ion-label>
+        <h2>{{ activity.title }}</h2>
+        <p>{{ activity.description }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-item *ngIf="!selectedDateActivities.length">
+    <ion-label>No activities for this date.</ion-label>
+  </ion-item>
+</ion-content>

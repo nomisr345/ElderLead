@@ -28,13 +28,22 @@
       <p *ngIf="description.errors?.['required']">Description is required.</p>
     </div>
 
-    <!-- Date Field -->
+    <!-- Start Time Field -->
     <ion-item>
-      <ion-label position="floating">Date</ion-label>
-      <ion-datetime [(ngModel)]="newActivity.date" name="date" required [min]="today" #date="ngModel"></ion-datetime>
+      <ion-label position="floating">Start Time</ion-label>
+      <ion-datetime [(ngModel)]="newActivity.startTime" name="startTime" required display-format="HH:mm" picker-format="HH:mm" #startTime="ngModel"></ion-datetime>
     </ion-item>
-    <div *ngIf="date.invalid && date.touched" class="error-message">
-      <p *ngIf="date.errors?.['required']">Date is required.</p>
+    <div *ngIf="startTime.invalid && startTime.touched" class="error-message">
+      <p *ngIf="startTime.errors?.['required']">Start time is required.</p>
+    </div>
+
+    <!-- End Time Field -->
+    <ion-item>
+      <ion-label position="floating">End Time</ion-label>
+      <ion-datetime [(ngModel)]="newActivity.endTime" name="endTime" required display-format="HH:mm" picker-format="HH:mm" [min]="newActivity.startTime" #endTime="ngModel"></ion-datetime>
+    </ion-item>
+    <div *ngIf="endTime.invalid && endTime.touched" class="error-message">
+      <p *ngIf="endTime.errors?.['required']">End time is required.</p>
     </div>
 
     <!-- Location Field -->
@@ -60,7 +69,7 @@
       <p *ngIf="category.errors?.['required']">Category is required.</p>
     </div>
 
-    
+    <!-- Image Upload -->
     <ion-item>
       <ion-label>Image</ion-label>
       <ion-thumbnail *ngIf="newActivity.imagePath" style="width: 90%; height: auto; max-width: 400px; margin-top: 15px;">

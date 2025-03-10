@@ -116,47 +116,17 @@ ion-content {
   /* Responsive Grid */
   @media (max-width: 768px) {
     .category-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px; /* Space between category chips and clear filter button */
+      justify-content: center;
     }
-    
-    .clear-filter-container {
-      margin-top: 20px;
-      display: flex;
-      justify-content: flex-start; /* Align button to the left */
-      padding-left: 10px;
-    }
-    
-    ion-chip {
-      position: relative;
-    }
-    
-    ion-button {
-      display: inline-flex;
-      align-items: center;
-    }
-    
-    ion-button ion-icon {
-      margin-right: 5px;
-    }
-    
-  .event-card {
-    height: 250px;  /* Adjust this value as needed */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Ensure content is spaced evenly */
-    overflow: hidden; /* Prevent content overflow */
-    }
-  }
-
-  ion-card-header {
-    flex-grow: 1;  /* Allow header to take available space */
-  }
   
-  ion-card-content {
-    flex-grow: 1;  /* Allow content to take available space */
+    ion-chip {
+      font-size: 0.9rem;
+      padding: 8px;
+    }
+  
+    .event-card {
+      margin-bottom: 10px;
+    }
   }
   
   .community-card {
@@ -184,87 +154,4 @@ ion-content {
   ion-button {
     margin-top: 10px;
   }
-  
-  .date-badge {
-    font-size: 14px;
-    padding: 5px 10px;
-    border-radius: 12px;
-    color: white;
-    font-weight: bold;
-  }
-  
-  // Category Colors
-  .exercise-badge {
-    background-color: #fdbb3b; // Orange-Red for Exercise
-  }
-  
-  .social-badge {
-    background-color: #D4A373; // Blue for Social
-  
-  }
-  
-  .learning-badge {
-    background-color: #6ac5a9; // Green for Learning
-  }
-  
-  .default-badge {
-    background-color: #95a5a6; // Gray for Unknown
-  }
-
-  ion-card-header {
-    margin-bottom: 4px;  /* Reduce the margin between the title and the content */
-  }
-  
-  .location-container {
-    display: flex;
-    align-items: center;  /* Align the icon and text in the same line */
-  }
-  
-  .location-container ion-icon {
-    margin-right: 8px;  /* Space between the icon and text */
-  }
-
-  ion-card img {
-    width: 100%;
-    width: 300px;
-    height: auto;
-    object-fit: cover; /* Ensures images scale properly */
-  }
-  
-  
-  ion-card-title {
-    white-space: nowrap;   /* Prevents text from wrapping */
-    overflow: hidden;      /* Hides overflow */
-    text-overflow: ellipsis; /* Adds "..." if text is too long */
-    display: block;        /* Ensures it works properly */
-    width: 100%;           /* Ensures it doesn't overflow */
-  }
-  
-  .location-container span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: inline-block;
-    max-width: 80%; /* Adjust based on layout */
-  }
-  
-
-
-
-/* Ensure the close-circle icon is visible and styled correctly */
-ion-chip ion-icon[name="close-circle"] {
-  font-size: 20px;  /* Increase the size of the icon */
-  color: #fff;  /* Ensure it's visible on dark backgrounds */
-  margin-left: 8px;  /* Add spacing between the label and icon */
-  cursor: pointer;  /* Make the icon look clickable */
-}
-
-/* Optional: Change the color of the icon when hovering */
-ion-chip ion-icon[name="close-circle"]:hover {
-  color: #ff0000;  /* Change to red when hovered */
-}
-
-  
-  
-  
   

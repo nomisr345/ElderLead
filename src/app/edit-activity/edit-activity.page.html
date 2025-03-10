@@ -19,8 +19,14 @@
   </ion-item>
 
   <ion-item>
-    <ion-label position="floating">Date</ion-label>
-    <ion-input type="date" [(ngModel)]="activity.date"></ion-input>
+    <ion-label position="floating">Start Date</ion-label>
+    <ion-datetime [(ngModel)]="activity.startTime" [min]="today" displayFormat="YYYY-MM-DD" type="date"></ion-datetime>
+  </ion-item>
+
+  <!-- End Date Field -->
+  <ion-item>
+    <ion-label position="floating">End Date</ion-label>
+    <ion-datetime [(ngModel)]="activity.endTime" [min]="activity.startTime" displayFormat="YYYY-MM-DD" type="date"></ion-datetime>
   </ion-item>
 
   <ion-item>
@@ -28,7 +34,7 @@
     <ion-input [(ngModel)]="activity.location"></ion-input>
   </ion-item>
 
-  <ion-item>x
+  <ion-item>
     <ion-label>Category</ion-label>
     <ion-select [(ngModel)]="activity.category" name="category" #category="ngModel">
       <ion-select-option value="Exercise">Exercise</ion-select-option>

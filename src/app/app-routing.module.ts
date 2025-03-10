@@ -119,12 +119,18 @@ const routes: Routes = [
     path: 'scheme-details/:id',
     loadChildren: () => import('./scheme-details/scheme-details.module').then( m => m.SchemeDetailsPageModule)
   },
+  {
+    path: 'schedule',
+    loadChildren: () => import('./schedule/schedule.module').then( m => m.SchedulePageModule)
+  },
+
   
   
   {
     path: '**',
     redirectTo: 'login'
   },
+  
   
 
   

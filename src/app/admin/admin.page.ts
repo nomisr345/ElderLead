@@ -27,7 +27,7 @@ export class AdminPage {
   constructor(
     private activityService: ActivityService,
     private schemeService: SchemeService,
-    private datePipe: DatePipe,  
+    private startTimePipe: DatePipe,  
     private alertController: AlertController,
     private toastController: ToastController
   ) {}
@@ -44,8 +44,8 @@ export class AdminPage {
       this.filteredActivities = data;
 
       this.activities.forEach((activity) => {
-        if (activity.date && activity.date instanceof Timestamp) {
-          activity.date = this.datePipe.transform(activity.date.toDate(), 'longDate') || '';
+        if (activity.startTime && activity.startTime instanceof Timestamp) {
+          activity.startTime = this.startTimePipe.transform(activity.startTime.toDate(), 'longDate') || '';
         }
       });
     });

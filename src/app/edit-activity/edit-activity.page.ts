@@ -4,8 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityService } from '../services/activity.service';
 import { NavController } from '@ionic/angular';
 import { Timestamp } from '@firebase/firestore';
-import { ref, uploadBytes, getDownloadURL, FirebaseStorage } from 'firebase/storage';
-import { AngularFireStorage } from '@angular/fire/compat/storage'; // Import AngularFireStorage to interact with Firebase Storage
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @Component({
   selector: 'app-edit-activity',
@@ -15,15 +14,16 @@ import { AngularFireStorage } from '@angular/fire/compat/storage'; // Import Ang
 })
 export class EditActivityPage implements OnInit {
   activityId: string = '';
-  activity: Activity = new Activity('', '', '', '', '', '', '', '', '');
+  activity: Activity = new Activity('', '', '', '', '', '', '', '', '',''); // Adjusted constructor
   isUploading = false;
+  today: string = new Date().toISOString().split('T')[0]; 
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private activityService: ActivityService,
     private router: Router,
     private navController: NavController,
-    private storage: AngularFireStorage // Inject AngularFireStorage service
+    private storage: AngularFireStorage
   ) {}
 
   ngOnInit() {
@@ -38,9 +38,12 @@ export class EditActivityPage implements OnInit {
       (activity: Activity) => {
         this.activity = activity;
 
-        // Convert Firestore Timestamp to a human-readable date format
-        if (activity.date && activity.date instanceof Timestamp) {
-          this.activity.date = new Date(activity.date.seconds * 1000).toISOString().split('T')[0];
+        // Convert Firestore Timestamps to ISO string for input binding
+        if (activity.startTime) {
+          this.activity.startTime = this.convertToDateTimeString(activity.startTime);
+        }
+        if (activity.endTime) {
+          this.activity.endTime = this.convertToDateTimeString(activity.endTime);
         }
       },
       (error) => {
@@ -49,12 +52,26 @@ export class EditActivityPage implements OnInit {
     );
   }
 
+  convertToDateTimeString(date: any): string {
+    if (date instanceof Date) {
+      return date.toISOString(); // Get full ISO string (including date and time)
+    } else if (typeof date === 'string') {
+      // If it's already a string, check if it's missing the time part
+      if (date.length === 10) {
+        // Assume time should be 00:00:00 for missing time part
+        return date + "T00:00:00";
+      }
+      return date; // Already in correct format
+    }
+    return '';
+  }
+
   async uploadImage() {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
 
-    input.click();  // Trigger the file picker
+    input.click();
 
     input.onchange = async (event: any) => {
       const file = event.target.files[0];
@@ -67,7 +84,7 @@ export class EditActivityPage implements OnInit {
 
           await task;
           const downloadURL = await fileRef.getDownloadURL().toPromise();
-          this.activity.imagePath = downloadURL;  // Store the image URL in the activity object
+          this.activity.imagePath = downloadURL;
           this.isUploading = false;
         } catch (error) {
           console.error('Error uploading image:', error);
@@ -80,12 +97,12 @@ export class EditActivityPage implements OnInit {
   async saveActivity() {
     try {
       if (this.activityId) {
-        await this.activityService.update(this.activity); // Update the existing activity
+        await this.activityService.update(this.activity);
       } else {
-        await this.activityService.add(this.activity); // Add a new activity if no ID
+        await this.activityService.add(this.activity);
       }
 
-      this.router.navigate(['/tabs/admin']); // Redirect after saving
+      this.router.navigate(['/tabs/admin']);
     } catch (error) {
       console.error('Error saving activity:', error);
     }

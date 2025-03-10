@@ -47,7 +47,7 @@
       <!-- Table Rows -->
       <ion-row *ngFor="let activity of filteredActivities">
         <ion-col size="3">{{ activity.title }}</ion-col>
-        <ion-col size="3">{{ activity.date | date: 'MMMM d, yyyy' }}</ion-col>
+        <ion-col size="3">{{ activity.startTime | date: 'MMMM d, yyyy' }}</ion-col>
         <ion-col size="2">{{ activity.category }}</ion-col>
         <ion-col size="2">{{ activity.location }}</ion-col>
         <ion-col size="2">

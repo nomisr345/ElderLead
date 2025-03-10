@@ -55,11 +55,11 @@ export class MyActivitiesPage implements OnInit {
     const now = new Date();
     if (this.segment === 'upcoming') {
       this.filteredActivities = this.bookedActivities.filter(
-        (activity) => new Date(activity.date) > now
+        (activity) => new Date(activity.startTime) > now
       );
     } else {
       this.filteredActivities = this.bookedActivities.filter(
-        (activity) => new Date(activity.date) <= now
+        (activity) => new Date(activity.startTime) <= now
       );
     }
   }
@@ -67,7 +67,7 @@ export class MyActivitiesPage implements OnInit {
   // Check if the activity is upcoming
   isUpcoming(activity: Activity): boolean {
     const now = new Date();
-    return new Date(activity.date) > now;
+    return new Date(activity.startTime) > now;
   }
 
   // Method to toggle the dropdown

@@ -1,7 +1,8 @@
 export class Activity {
   title: string;
   description: string;
-  date: any;
+  startTime: any;
+  endTime: any;
   location: string;
   category: string;
   instructorName?: string;
@@ -13,7 +14,8 @@ export class Activity {
   constructor(
     title: string,
     description: string,
-    date: any,
+    startTime: any,
+    endTime: any,
     location: string = '',
     category: string = '',
     instructorName: string = '',
@@ -23,7 +25,8 @@ export class Activity {
   ) {
     this.title = title;
     this.description = description;
-    this.date = date;
+    this.startTime = startTime;
+    this.endTime = endTime;
     this.location = location;
     this.category = category;
     this.instructorName = instructorName;

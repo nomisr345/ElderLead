@@ -5,8 +5,6 @@ import { SchemeService } from '../services/scheme.service';
 import { NewsService } from '../services/news.service';
 import Swiper from 'swiper'; // Import Swiper class
 
-
-
 @Component({
   selector: 'app-resource-hub',
   templateUrl: './resource-hub.page.html',
@@ -16,7 +14,7 @@ import Swiper from 'swiper'; // Import Swiper class
 export class ResourceHubPage implements OnInit {
   newsArticles: any[] = [];
   schemes: Scheme[] = [];  // Array to hold scheme data
-  swiper: Swiper;
+  swiper!: Swiper;
 
   // Slider options for the news feed
   ngAfterViewInit() {

@@ -14,7 +14,10 @@ export class FontSizePage {
   constructor(
     private modalCtrl: ModalController,
     private fontSizeService: FontSizeService
-  ) {
+  ) {}
+
+  ionViewWillEnter() {
+    // Fetch the current font size from the service when the modal opens
     this.fontSizeService.fontSize$.subscribe((size) => {
       this.currentFontSize = size;
     });
@@ -23,6 +26,9 @@ export class FontSizePage {
   updateFontSize(event: any) {
     this.currentFontSize = event.detail.value;
     document.documentElement.style.setProperty('--app-font-size', `${this.currentFontSize}px`);
+
+    // Save the updated font size in the service
+    this.fontSizeService.setFontSize(this.currentFontSize);
   }
 
   closeModal() {

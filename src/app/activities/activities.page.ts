@@ -24,7 +24,7 @@ export class ActivitiesPage implements OnInit {
     this.activityService.getActivities().subscribe((data) => {
       this.activities = data.map(activity => ({
         ...activity,
-        date: this.formatDate(activity.date) // Format the date before storing
+        startTime: this.formatDate(activity.startTime) // Format the date before storing
       }));
       this.filteredEvents = [...this.activities]; // Ensure filtered list is updated
     });

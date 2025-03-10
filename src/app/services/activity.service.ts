@@ -46,7 +46,8 @@ export class ActivityService {
           const activity = new Activity(
             data['title'],
             data['description'],
-            this.convertToDate(data['date']),
+            this.convertToDate(data['startTime']),
+            this.convertToDate(data['endTime']),
             data['location'],
             data['category'],
             data['instructorName'],
@@ -80,7 +81,8 @@ export class ActivityService {
           const activity = new Activity(
             data!['title'],
             data!['description'],
-            this.convertToDate(data!['date']),
+            this.convertToDate(data['startTime']),
+            this.convertToDate(data['endTime']),
             data!['location'],
             data['category'],
             data['instructorName'],
@@ -110,7 +112,8 @@ export class ActivityService {
       await addDoc(this.activitiesRef, {
         title: activity.title,
         description: activity.description,
-        date: Timestamp.fromDate(new Date(activity.date)),
+        startTime: Timestamp.fromDate(new Date(activity.startTime)),
+        endTime: Timestamp.fromDate(new Date(activity.endTime)),
         location: activity.location,
         category: activity.category,
         instructorName: activity.instructorName,
@@ -139,7 +142,8 @@ export class ActivityService {
       const updatedData: any = {
         title: activity.title,
         description: activity.description,
-        date: activity.date instanceof Date ? Timestamp.fromDate(activity.date) : activity.date,
+        startTime: activity.startTime instanceof Date ? Timestamp.fromDate(activity.startTime) : activity.startTime,
+        endTime: activity.endTime instanceof Date ? Timestamp.fromDate(activity.endTime) : activity.endTime,
         location: activity.location,
         category: activity.category,
         instructorName: activity.instructorName,

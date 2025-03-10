@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button (click)="goBack()"></ion-back-button>
     </ion-buttons>
-    <ion-title>Resource Hub</ion-title>
+    <ion-title style="text-align:left">Resource Hub</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -30,7 +30,7 @@
   </div>
 
   <!-- Latest Schemes Section -->
-  <div id="schemes" class="section-header default-heading" style="margin-top: 20px;">Latest Schemes</div>
+  <div id="schemes" class="section-header default-heading" style="margin-top: 20px;  margin-left: 20px">Latest Schemes</div>
   <div class="swiper-container">
     <div class="swiper-wrapper">
       <div class="swiper-slide" *ngFor="let scheme of schemes">
@@ -47,7 +47,7 @@
   </div>
 
   <!-- Feed Section -->
-  <div id="feed" class="section-header default-heading" style="margin-top: 20px;">Feed</div>
+  <div id="feed" class="section-header default-heading" style="margin-top: 20px; margin-left: 20px">Feed</div>
   <div class="swiper-container">
     <div class="swiper-wrapper">
       <div class="swiper-slide" *ngFor="let article of newsArticles">
@@ -66,7 +66,7 @@
   </div>
 
   <!-- Support Services Section -->
-  <div id="support-services" class="section-header default-heading" style="margin-top: 20px;">Support Services</div>
+  <div id="support-services" class="section-header default-heading" style="margin-top: 20px; margin-left: 20px; margin-bottom: 20px;">Support Services</div>
   <ion-list>
     <ion-item *ngFor="let service of supportServices" class="support-item">
       <ion-thumbnail slot="start">

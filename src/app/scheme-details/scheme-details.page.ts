@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SchemeService } from '../services/scheme.service';
 import { Scheme } from '../services/models/scheme';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-scheme-details',
@@ -16,7 +17,8 @@ export class SchemeDetailsPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private schemeService: SchemeService
+    private schemeService: SchemeService,
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {
@@ -36,8 +38,13 @@ export class SchemeDetailsPage implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/']); // Navigate back to the main page
+    this.navCtrl.back();
   }
+
+  get schemeHighlights(): string[] {
+    return this.scheme?.highlights ? this.scheme.highlights.split('. ') : [];
+  }
+  
 
   applyNow() {
     window.open('https://go.gov.sg/ptv', '_blank'); // Replace with actual application link

@@ -2,33 +2,22 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FontSizeService {
-  private fontSizeSubject = new BehaviorSubject<number>(parseInt(localStorage.getItem('fontSize') || '16', 10));
+  private fontSizeSubject = new BehaviorSubject<number>(16); // Default font size
   fontSize$ = this.fontSizeSubject.asObservable();
 
   constructor() {
-    this.applyFontSize(this.fontSizeSubject.value);
+    // Load saved font size from localStorage (or use default)
+    const savedSize = localStorage.getItem('fontSize');
+    if (savedSize) {
+      this.fontSizeSubject.next(Number(savedSize));
+    }
   }
 
   setFontSize(size: number) {
     this.fontSizeSubject.next(size);
-    localStorage.setItem('fontSize', size.toString());
-    this.applyFontSize(size);
-  }
-
-  increaseFontSize() {
-    let newSize = this.fontSizeSubject.value + 1;
-    if (newSize <= 30) this.setFontSize(newSize);
-  }
-
-  decreaseFontSize() {
-    let newSize = this.fontSizeSubject.value - 1;
-    if (newSize >= 12) this.setFontSize(newSize);
-  }
-
-  private applyFontSize(size: number) {
-    document.documentElement.style.setProperty('--app-font-size', `${size}px`);
+    localStorage.setItem('fontSize', size.toString()); // Save to localStorage
   }
 }
