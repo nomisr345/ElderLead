@@ -1,107 +1,270 @@
+/* Header Styling */
+ion-header {
+  ion-toolbar {
+    --background: #ffffff;
+    --border-width: 0;
+    padding: 10px 0;
+  }
+
+  ion-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #000000;
+  }
+  
+  ion-back-button {
+    --color: #000000;
+    --icon-font-size: 1.5rem;
+    --padding-start: 0;
+  }
+}
+
+.menu-icon {
+  font-size: 1.5rem;
+  color: #000000;
+  cursor: pointer;
+}
+
+/* Content Styling */
+ion-content {
+  --background: #ffffff;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 10px;
+  --padding-bottom: 20px;
+}
+
+/* Segment Control */
+.segment-container {
+  margin-bottom: 20px;
+}
+
+ion-segment {
+  --background: #f4f4f4;
+  border-radius: 25px;
+  height: 40px;
+  box-shadow: none;
+  padding: 0;
+}
+
+ion-segment-button {
+  --background: transparent;
+  --background-checked: #ffffff;
+  --border-radius: 25px;
+  --color: #888888;
+  --color-checked: #000000;
+  --indicator-color: transparent;
+  min-height: 35px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: none;
+  margin: 2px;
+}
+
+ion-segment-button::part(indicator) {
+  display: none;
+}
+
+ion-segment-button.segment-button-checked {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Activity Card */
+.activities-list {
+  margin-bottom: 20px;
+}
+
+.activity-item {
+  margin-bottom: 16px;
+}
+
 .activity-card {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 15px;
-    border-radius: 10px;
-    background: white;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-  }
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
 
-  .back-button{
-    font-size: 1.5rem;
-  }
+.activity-thumbnail {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-right: 14px;
+  flex-shrink: 0;
+}
+
+.activity-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.activity-info {
+  flex: 1;
+}
+
+.activity-date {
+  font-size: 0.65rem;
+  color: #4285f4;
+  font-weight: 500;
+  margin: 0 0 4px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.activity-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.toggle-button {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.toggle-button ion-icon {
+  font-size: 1.3rem;
+  color: #888888;
+}
+
+/* Dropdown Content */
+.dropdown-content {
+  background: #ffffff;
+  border-radius: 10px;
+  margin-top: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.action-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  margin-bottom: 20px;
+}
+
+.action-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f7ff;
+  border-radius: 10px;
+  padding: 15px 10px;
+  cursor: pointer;
+  height: 80px;
+  text-align: center;
+}
+
+.action-button ion-icon {
+  font-size: 1.5rem;
+  color: #000000;
+  margin-bottom: 5px;
+}
+
+.action-button p {
+  font-size: 0.7rem;
+  font-weight: 500;
+  margin: 0;
+  color: #000000;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.cancel-button {
+  display: flex;
+  align-items: center;
+  background-color: #fff2f2;
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+}
+
+.cancel-button ion-icon {
+  font-size: 1.8rem;
+  color: #ff0000;
+  margin-right: 12px;
+}
+
+.cancel-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: #ff0000;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.cancel-subtitle {
+  font-size: 0.55rem;
+  margin: 0;
+  color: #ff0000;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Explore Button */
+.explore-button-container {
+  width: 100%;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.explore-button {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 24px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+}
+
+.explore-button ion-icon {
+  margin-left: 10px;
+  font-size: 1.2rem;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
   
-  ion-thumbnail {
-    width: 70px;  /* Increase width */
-    height: 70px; /* Increase height */
-  }
-
   ion-icon {
-    font-size: 1.5rem;
+    font-size: 64px;
+    color: #dddddd;
+    margin-bottom: 16px;
   }
   
-  ion-thumbnail img {
-    border-radius: 10px;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures image fills the thumbnail properly */
+  h3 {
+    font-size: 1.2rem;
+    color: #444444;
+    margin-bottom: 8px;
+    font-weight: 600;
   }
   
-  .activity-date {
-    font-size: 12px;
-    color: #462424;
+  p {
+    font-size: 0.9rem;
+    color: #888888;
+    margin-bottom: 30px;
   }
-  
-  .activity-title {
-    font-size: 16px;
-    font-weight: bold;
-    color: #000;
-  }
-  
-  .explore-button {
-    margin-top: 20px;
-    background-color: #4460F1;
-    color: white;
-    font-weight: bold;
-  }
-
-  .details-container {
-    padding: 15px;
-  }
-  
-  .action-buttons {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    text-align: center;
-  }
-  
-  ion-button {
-    --border-radius: 12px;
-    --color: #333;
-    --border-color: #ddd;
-    font-size: 14px;
-    text-transform: none;
-  }
-  
-  .cancel-session {
-    background: #ffe5e5;
-    color: #d9534f;
-    padding: 15px;
-    text-align: center;
-    border-radius: 10px;
-  }
-  
-  .friends-joining {
-    margin-top: 10px;
-  }
-  
-  .friends-list {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .friends-list img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-  }
-
-  .card-content-wrapper {
-    display: flex;
-    align-items: center;
-  }
-  
-  .card-content-wrapper ion-icon {
-    margin-right: 10px; /* Space between icon and text */
-  }
-  
-  .card-content-wrapper div {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  
-  
+}

@@ -37,7 +37,7 @@
       <ion-label>
         <strong>Scheme Highlights:</strong> 
         <ul>
-          <li *ngFor="let highlight of schemeHighlights"> {{ highlight }}</li>
+          <li *ngFor="let highlight of scheme?.highlights?.split('. ') || []"> {{ highlight }}</li>
         </ul>  
       </ion-label>
     </ion-item>
