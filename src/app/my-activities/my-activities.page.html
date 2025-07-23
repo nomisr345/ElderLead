@@ -29,7 +29,7 @@
           <img [src]="activity.imagePath || 'assets/default-image.jpg'" alt="Activity Image">
         </div>
         <div class="activity-info">
-          <p class="activity-date">{{ activity.date | date: 'dd MMM' | uppercase }} • {{ activity.date | date: 'EEEE' | uppercase }} • {{ activity.date | date: 'h:mm a' }}</p>
+          <p class="activity-date">{{ activity.startTime | date: 'dd MMM' | uppercase }} • {{ activity.startTime | date: 'EEEE' | uppercase }} • {{ activity.startTime | date: 'h:mm a' }}</p>
           <h3 class="activity-title">{{ activity.title }}</h3>
         </div>
         <div class="toggle-button" *ngIf="isUpcoming(activity)" (click)="toggleDropdown(activity)">

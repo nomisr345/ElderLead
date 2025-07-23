@@ -47,7 +47,7 @@
       <ion-col size="6" *ngFor="let event of filteredEvents" [routerLink]="['/activity-details', event.id]">
         <ion-card class="event-card">
           <ion-badge class="date-badge {{ getBadgeClass(event.category) }}">
-            {{ event.date }}
+            {{ event.startTime }}
           </ion-badge>          
           <img [src]="event.imagePath" [alt]="event.title">
           <ion-card-header>
@@ -76,7 +76,7 @@
       </div>
     </ion-card-header>
     <ion-card-content>
-      <ion-button expand="block">COMMUNITY</ion-button>
+      <ion-button expand="block" (click)="goToCommunity()">COMMUNITY</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>
